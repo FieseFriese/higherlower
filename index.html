@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Higher or Lower</title>
+<style>
+:root{--bg:#000;--surface:#1a1a1a;--text:#fff;--accent:#f59e0b;--correct:#22c55e;--wrong:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ===== SETUP SCREEN ===== */
+#setup{max-width:900px;margin:0 auto;padding:20px}
+#setup h1{text-align:center;font-style:italic;font-size:2.5rem;margin-bottom:8px}
+#setup .subtitle{text-align:center;color:#aaa;margin-bottom:24px;font-size:1rem}
+.form-row{display:flex;gap:12px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.form-row label{min-width:80px;font-weight:600}
+.form-row input{flex:1;padding:8px 12px;border-radius:6px;border:1px solid #555;background:#1a1a1a;color:#fff;font-size:1rem}
+.templates{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.templates button{padding:8px 16px;border-radius:20px;border:1px solid #666;background:#222;color:#fff;cursor:pointer;font-size:.9rem;transition:background .2s}
+.templates button:hover{background:#444}
+
+.entries-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.entries-header h2{font-size:1.3rem}
+.btn{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-size:.95rem;font-weight:600;transition:background .2s,transform .1s}
+.btn:active{transform:scale(.97)}
+.btn-add{background:#2563eb;color:#fff}
+.btn-add:hover{background:#1d4ed8}
+.btn-start{background:#16a34a;color:#fff;font-size:1.1rem;padding:12px 32px;display:block;margin:24px auto 0}
+.btn-start:hover{background:#15803d}
+.btn-start:disabled{background:#555;cursor:not-allowed}
+.btn-remove{background:#dc2626;color:#fff;padding:4px 10px;font-size:.8rem;border-radius:4px}
+.btn-remove:hover{background:#b91c1c}
+
+.entry-card{background:var(--surface);border:1px solid #333;border-radius:8px;padding:12px;margin-bottom:10px;display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:10px;align-items:center}
+.entry-card input[type=text],.entry-card input[type=number],.entry-card input[type=url]{width:100%;padding:6px 10px;border-radius:4px;border:1px solid #555;background:#0d0d0d;color:#fff;font-size:.9rem}
+.entry-card .img-section{display:flex;align-items:center;gap:6px}
+.entry-card .img-preview{width:40px;height:40px;border-radius:4px;object-fit:cover;border:1px solid #555;display:none}
+.entry-card .img-preview.visible{display:block}
+.entry-card .file-input-wrapper{position:relative}
+.entry-card .file-input-wrapper input[type=file]{width:70px;font-size:.7rem}
+.ref-label{display:flex;align-items:center;gap:4px;font-size:.8rem;white-space:nowrap;cursor:pointer}
+.ref-label input{accent-color:var(--accent)}
+/* Tabs */
+.tab-bar{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #333}
+.tab-btn{padding:10px 20px;border:none;background:transparent;color:#888;cursor:pointer;font-size:1rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
+.tab-btn:hover{color:#ccc}
+.tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.setup-footer{margin-top:24px;border-top:1px solid #333;padding-top:16px}
+.setup-actions{display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap}
+.setup-actions .btn-start{margin:0}
+.validation-msg{text-align:center;color:#f87171;margin-bottom:8px;min-height:20px}
+
+/* Design tab */
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.theme-card{padding:14px;border:2px solid #333;border-radius:10px;cursor:pointer;text-align:center;transition:border-color .2s,transform .1s}
+.theme-card:hover{transform:scale(1.03)}
+.theme-card.active{border-color:var(--accent)}
+.theme-preview{height:40px;border-radius:6px;margin-bottom:8px}
+.theme-name{font-size:.85rem;font-weight:600}
+.color-row{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.color-row label{min-width:120px;font-weight:600;font-size:.9rem}
+.color-row input[type=color]{width:40px;height:32px;border:1px solid #555;border-radius:4px;background:#1a1a1a;cursor:pointer}
+.color-row input[type=range]{flex:1;max-width:200px;accent-color:#f59e0b}
+.saved-tpl{position:relative;display:inline-block}
+.saved-tpl button{padding:8px 28px 8px 14px;border-radius:20px;border:1px solid var(--accent);background:#222;color:var(--text);cursor:pointer;font-size:.9rem;transition:background .2s}
+.saved-tpl button:hover{background:#444}
+.saved-tpl .tpl-del{position:absolute;top:4px;right:8px;cursor:pointer;color:#888;font-size:.85rem;line-height:1}
+.saved-tpl .tpl-del:hover{color:#ef4444}
+
+/* Player setup */
+.player-setup-card{grid-template-columns:1fr auto auto auto auto auto;gap:10px}
+
+/* ===== GAME SCREEN ===== */
+#game{display:none;padding:16px;height:100vh;flex-direction:column}
+#game.active{display:flex}
+#setup.hidden{display:none}
+
+.game-header{text-align:center;margin-bottom:4px}
+.game-header h1{font-style:italic;font-size:2.2rem;margin-bottom:2px}
+.game-header .cat-line{color:#ccc;font-size:1.1rem}
+
+/* Player bar — am unteren Bildrand */
+.player-bar{display:flex;justify-content:center;gap:14px;padding:8px 16px;flex-wrap:nowrap;min-height:10px;order:99;overflow-x:auto}
+.p-card{display:flex;flex-direction:column;align-items:center;padding:6px 10px;border:2px solid #333;border-radius:10px;min-width:0;flex-shrink:1;transition:all .3s}
+.p-card.current{border-color:var(--accent);box-shadow:0 0 14px color-mix(in srgb,var(--accent) 50%,transparent)}
+.p-card.eliminated{filter:grayscale(1);opacity:.45}
+.p-card.starter{position:relative}
+.p-card.starter::after{content:'\2605';position:absolute;top:-8px;right:-8px;font-size:.9rem;color:#f59e0b;background:var(--bg);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;line-height:1}
+.p-thumb{width:100%;aspect-ratio:16/9;max-width:160px;border-radius:8px;object-fit:cover;margin-bottom:4px;background:#333}
+.p-thumb-video{width:100%;aspect-ratio:16/9;max-width:160px;border-radius:8px;object-fit:cover;margin-bottom:4px;background:#333}
+.p-thumb-fb{width:100%;aspect-ratio:16/9;max-width:160px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(.9rem,1.4vw,1.4rem);margin-bottom:4px}
+.p-name{font-size:clamp(.65rem,1vw,.85rem);font-weight:600;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-lives{font-size:.9rem;margin-top:3px;letter-spacing:2px}
+.source-section{display:flex;align-items:center;gap:4px}
+
+/* Game status */
+.game-status{text-align:center;font-size:1rem;padding:4px 10px;min-height:26px;color:var(--accent)}
+
+/* Scale area */
+.scale-area{flex:0 0 auto;padding:20px 40px;position:relative}
+.arrow-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding:0 10px}
+.arrow-low{color:var(--wrong);font-size:1.8rem;font-weight:700}
+.arrow-high{color:var(--correct);font-size:1.8rem;font-weight:700}
+.scale-line{position:relative;height:4px;background:#fff;border-radius:2px;margin:0 10px}
+.compact-scale{display:flex;align-items:center;justify-content:center;margin:0 10px;transform:translateY(-50px);min-height:85px;flex-wrap:nowrap;overflow-x:auto}
+.drop-zone{width:18px;min-width:18px;height:80px;border-radius:6px;transition:all .2s;flex-shrink:0}
+.drop-zone.drag-over,.drop-zone.dz-hover{width:60px;min-width:60px;background:color-mix(in srgb,var(--accent) 15%,transparent);border:2px dashed var(--accent)}
+.drop-zone.clickable{border:1px dashed #555;cursor:pointer}
+.drop-zone.clickable:hover{width:60px;min-width:60px;background:color-mix(in srgb,var(--accent) 15%,transparent);border:2px dashed var(--accent)}
+
+/* Item cards */
+.item-card{width:var(--card-size,75px);height:var(--card-size,75px);border-radius:6px;border:2px solid var(--wrong);cursor:grab;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;transition:transform .15s,box-shadow .15s;background:var(--surface)}
+.item-card:active{cursor:grabbing}
+.item-card.selected{border-color:var(--accent);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 60%,transparent)}
+.item-card.reference{border-color:#3b82f6;cursor:default}
+.item-card.correct{border-color:var(--correct);animation:pulse-green .6s}
+.item-card.wrong{border-color:var(--wrong);animation:pulse-red .6s}
+.item-card.locked{cursor:default}
+.item-card img{width:100%;height:100%;object-fit:cover}
+.item-card .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;text-align:center;padding:4px;line-height:1.1}
+.item-card .card-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.75);font-size:.55rem;text-align:center;padding:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-card .card-value{position:absolute;top:0;left:0;right:0;background:rgba(0,0,0,.8);font-size:.6rem;text-align:center;padding:2px;display:none;font-weight:700}
+.item-card .card-value.visible{display:block}
+.card-tooltip{position:fixed;z-index:300;background:#222;color:#fff;padding:6px 12px;border-radius:6px;font-size:.85rem;pointer-events:none;white-space:nowrap;border:1px solid #555;box-shadow:0 4px 12px rgba(0,0,0,.5);transform:translate(-50%,-100%);opacity:0;transition:opacity .15s}
+.card-tooltip.visible{opacity:1}
+.card-tooltip .tt-name{font-weight:700}
+.card-tooltip .tt-value{color:var(--accent);margin-left:6px}
+
+/* Pool */
+.pool-area{flex:1;padding:12px 40px;overflow-y:auto}
+.pool-area h3{margin-bottom:10px;color:#aaa;font-size:.95rem}
+.pool-grid{display:flex;flex-wrap:wrap;gap:12px;min-height:90px;padding:10px;border:2px dashed #333;border-radius:8px}
+.pool-grid.drag-over-pool{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+
+/* Burger menu */
+.burger-wrapper{position:fixed;top:12px;right:12px;z-index:100}
+.burger-btn{width:40px;height:40px;border:none;background:#222;border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px}
+.burger-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:transform .2s,opacity .2s}
+.burger-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger-btn.open span:nth-child(2){opacity:0}
+.burger-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.burger-menu{position:absolute;top:48px;right:0;background:var(--surface);border:1px solid #444;border-radius:8px;min-width:180px;display:none;flex-direction:column;overflow:hidden}
+.burger-menu.open{display:flex}
+.btn-ctrl{padding:10px 16px;border:none;border-bottom:1px solid #333;background:transparent;color:#fff;cursor:pointer;font-size:.9rem;text-align:left;transition:background .2s}
+.btn-ctrl:last-child{border-bottom:none}
+.btn-ctrl:hover{background:#333}
+.btn-ctrl.primary{color:#60a5fa}
+.btn-ctrl.success{color:#4ade80}
+.btn-ctrl:disabled{opacity:.4;cursor:not-allowed}
+
+.score-display{text-align:center;font-size:1.3rem;font-weight:700;margin:4px 0;min-height:24px}
+
+/* Touch drag ghost */
+.drag-ghost{position:fixed;pointer-events:none;z-index:9999;opacity:.85;transform:translate(-50%,-50%)}
+
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 rgba(34,197,94,0)}50%{box-shadow:0 0 20px rgba(34,197,94,.7)}}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}50%{box-shadow:0 0 20px rgba(239,68,68,.7)}}
+
+/* Game log */
+.game-log{position:fixed;bottom:0;right:0;width:320px;max-height:50vh;background:var(--surface);border:1px solid #444;border-radius:10px 10px 0 0;display:none;flex-direction:column;z-index:150;font-size:.85rem}
+.game-log.open{display:flex}
+.game-log-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #333;font-weight:700;color:var(--accent)}
+.game-log-close{background:none;border:none;color:#888;font-size:1.3rem;cursor:pointer;line-height:1}
+.game-log-close:hover{color:#fff}
+.game-log-body{overflow-y:auto;padding:8px 14px;flex:1}
+.log-entry{padding:4px 0;border-bottom:1px solid #222;display:flex;gap:8px;align-items:baseline}
+.log-entry:last-child{border-bottom:none}
+.log-round{color:#888;font-size:.75rem;min-width:28px}
+.log-player{font-weight:600;min-width:60px}
+.log-correct{color:var(--correct)}
+.log-wrong{color:var(--wrong)}
+.log-info{color:var(--accent);font-style:italic}
+
+body.fullscreen #game{height:100vh}
+
+/* Winner overlay */
+.winner-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.85);opacity:0;animation:fadeInOverlay .6s forwards}
+.winner-overlay .winner-trophy{font-size:5rem;animation:trophyBounce 1s ease-in-out infinite}
+.winner-overlay .winner-name{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:var(--accent);margin:16px 0 8px;text-align:center;animation:winnerGlow 2s ease-in-out infinite}
+.winner-overlay .winner-sub{font-size:1.2rem;color:#ccc;margin-bottom:24px}
+.winner-overlay .winner-lives{font-size:1.5rem;letter-spacing:4px;margin-bottom:32px}
+.winner-overlay .btn-close-winner{padding:12px 32px;border-radius:8px;border:none;background:var(--accent);color:#000;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.winner-overlay .btn-close-winner:hover{transform:scale(1.05)}
+.winner-confetti{position:fixed;inset:0;z-index:199;pointer-events:none;overflow:hidden}
+.confetti-piece{position:absolute;width:10px;height:10px;top:-20px;animation:confettiFall linear forwards}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+@keyframes trophyBounce{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.15) rotate(-5deg)}50%{transform:scale(1) rotate(0deg)}75%{transform:scale(1.15) rotate(5deg)}}
+@keyframes winnerGlow{0%,100%{text-shadow:0 0 10px color-mix(in srgb,var(--accent) 40%,transparent)}50%{text-shadow:0 0 30px var(--accent),0 0 60px color-mix(in srgb,var(--accent) 50%,transparent)}}
+@keyframes confettiFall{to{top:110vh;transform:rotateZ(720deg)}}
+
+@media(max-width:700px){
+  .entry-card{grid-template-columns:1fr;gap:6px}
+  .scale-area{padding:10px 10px}
+  .compact-scale{margin:0 5px;transform:translateY(-45px)}
+  .item-card{width:55px;height:55px}
+  .pool-area{padding:10px}
+  .arrow-row{padding:0}
+  .p-card{min-width:100px;padding:4px 6px}
+  .p-thumb,.p-thumb-video,.p-thumb-fb{width:120px;height:68px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SETUP SCREEN ===== -->
+<div id="setup">
+  <h1>Higher or Lower</h1>
+  <p class="subtitle">Konfiguriere dein eigenes Quiz — jedes Thema, jede Kategorie!</p>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('allgemein')">Allgemein</button>
+    <button class="tab-btn" onclick="switchTab('spieler')">Spieler</button>
+    <button class="tab-btn" onclick="switchTab('eintraege')">Einträge</button>
+    <button class="tab-btn" onclick="switchTab('vorlagen')">Vorlagen</button>
+    <button class="tab-btn" onclick="switchTab('design')">Design</button>
+  </div>
+
+  <!-- TAB: Allgemein -->
+  <div class="tab-panel active" id="tab-allgemein">
+    <div class="form-row">
+      <label for="topic">Thema</label>
+      <input type="text" id="topic" placeholder="z.B. Fläche von Kontinenten, Stadionkapazität…">
+    </div>
+    <div class="form-row">
+      <label for="unit">Einheit</label>
+      <input type="text" id="unit" placeholder="z.B. km², Zuschauer, Millionen Touristen…">
+    </div>
+  </div>
+
+  <!-- TAB: Spieler -->
+  <div class="tab-panel" id="tab-spieler">
+    <div class="form-row">
+      <label>Leben</label>
+      <input type="number" id="lives-input" value="3" min="1" max="10" style="max-width:80px;flex:none">
+      <button class="btn btn-add" onclick="addPlayer()">+ Spieler</button>
+    </div>
+    <p style="color:#888;font-size:.85rem;margin-bottom:10px">Markiere optional einen Startspieler. Ohne Auswahl wird zufällig einer bestimmt.</p>
+    <p style="color:#888;font-size:.85rem;margin-bottom:10px">Ohne Spieler läuft das Spiel im freien Modus.</p>
+    <div id="players-list"></div>
+  </div>
+
+  <!-- TAB: Einträge -->
+  <div class="tab-panel" id="tab-eintraege">
+    <div class="entries-header">
+      <h2>Einträge</h2>
+      <button class="btn btn-add" onclick="addEntry()">+ Hinzufügen</button>
+    </div>
+    <p style="color:#888;font-size:.85rem;margin-bottom:10px">Markiere optional einen Eintrag als Startpunkt (wird in der Mitte angezeigt). Ohne Auswahl wird zufällig einer bestimmt.</p>
+    <div id="entries-list"></div>
+  </div>
+
+  <!-- TAB: Vorlagen -->
+  <div class="tab-panel" id="tab-vorlagen">
+    <h3 style="margin-bottom:8px">Schnellstart</h3>
+    <div class="templates">
+      <button onclick="loadTemplate('stadion')">Stadionkapazität</button>
+      <button onclick="loadTemplate('stadt')">Einwohnerzahl Städte</button>
+      <button onclick="loadTemplate('streamer')">Deutsche Twitch-Streamer</button>
+      <button onclick="loadTemplate('fussballer')">Marktwert Fußballer</button>
+      <button onclick="loadTemplate('legenden')">Legenden — Alter</button>
+      <button onclick="loadTemplate('leer')">Leer</button>
+    </div>
+    <h3 style="margin-bottom:8px;margin-top:16px">Gespeicherte Vorlagen</h3>
+    <p style="color:#888;font-size:.85rem;margin-bottom:10px">Vorlagen werden im Browser (localStorage) gespeichert. Nutze Export/Import um sie dauerhaft zu sichern oder auf andere Geräte zu übertragen.</p>
+    <div id="saved-templates" style="margin-bottom:16px"></div>
+    <h3 style="margin-bottom:8px;margin-top:16px">Export / Import</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-add" onclick="exportTemplates()" style="font-size:.85rem">Alle exportieren (JSON)</button>
+      <button class="btn btn-add" onclick="document.getElementById('import-file').click()" style="font-size:.85rem">Importieren (JSON)</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importTemplates(this.files[0])">
+    </div>
+  </div>
+
+  <!-- TAB: Design -->
+  <div class="tab-panel" id="tab-design">
+    <h3 style="margin-bottom:12px">Farbschema</h3>
+    <div class="theme-grid" id="theme-grid"></div>
+
+    <h3 style="margin-bottom:12px;margin-top:20px">Anpassungen</h3>
+    <div class="color-row">
+      <label>Akzentfarbe</label>
+      <input type="color" id="accent-color" value="#f59e0b" onchange="applyCustomAccent(this.value)">
+    </div>
+    <div class="color-row">
+      <label>Kartengröße</label>
+      <input type="range" id="card-size" min="50" max="120" value="75" oninput="applyCardSize(this.value)">
+      <span id="card-size-label">75px</span>
+    </div>
+  </div>
+
+  <!-- Immer sichtbar -->
+  <div class="setup-footer">
+    <p class="validation-msg" id="validation-msg"></p>
+    <div class="setup-actions">
+      <button class="btn btn-add" onclick="saveCurrentAsTemplate()" style="font-size:.85rem">Konfiguration speichern</button>
+      <button class="btn btn-start" onclick="startGame()">Spiel starten</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GAME SCREEN ===== -->
+<div id="game">
+  <div class="game-header">
+    <h1>Higher or Lower</h1>
+    <div class="cat-line" id="cat-line"></div>
+  </div>
+
+  <div class="game-status" id="game-status"></div>
+
+  <div class="scale-area">
+    <div class="arrow-row">
+      <span class="arrow-low">&#9660; Lower</span>
+      <span class="arrow-high">Higher &#9650;</span>
+    </div>
+    <div class="scale-line"></div>
+    <div class="compact-scale" id="compact-scale"></div>
+  </div>
+
+  <div class="score-display" id="score-display"></div>
+
+  <div class="pool-area">
+    <h3>Noch zu platzieren:</h3>
+    <div class="pool-grid" id="pool-grid"></div>
+  </div>
+
+  <div class="burger-wrapper" id="burger-wrapper">
+    <button class="burger-btn" onclick="toggleBurger()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="burger-menu" id="burger-menu">
+      <button class="btn-ctrl primary" id="btn-resolve" onclick="resolveGame();closeBurger()">Auflösen</button>
+      <button class="btn-ctrl success" onclick="showSolution();closeBurger()">Lösung zeigen</button>
+      <button class="btn-ctrl" onclick="resetGame();closeBurger()">Zurücksetzen</button>
+      <button class="btn-ctrl" onclick="backToSetup();closeBurger()">Zurück zum Setup</button>
+      <button class="btn-ctrl" onclick="toggleGameLog();closeBurger()">Spiellog</button>
+      <button class="btn-ctrl" onclick="toggleFullscreen();closeBurger()">Vollbild</button>
+    </div>
+  </div>
+
+  <div class="player-bar" id="player-bar"></div>
+
+  <div class="game-log" id="game-log">
+    <div class="game-log-header">
+      <span>Spiellog</span>
+      <button onclick="toggleGameLog()" class="game-log-close">&times;</button>
+    </div>
+    <div class="game-log-body" id="game-log-body"></div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let entries = [];
+let entryIdCounter = 0;
+let selectedItemId = null;
+let resolved = false;
+let dragGhost = null;
+let touchDragId = null;
+
+// Player state
+let players = [];
+let playerIdCounter = 0;
+let gameMode = 'free'; // 'free' or 'players'
+let currentPlayerIdx = -1;
+let roundLog = [];
+let roundPlayerOrder = [];
+let roundTurnIdx = 0;
+let checkedItems = new Set();
+let isChecking = false;
+let isFirstRound = true;
+let pendingLosses = []; // player IDs who lost a heart this round (for nachziehen)
+let gameLog = []; // persistent game log entries
+let gameRoundNum = 0; // current round number
+let placedOrder = []; // item IDs left→right on compact scale
+let cardMap = {}; // id → DOM element
+let activeStreams = {}; // player id → MediaStream
+
+// ===== TEMPLATES =====
+const TEMPLATES = {
+  stadion: {
+    topic: 'Stadionkapazität',
+    unit: 'Zuschauer',
+    entries: [
+      {name:'Borussia Dortmund',value:81365},{name:'FC Bayern München',value:75024},
+      {name:'FC Schalke 04',value:62271},{name:'Hertha BSC',value:74475},
+      {name:'VfB Stuttgart',value:60449},{name:'Eintracht Frankfurt',value:51500},
+      {name:'1. FC Köln',value:50000},{name:'Hamburger SV',value:57000},
+      {name:'Werder Bremen',value:42100},{name:'Borussia M\'gladbach',value:54042},
+      {name:'RB Leipzig',value:47069},{name:'Bayer Leverkusen',value:30210},
+      {name:'VfL Wolfsburg',value:30000},{name:'SC Freiburg',value:34700},
+      {name:'TSG Hoffenheim',value:30150}
+    ]
+  },
+  stadt: {
+    topic: 'Einwohnerzahl Städte (Deutschland)',
+    unit: 'Einwohner',
+    entries: [
+      {name:'Berlin',value:3748148},{name:'Hamburg',value:1899160},
+      {name:'München',value:1512491},{name:'Köln',value:1083498},
+      {name:'Frankfurt',value:773068},{name:'Stuttgart',value:626275},
+      {name:'Düsseldorf',value:621877},{name:'Leipzig',value:616093},
+      {name:'Dortmund',value:588250},{name:'Essen',value:582760}
+    ]
+  },
+  streamer: {
+    topic: 'Deutsche Twitch-Streamer',
+    unit: 'Abonnenten',
+    entries: [
+      {name:'eliasn97',value:23810},{name:'zarbex',value:21979},
+      {name:'GRONKH',value:11883},{name:'Trymacs',value:10868},
+      {name:'Papaplatte',value:10623},{name:'PietSmiet',value:8192},
+      {name:'HandOfBlood',value:7068},{name:'BastiGHG',value:5730},
+      {name:'MontanaBlack88',value:5695},{name:'NiklasWilson',value:2220},
+      {name:'GTimeTV',value:2042},{name:'SidneyEweka',value:2009},
+      {name:'Amar',value:1742},{name:'TheRealKnossi',value:1526},
+      {name:'HoneyPuu',value:1349},{name:'LetsHugoTV',value:963},
+      {name:'rezonfn',value:916},{name:'Vadeal',value:888},
+      {name:'RevedTV',value:741},{name:'ELoTRiX',value:643},
+      {name:'Rumathra',value:461},{name:'rewinside',value:294},
+      {name:'MckyTV',value:216},{name:'INSCOPE21TV',value:50},
+      {name:'Letshe',value:48},{name:'TANZVERBOT',value:6}
+    ]
+  },
+  fussballer: {
+    topic: 'Marktwert europäischer Fußballer',
+    unit: 'Mio. €',
+    entries: [
+      {name:'Lamine Yamal',value:200,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Lamine_Yamal_in_2025.jpg/500px-Lamine_Yamal_in_2025.jpg'},
+      {name:'Erling Haaland',value:200,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Erling_Haaland_June_2025.jpg/500px-Erling_Haaland_June_2025.jpg'},
+      {name:'Kylian Mbappé',value:200,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg/500px-Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg'},
+      {name:'Jude Bellingham',value:160,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Jude_Bellingham_-_240422_190551-2_%28cropped%29.jpg/500px-25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Jude_Bellingham_-_240422_190551-2_%28cropped%29.jpg'},
+      {name:'Pedri',value:140,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Pedri.jpg/500px-Pedri.jpg'},
+      {name:'Michael Olise',value:130,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/FC_RB_Salzburg_gegen_FC_Bayern_M%C3%BCnchen_%282026-01-06_Testspiel%29_10.jpg/500px-FC_RB_Salzburg_gegen_FC_Bayern_M%C3%BCnchen_%282026-01-06_Testspiel%29_10.jpg'},
+      {name:'Jamal Musiala',value:130,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jamal_Musiala_2022_%28cropped%29.jpg/330px-Jamal_Musiala_2022_%28cropped%29.jpg'},
+      {name:'Bukayo Saka',value:120,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/1_bukayo_saka_arsenal_2025_%28cropped%29.jpg/500px-1_bukayo_saka_arsenal_2025_%28cropped%29.jpg'},
+      {name:'Cole Palmer',value:120,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg/250px-Cole_Palmer_2025_FIFA_Club_World_Cup_Final.jpg'},
+      {name:'Declan Rice',value:120,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/357662-1687962936.jpg?lm=1'},
+      {name:'João Neves',value:110,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/670681-1701295511.jpg?lm=1'},
+      {name:'Florian Wirtz',value:110,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/598577-1689710503.jpg?lm=1'},
+      {name:'Vitinha',value:110,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/487469-1749415169.jpg?lm=1'},
+      {name:'Alexander Isak',value:100,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/349066-1680791339.jpg?lm=1'},
+      {name:'Dominik Szoboszlai',value:100,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/451276-1758715234.jpg?lm=1'},
+      {name:'Ousmane Dembélé',value:100,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/288230-1684148641.jpg?lm=1'},
+      {name:'Désiré Doué',value:90,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/914562-1667317075.jpg?lm=1'},
+      {name:'Ryan Gravenberch',value:90,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/478573-1718097194.jpg?lm=1'},
+      {name:'Khvicha Kvaratskhelia',value:90,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/502670-1708553120.jpg?lm=1'},
+      {name:'Arda Güler',value:90,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/861410-1699472585.jpg?lm=1'},
+      {name:'Hugo Ekitike',value:85,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/709726-1758714741.jpg?lm=1'},
+      {name:'Pau Cubarsí',value:80,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/962110-1712779232.jpg?lm=1'},
+      {name:'Morgan Rogers',value:80,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/503743-1706786450.jpg?lm=1'},
+      {name:'Phil Foden',value:80,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/406635-1668524492.jpg?lm=1'},
+      {name:'Sandro Tonali',value:75,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/397033-1688389270.jpg?lm=1'}
+    ]
+  },
+  legenden: {
+    topic: 'Alter der größten Fußballer der letzten 30 Jahre',
+    unit: 'Jahre',
+    entries: [
+      {name:'Paolo Maldini',value:57,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Paolo_Maldini_AC_Milan_Technical_director_2018.jpg/500px-Paolo_Maldini_AC_Milan_Technical_director_2018.jpg'},
+      {name:'Zinedine Zidane',value:53,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Zinedine_Zidane_by_Tasnim_03.jpg/500px-Zinedine_Zidane_by_Tasnim_03.jpg'},
+      {name:'Roberto Carlos',value:52,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/LS3_1288_%2853332367864%29_%28cropped%29.jpg/500px-LS3_1288_%2853332367864%29_%28cropped%29.jpg'},
+      {name:'David Beckham',value:50,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/David_Beckham_UNICEF_%28cropped2%29.jpg/500px-David_Beckham_UNICEF_%28cropped2%29.jpg'},
+      {name:'Ronaldo (R9)',value:49,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg/500px-Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg'},
+      {name:'Gianluigi Buffon',value:48,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Norway_Italy_-_June_2025_A_44_%28Gianluigi_Buffon%29.jpg/500px-Norway_Italy_-_June_2025_A_44_%28Gianluigi_Buffon%29.jpg'},
+      {name:'Thierry Henry',value:48,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Thierry_Henry_%2851649035951%29_%28cropped%29.jpg/500px-Thierry_Henry_%2851649035951%29_%28cropped%29.jpg'},
+      {name:'Frank Lampard',value:47,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Frank_Lampard_2019.jpg/330px-Frank_Lampard_2019.jpg'},
+      {name:'Andrea Pirlo',value:46,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg/330px-20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg'},
+      {name:'Xavi',value:46,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Xavi_Hern%C3%A1ndez_-_002_%28cropped%29.jpg/330px-Xavi_Hern%C3%A1ndez_-_002_%28cropped%29.jpg'},
+      {name:'Ronaldinho',value:45,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ronaldinho_in_2019.jpg/500px-Ronaldinho_in_2019.jpg'},
+      {name:'Steven Gerrard',value:45,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Steven_Gerrard_2018.jpg/330px-Steven_Gerrard_2018.jpg'},
+      {name:'Zlatan Ibrahimović',value:44,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Zlatan_Ibrahimovi%C4%87_June_2018.jpg/330px-Zlatan_Ibrahimovi%C4%87_June_2018.jpg'},
+      {name:'Kaká',value:43,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Kak%C3%A1_visited_Stadium_St._Petersburg.jpg/500px-Kak%C3%A1_visited_Stadium_St._Petersburg.jpg'},
+      {name:'Philipp Lahm',value:42,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Philipp_Lahm_auf_der_Berlinale_2024%2C_Ausschnitt.jpg/500px-Philipp_Lahm_auf_der_Berlinale_2024%2C_Ausschnitt.jpg'},
+      {name:'Andrés Iniesta',value:41,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Andr%C3%A9s_Iniesta_%28cropped%29.jpg/500px-Andr%C3%A9s_Iniesta_%28cropped%29.jpg'},
+      {name:'Cristiano Ronaldo',value:41,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Cristiano_Ronaldo_2275_%28cropped%29.jpg/500px-Cristiano_Ronaldo_2275_%28cropped%29.jpg'},
+      {name:'Luka Modrić',value:40,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg/500px-Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg'},
+      {name:'Wayne Rooney',value:40,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Wayne_Rooney_%2850121495731%29_%28cropped%29.jpg/500px-Wayne_Rooney_%2850121495731%29_%28cropped%29.jpg'},
+      {name:'Manuel Neuer',value:39,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg/500px-20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg'},
+      {name:'Sergio Ramos',value:39,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Sergio_Ramos_Interview_2021_%28cropped%29.jpg/330px-Sergio_Ramos_Interview_2021_%28cropped%29.jpg'},
+      {name:'Lionel Messi',value:38,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178.jpg/500px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178.jpg'},
+      {name:'Robert Lewandowski',value:37,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg/500px-2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg'},
+      {name:'Neymar',value:34,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29.jpg/500px-Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29.jpg'},
+      {name:'Kylian Mbappé',value:27,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg/500px-Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg'}
+    ]
+  }
+};
+
+function loadTemplate(key) {
+  if (key === 'leer') {
+    document.getElementById('topic').value = '';
+    document.getElementById('unit').value = '';
+    entries = [];
+    entryIdCounter = 0;
+    renderEntries();
+    addEntry();
+    addEntry();
+    return;
+  }
+  const t = TEMPLATES[key];
+  document.getElementById('topic').value = t.topic;
+  document.getElementById('unit').value = t.unit;
+  entries = t.entries.map(e => ({
+    id: entryIdCounter++, name: e.name, value: e.value,
+    imageUrl: e.imageUrl || '', imageData: '', isRef: false
+  }));
+  renderEntries();
+}
+
+// ===== ENTRY MANAGEMENT =====
+function addEntry() {
+  entries.push({ id: entryIdCounter++, name: '', value: '', imageUrl: '', imageData: '', isRef: false });
+  renderEntries();
+}
+function removeEntry(id) { entries = entries.filter(e => e.id !== id); renderEntries(); }
+function setRef(id) { entries.forEach(e => e.isRef = (e.id === id)); renderEntries(); }
+function updateEntry(id, field, value) { const e = entries.find(x => x.id === id); if (e) e[field] = value; }
+
+function resizeImage(file, maxSize, callback) {
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      let w = img.width, h = img.height;
+      if (w > maxSize || h > maxSize) {
+        if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+        else { w = Math.round(w * maxSize / h); h = maxSize; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.7));
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleFileUpload(id, file) {
+  if (!file) return;
+  resizeImage(file, 256, function(dataUrl) {
+    const e = entries.find(x => x.id === id);
+    if (e) { e.imageData = dataUrl; e.imageUrl = ''; renderEntries(); }
+  });
+}
+
+function renderEntries() {
+  const list = document.getElementById('entries-list');
+  list.innerHTML = '';
+  entries.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'entry-card';
+    const imgSrc = e.imageData || e.imageUrl;
+    div.innerHTML = `
+      <input type="text" placeholder="Name" value="${esc(e.name)}" oninput="updateEntry(${e.id},'name',this.value)">
+      <input type="number" placeholder="Wert" value="${e.value}" oninput="updateEntry(${e.id},'value',parseFloat(this.value)||'')">
+      <div class="img-section">
+        <input type="url" placeholder="Bild-URL" value="${esc(e.imageUrl)}" style="width:120px"
+          oninput="updateEntry(${e.id},'imageUrl',this.value);updatePreview(${e.id},this.value)">
+        <div class="file-input-wrapper">
+          <input type="file" accept="image/*" onchange="handleFileUpload(${e.id},this.files[0])">
+        </div>
+        <img class="img-preview ${imgSrc ? 'visible' : ''}" src="${imgSrc || ''}" id="preview-${e.id}">
+      </div>
+      <label class="ref-label">
+        <input type="radio" name="ref" ${e.isRef ? 'checked' : ''} onchange="setRef(${e.id})"> Start
+      </label>
+      <button class="btn btn-remove" onclick="removeEntry(${e.id})">&#10005;</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function updatePreview(id, url) {
+  const img = document.getElementById('preview-' + id);
+  if (img) { img.src = url; img.classList.toggle('visible', !!url); }
+}
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ===== PLAYER MANAGEMENT =====
+function addPlayer() {
+  const num = players.length + 1;
+  players.push({ id: playerIdCounter++, name: 'Spieler ' + num, imageUrl: '', imageData: '', isStart: false });
+  renderPlayersSetup();
+}
+function removePlayer(id) { players = players.filter(p => p.id !== id); renderPlayersSetup(); }
+function updatePlayer(id, field, value) { const p = players.find(x => x.id === id); if (p) p[field] = value; }
+function setStartPlayer(id) { players.forEach(p => p.isStart = (p.id === id)); renderPlayersSetup(); }
+
+function handlePlayerFile(id, file) {
+  if (!file) return;
+  resizeImage(file, 256, function(dataUrl) {
+    const p = players.find(x => x.id === id);
+    if (p) { p.imageData = dataUrl; p.imageUrl = ''; renderPlayersSetup(); }
+  });
+}
+
+async function pickScreenSource(playerId) {
+  try {
+    // Alten Stream stoppen
+    if (activeStreams[playerId]) {
+      activeStreams[playerId].getTracks().forEach(t => t.stop());
+      delete activeStreams[playerId];
+    }
+    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+    activeStreams[playerId] = stream;
+    // Bei Beenden durch Browser (Stop Sharing) aufräumen
+    stream.getVideoTracks()[0].onended = () => {
+      delete activeStreams[playerId];
+      renderPlayersSetup();
+    };
+    renderPlayersSetup();
+  } catch (e) { /* Abgebrochen */ }
+}
+
+function removeScreenSource(playerId) {
+  if (activeStreams[playerId]) {
+    activeStreams[playerId].getTracks().forEach(t => t.stop());
+    delete activeStreams[playerId];
+  }
+  renderPlayersSetup();
+}
+
+function renderPlayersSetup() {
+  const list = document.getElementById('players-list');
+  list.innerHTML = '';
+  players.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'entry-card player-setup-card';
+    const imgSrc = p.imageData || p.imageUrl;
+    const hasStream = !!activeStreams[p.id];
+    div.innerHTML = `
+      <input type="text" placeholder="Name" value="${esc(p.name)}" oninput="updatePlayer(${p.id},'name',this.value)">
+      <div class="img-section">
+        <input type="url" placeholder="Bild-URL" value="${esc(p.imageUrl)}" style="width:120px"
+          oninput="updatePlayer(${p.id},'imageUrl',this.value)">
+        <div class="file-input-wrapper">
+          <input type="file" accept="image/*" onchange="handlePlayerFile(${p.id},this.files[0])">
+        </div>
+        <img class="img-preview ${imgSrc ? 'visible' : ''}" src="${imgSrc || ''}">
+      </div>
+      <div class="source-section"></div>
+      <label class="ref-label">
+        <input type="radio" name="startplayer" ${p.isStart ? 'checked' : ''} onchange="setStartPlayer(${p.id})"> Start
+      </label>
+      <button class="btn btn-remove" onclick="removePlayer(${p.id})">&#10005;</button>
+    `;
+    // Videoquelle-Bereich befüllen
+    const srcSection = div.querySelector('.source-section');
+    if (hasStream) {
+      const video = document.createElement('video');
+      video.autoplay = true; video.muted = true; video.playsInline = true;
+      video.style.cssText = 'width:60px;height:40px;border-radius:4px;object-fit:cover;border:1px solid #22c55e;vertical-align:middle';
+      video.srcObject = activeStreams[p.id];
+      srcSection.appendChild(video);
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn btn-remove';
+      removeBtn.textContent = '\u00d7';
+      removeBtn.style.marginLeft = '4px';
+      removeBtn.onclick = () => removeScreenSource(p.id);
+      srcSection.appendChild(removeBtn);
+    } else {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-add';
+      btn.style.fontSize = '.8rem';
+      btn.style.padding = '4px 10px';
+      btn.textContent = 'Quelle wählen';
+      btn.onclick = () => pickScreenSource(p.id);
+      srcSection.appendChild(btn);
+    }
+    list.appendChild(div);
+  });
+}
+
+// ===== SYNC DOM → STATE =====
+function syncFromDOM() {
+  const cards = document.querySelectorAll('#entries-list .entry-card');
+  cards.forEach((card, i) => {
+    if (!entries[i]) return;
+    const inputs = card.querySelectorAll('input');
+    entries[i].name = inputs[0].value;
+    entries[i].value = parseFloat(inputs[1].value) || 0;
+    if (inputs[2].value && !entries[i].imageData) entries[i].imageUrl = inputs[2].value;
+  });
+  const pcards = document.querySelectorAll('#players-list .entry-card');
+  pcards.forEach((card, i) => {
+    if (!players[i]) return;
+    const inputs = card.querySelectorAll('input');
+    players[i].name = inputs[0].value;
+    if (inputs[1].value && !players[i].imageData) players[i].imageUrl = inputs[1].value;
+  });
+}
+
+// ===== VORLAGEN SPEICHERN / LADEN =====
+function saveCurrentAsTemplate() {
+  syncFromDOM();
+  const name = prompt('Name für die Vorlage:');
+  if (!name || !name.trim()) return;
+  const trimmed = name.trim();
+  const tpl = {
+    name: trimmed,
+    topic: document.getElementById('topic').value,
+    unit: document.getElementById('unit').value,
+    livesPerPlayer: parseInt(document.getElementById('lives-input').value) || 3,
+    entries: entries.map(e => ({ name: e.name, value: e.value, imageUrl: e.imageUrl, imageData: e.imageData, isRef: e.isRef })),
+    players: players.map(p => ({ name: p.name, imageUrl: p.imageUrl, imageData: p.imageData, isStart: p.isStart }))
+  };
+  const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
+  const existingIdx = saved.findIndex(t => t.name.toLowerCase() === trimmed.toLowerCase());
+  if (existingIdx >= 0) {
+    if (!confirm('Vorlage "' + saved[existingIdx].name + '" existiert bereits. Überschreiben?')) return;
+    saved[existingIdx] = tpl;
+  } else {
+    saved.push(tpl);
+  }
+  try {
+    localStorage.setItem('hl-templates', JSON.stringify(saved));
+  } catch (e) {
+    alert('Speicher voll. Versuche Bilder per URL statt Upload zu verwenden.');
+    return;
+  }
+  renderSavedTemplates();
+}
+
+function loadSavedTemplate(index) {
+  const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
+  const t = saved[index];
+  if (!t) return;
+  document.getElementById('topic').value = t.topic || '';
+  document.getElementById('unit').value = t.unit || '';
+  document.getElementById('lives-input').value = t.livesPerPlayer || 3;
+  entryIdCounter = 0;
+  entries = (t.entries || []).map(e => ({
+    id: entryIdCounter++, name: e.name, value: e.value,
+    imageUrl: e.imageUrl || '', imageData: e.imageData || '', isRef: e.isRef || false
+  }));
+  renderEntries();
+  playerIdCounter = 0;
+  players = (t.players || []).map(p => ({
+    id: playerIdCounter++, name: p.name,
+    imageUrl: p.imageUrl || '', imageData: p.imageData || '', isStart: p.isStart || false
+  }));
+  renderPlayersSetup();
+}
+
+function deleteSavedTemplate(index) {
+  const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
+  saved.splice(index, 1);
+  localStorage.setItem('hl-templates', JSON.stringify(saved));
+  renderSavedTemplates();
+}
+
+function renderSavedTemplates() {
+  const container = document.getElementById('saved-templates');
+  const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
+  container.innerHTML = '';
+  saved.forEach((t, i) => {
+    const wrapper = document.createElement('span');
+    wrapper.className = 'saved-tpl';
+    const btn = document.createElement('button');
+    btn.textContent = t.name;
+    btn.onclick = () => loadSavedTemplate(i);
+    const del = document.createElement('span');
+    del.className = 'tpl-del';
+    del.textContent = '\u00d7';
+    del.onclick = (e) => { e.stopPropagation(); if (confirm('Vorlage "' + t.name + '" löschen?')) deleteSavedTemplate(i); };
+    wrapper.appendChild(btn);
+    wrapper.appendChild(del);
+    container.appendChild(wrapper);
+  });
+}
+
+function exportTemplates() {
+  const saved = localStorage.getItem('hl-templates') || '[]';
+  const blob = new Blob([saved], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'higher-lower-vorlagen.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importTemplates(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (!Array.isArray(imported)) { alert('Ungültiges Format.'); return; }
+      const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
+      let added = 0, overwritten = 0;
+      imported.forEach(tpl => {
+        if (!tpl.name || !tpl.entries) return;
+        const existIdx = saved.findIndex(s => s.name.toLowerCase() === tpl.name.toLowerCase());
+        if (existIdx >= 0) {
+          saved[existIdx] = tpl;
+          overwritten++;
+        } else {
+          saved.push(tpl);
+          added++;
+        }
+      });
+      localStorage.setItem('hl-templates', JSON.stringify(saved));
+      renderSavedTemplates();
+      alert(added + ' hinzugefügt, ' + overwritten + ' überschrieben.');
+    } catch (e) {
+      alert('Fehler beim Lesen der Datei.');
+    }
+  };
+  reader.readAsText(file);
+  document.getElementById('import-file').value = '';
+}
+
+// ===== START GAME =====
+function startGame() {
+  syncFromDOM();
+
+  const valid = entries.filter(e => e.name && e.value !== '' && e.value !== 0);
+  const msg = document.getElementById('validation-msg');
+  if (valid.length < 2) { msg.textContent = 'Mindestens 2 vollständige Einträge benötigt.'; return; }
+
+  // Ref: wenn keine gewählt, zufällig
+  let ref = valid.find(e => e.isRef);
+  if (!ref) {
+    valid.forEach(e => e.isRef = false);
+    ref = valid[Math.floor(Math.random() * valid.length)];
+    ref.isRef = true;
+  }
+  msg.textContent = '';
+
+  // Init lives
+  const livesPerPlayer = parseInt(document.getElementById('lives-input').value) || 3;
+  players.forEach(p => { p.lives = livesPerPlayer; p.maxLives = livesPerPlayer; });
+
+  resolved = false;
+  selectedItemId = null;
+  checkedItems = new Set();
+  isChecking = false;
+  document.getElementById('score-display').textContent = '';
+  document.getElementById('game-status').textContent = '';
+  document.getElementById('setup').classList.add('hidden');
+  document.getElementById('game').classList.add('active');
+
+  const topic = document.getElementById('topic').value || 'Quiz';
+  const unit = document.getElementById('unit').value || '';
+  document.getElementById('cat-line').textContent = topic + (unit ? ' (' + unit + ')' : '');
+
+  buildGame(valid);
+
+  if (players.length > 0) {
+    gameMode = 'players';
+    isFirstRound = true;
+    document.getElementById('btn-resolve').style.display = 'none';
+    startNewRound();
+  } else {
+    gameMode = 'free';
+    document.getElementById('btn-resolve').style.display = '';
+    document.getElementById('player-bar').innerHTML = '';
+    document.getElementById('game-status').textContent = '';
+  }
+}
+
+function buildGame(items) {
+  const sorted = [...items].sort((a, b) => a.value - b.value);
+  const ref = items.find(e => e.isRef);
+  const poolEl = document.getElementById('pool-grid');
+  poolEl.innerHTML = '';
+
+  // Kompakte Skala: nur Referenz zu Beginn
+  placedOrder = [ref.id];
+
+  // Alle Item-Karten erstellen
+  cardMap = {};
+  cardMap[ref.id] = createItemCard(ref, true);
+  const others = items.filter(e => !e.isRef);
+  shuffle(others);
+  others.forEach(item => {
+    const card = createItemCard(item, false);
+    cardMap[item.id] = card;
+    poolEl.appendChild(card);
+  });
+
+  poolEl.addEventListener('dragover', e => { e.preventDefault(); poolEl.classList.add('drag-over-pool'); });
+  poolEl.addEventListener('dragleave', () => poolEl.classList.remove('drag-over-pool'));
+  poolEl.addEventListener('drop', onPoolDrop);
+
+  window._gameData = { items, sorted, ref };
+  renderCompactScale();
+}
+
+function createItemCard(item, isRef) {
+  const card = document.createElement('div');
+  card.className = 'item-card' + (isRef ? ' reference' : '');
+  card.dataset.id = item.id;
+  card.draggable = !isRef;
+
+  const imgSrc = item.imageData || item.imageUrl;
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.src = imgSrc; img.alt = item.name; img.draggable = false;
+    card.appendChild(img);
+  } else {
+    const fb = document.createElement('div');
+    fb.className = 'fallback';
+    fb.style.background = stringToColor(item.name);
+    fb.textContent = item.name.length > 8 ? item.name.substring(0, 8) : item.name;
+    card.appendChild(fb);
+  }
+
+  const label = document.createElement('div');
+  label.className = 'card-label';
+  label.textContent = item.name;
+  card.appendChild(label);
+
+  const valDiv = document.createElement('div');
+  valDiv.className = 'card-value' + (isRef ? ' visible' : '');
+  const unit = document.getElementById('unit').value || '';
+  valDiv.textContent = formatNumber(item.value) + (unit ? ' ' + unit : '');
+  card.appendChild(valDiv);
+
+  card.addEventListener('mouseenter', showTooltip);
+  card.addEventListener('mousemove', positionTooltip);
+  card.addEventListener('mouseleave', hideTooltip);
+
+  if (!isRef) {
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend', onDragEnd);
+    card.addEventListener('click', onItemClick);
+    card.addEventListener('pointerdown', onPointerDown);
+  }
+  return card;
+}
+
+// ===== COMPACT SCALE RENDERING =====
+function renderCompactScale() {
+  const container = document.getElementById('compact-scale');
+  container.innerHTML = '';
+  const showDropZones = !resolved && !isChecking;
+
+  for (let i = 0; i <= placedOrder.length; i++) {
+    if (showDropZones) {
+      const dz = document.createElement('div');
+      dz.className = 'drop-zone' + (selectedItemId !== null ? ' clickable' : '');
+      dz.dataset.insertAt = i;
+      dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+      dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+      dz.addEventListener('drop', onDzDrop);
+      dz.addEventListener('click', () => onDzClick(i));
+      container.appendChild(dz);
+    }
+    if (i < placedOrder.length) {
+      const id = placedOrder[i];
+      const card = cardMap[id];
+      if (card) container.appendChild(card);
+    }
+  }
+}
+
+// ===== DRAG & DROP =====
+let dragId = null;
+
+function onDragStart(e) {
+  const card = e.target.closest('.item-card');
+  const id = parseInt(card.dataset.id);
+  if (resolved || checkedItems.has(id) || isChecking) { e.preventDefault(); return; }
+  dragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  card.style.opacity = '0.4';
+  hideTooltip();
+}
+function onDragEnd(e) {
+  e.target.closest('.item-card').style.opacity = '1';
+  dragId = null;
+  document.querySelectorAll('.drop-zone').forEach(d => d.classList.remove('drag-over'));
+}
+
+function onDzDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (resolved || dragId === null || isChecking) return;
+  const insertAt = parseInt(e.currentTarget.dataset.insertAt);
+  placeItem(dragId, insertAt);
+  dragId = null;
+}
+
+function onPoolDrop(e) {
+  e.preventDefault();
+  document.getElementById('pool-grid').classList.remove('drag-over-pool');
+  if (resolved || dragId === null || isChecking) return;
+  if (checkedItems.has(dragId)) return;
+  const card = cardMap[dragId];
+  if (!card) return;
+  // Zurück aus placedOrder entfernen (freier Modus)
+  const idx = placedOrder.indexOf(dragId);
+  if (idx >= 0) placedOrder.splice(idx, 1);
+  card.style.opacity = '1';
+  document.getElementById('pool-grid').appendChild(card);
+  renderCompactScale();
+  dragId = null;
+}
+
+// ===== CLICK MODE =====
+function onItemClick(e) {
+  if (resolved || isChecking) return;
+  e.stopPropagation();
+  const card = e.currentTarget;
+  const id = parseInt(card.dataset.id);
+  if (checkedItems.has(id)) return;
+
+  // Item auf der Skala? → Zurück in Pool (nur freier Modus)
+  if (card.closest('.compact-scale')) {
+    if (gameMode === 'players') return;
+    const idx = placedOrder.indexOf(id);
+    if (idx >= 0) placedOrder.splice(idx, 1);
+    document.getElementById('pool-grid').appendChild(card);
+    renderCompactScale();
+    clearSelections(); selectedItemId = null;
+    return;
+  }
+
+  // Auswahl toggeln
+  if (selectedItemId === id) { selectedItemId = null; clearSelections(); }
+  else { clearSelections(); selectedItemId = id; card.classList.add('selected'); }
+  // Drop-Zonen aktualisieren
+  document.querySelectorAll('.drop-zone').forEach(dz => {
+    dz.classList.toggle('clickable', selectedItemId !== null);
+  });
+}
+
+function onDzClick(insertAt) {
+  if (resolved || !selectedItemId || isChecking) return;
+  placeItem(selectedItemId, insertAt);
+}
+
+function clearSelections() { document.querySelectorAll('.item-card.selected').forEach(c => c.classList.remove('selected')); }
+
+// ===== GEMEINSAME PLATZIERUNGSLOGIK =====
+function placeItem(itemId, insertAt) {
+  placedOrder.splice(insertAt, 0, itemId);
+  selectedItemId = null;
+  clearSelections();
+  renderCompactScale();
+  if (gameMode === 'players') {
+    autoCheck(itemId, insertAt);
+  }
+}
+
+// ===== TOUCH DRAG =====
+function onPointerDown(e) {
+  if (resolved || isChecking) return;
+  if (e.pointerType !== 'touch') return;
+  const card = e.currentTarget;
+  const id = parseInt(card.dataset.id);
+  if (checkedItems.has(id)) return;
+  touchDragId = id;
+  hideTooltip();
+
+  dragGhost = card.cloneNode(true);
+  dragGhost.className = 'item-card drag-ghost';
+  dragGhost.style.width = '75px'; dragGhost.style.height = '75px';
+  document.body.appendChild(dragGhost);
+  moveGhost(e.clientX, e.clientY);
+  card.style.opacity = '0.3';
+
+  const onMove = ev => { ev.preventDefault(); moveGhost(ev.clientX, ev.clientY); };
+  const onUp = ev => {
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    if (dragGhost) { dragGhost.remove(); dragGhost = null; }
+    card.style.opacity = '1';
+
+    const dz = findNearestDropZone(ev.clientX, ev.clientY);
+    if (dz) {
+      placeItem(id, parseInt(dz.dataset.insertAt));
+    } else {
+      // Prüfen ob über Pool
+      const poolRect = document.getElementById('pool-grid').getBoundingClientRect();
+      if (ev.clientX >= poolRect.left && ev.clientX <= poolRect.right &&
+          ev.clientY >= poolRect.top && ev.clientY <= poolRect.bottom) {
+        const idx = placedOrder.indexOf(id);
+        if (idx >= 0) placedOrder.splice(idx, 1);
+        document.getElementById('pool-grid').appendChild(card);
+        renderCompactScale();
+      }
+    }
+    touchDragId = null;
+  };
+  document.addEventListener('pointermove', onMove, { passive: false });
+  document.addEventListener('pointerup', onUp);
+}
+function moveGhost(x, y) { if (dragGhost) { dragGhost.style.left = x + 'px'; dragGhost.style.top = y + 'px'; } }
+function findNearestDropZone(x, y) {
+  let nearest = null, minDist = Infinity;
+  document.querySelectorAll('.drop-zone').forEach(dz => {
+    const r = dz.getBoundingClientRect();
+    const cy = (r.top + r.bottom) / 2;
+    if (y >= r.top - 30 && y <= r.bottom + 30) {
+      const cx = (r.left + r.right) / 2;
+      const dist = Math.abs(x - cx);
+      if (dist < minDist) { minDist = dist; nearest = dz; }
+    }
+  });
+  return nearest;
+}
+
+// ===== PLAYER TURN SYSTEM =====
+function getActivePlayers() { return players.filter(p => p.lives > 0); }
+
+function startNewRound() {
+  roundLog = [];
+  pendingLosses = [];
+  roundTurnIdx = 0;
+  const active = getActivePlayers();
+  if (active.length === 0) { endGame(); return; }
+  if (active.length === 1 && players.length > 1) { showWinner(active[0]); return; }
+  let order = active.map(p => p.id);
+
+  if (isFirstRound) {
+    isFirstRound = false;
+    let startP = players.find(p => p.isStart && p.lives > 0);
+    if (!startP) {
+      startP = active[Math.floor(Math.random() * active.length)];
+      startP.isStart = true;
+    }
+    const startIdx = order.indexOf(startP.id);
+    if (startIdx > 0) order = order.slice(startIdx).concat(order.slice(0, startIdx));
+  }
+
+  roundPlayerOrder = order;
+  gameRoundNum++;
+  currentPlayerIdx = players.findIndex(p => p.id === roundPlayerOrder[0]);
+  isChecking = false;
+  updatePlayerBar();
+  setStatus(players[currentPlayerIdx].name + ' ist dran — Item platzieren!');
+}
+
+function autoCheck(itemId, insertPos) {
+  if (isChecking || resolved) return;
+  isChecking = true;
+
+  const { items } = window._gameData;
+  const currentItem = items.find(i => i.id === itemId);
+  const card = cardMap[itemId];
+  if (!card) { isChecking = false; return; }
+  const player = players[currentPlayerIdx];
+  const itemName = getItemName(itemId);
+
+  // Relative Prüfung gegen Nachbarn in placedOrder
+  let isCorrect = true;
+  if (insertPos > 0) {
+    const leftItem = items.find(i => i.id === placedOrder[insertPos - 1]);
+    if (leftItem && currentItem.value < leftItem.value) isCorrect = false;
+  }
+  if (insertPos < placedOrder.length - 1) {
+    const rightItem = items.find(i => i.id === placedOrder[insertPos + 1]);
+    if (rightItem && currentItem.value > rightItem.value) isCorrect = false;
+  }
+
+  if (isCorrect) {
+    card.querySelector('.card-value').classList.add('visible');
+    card.draggable = false;
+    card.classList.add('locked', 'correct');
+    checkedItems.add(itemId);
+    roundLog.push({ playerId: player.id, correct: true });
+    addLogEntry('correct', player.name, itemName + ' richtig platziert');
+    setStatus('Richtig! ' + itemName + ' ist korrekt platziert.');
+    updatePlayerBar();
+
+    setTimeout(() => {
+      isChecking = false;
+      renderCompactScale();
+      if (document.querySelectorAll('#pool-grid .item-card').length === 0) { endGame(); return; }
+      advanceToNext();
+    }, 1200);
+  } else {
+    card.classList.add('wrong');
+    player.lives--;
+    if (player.lives < 0) player.lives = 0;
+    pendingLosses.push(player.id);
+    let statusMsg = 'Falsch! ' + player.name + ' verliert ein Leben.';
+    if (player.lives <= 0) {
+      statusMsg = 'Falsch! ' + player.name + ' ist raus!';
+    } else {
+      statusMsg += ' (' + player.lives + ' übrig)';
+    }
+    roundLog.push({ playerId: player.id, correct: false });
+    addLogEntry('wrong', player.name, itemName + ' falsch — ' + (player.lives > 0 ? player.lives + ' Leben' : 'raus!'));
+    setStatus(statusMsg);
+    updatePlayerBar();
+
+    setTimeout(() => {
+      card.classList.remove('wrong');
+      const idx = placedOrder.indexOf(itemId);
+      if (idx >= 0) placedOrder.splice(idx, 1);
+      document.getElementById('pool-grid').appendChild(card);
+      isChecking = false;
+      renderCompactScale();
+      advanceToNext();
+    }, 1200);
+  }
+}
+
+function advanceToNext() {
+  roundTurnIdx++;
+  while (roundTurnIdx < roundPlayerOrder.length) {
+    const pid = roundPlayerOrder[roundTurnIdx];
+    const p = players.find(x => x.id === pid);
+    if (p && p.lives > 0) break;
+    roundTurnIdx++;
+  }
+
+  if (roundTurnIdx >= roundPlayerOrder.length) {
+    processRoundEnd();
+    startNewRound();
+    return;
+  }
+
+  currentPlayerIdx = players.findIndex(p => p.id === roundPlayerOrder[roundTurnIdx]);
+  updatePlayerBar();
+  setStatus(players[currentPlayerIdx].name + ' ist dran — Item platzieren!');
+}
+
+function processRoundEnd() {
+  if (pendingLosses.length > 0) {
+    const roundPlayers = roundPlayerOrder.map(id => players.find(p => p.id === id)).filter(Boolean);
+    const allOut = roundPlayers.every(p => p.lives <= 0);
+    if (allOut) {
+      pendingLosses.forEach(pid => {
+        const p = players.find(x => x.id === pid);
+        if (p) {
+          p.lives = Math.min(p.lives + 1, p.maxLives);
+          addLogEntry('info', p.name, 'Leben zurück (alle am Limit)');
+        }
+      });
+      setStatus('Alle am Limit — Leben werden zurückgegeben!');
+    }
+  }
+  pendingLosses = [];
+  updatePlayerBar();
+}
+
+function getItemName(id) {
+  const item = window._gameData.items.find(i => i.id === id);
+  return item ? item.name : '?';
+}
+
+function updatePlayerBar() {
+  const bar = document.getElementById('player-bar');
+  if (gameMode !== 'players') { bar.innerHTML = ''; return; }
+  bar.innerHTML = '';
+  players.forEach((p, idx) => {
+    const div = document.createElement('div');
+    div.className = 'p-card';
+    if (idx === currentPlayerIdx && !resolved) div.className += ' current';
+    if (p.lives <= 0) div.className += ' eliminated';
+    if (p.isStart) div.className += ' starter';
+
+    if (activeStreams[p.id]) {
+      const video = document.createElement('video');
+      video.className = 'p-thumb-video';
+      video.autoplay = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.srcObject = activeStreams[p.id];
+      div.appendChild(video);
+    } else {
+      const imgSrc = p.imageData || p.imageUrl;
+      if (imgSrc) {
+        const img = document.createElement('img');
+        img.className = 'p-thumb'; img.src = imgSrc;
+        div.appendChild(img);
+      } else {
+        const fb = document.createElement('div');
+        fb.className = 'p-thumb-fb';
+        fb.style.background = stringToColor(p.name);
+        fb.textContent = p.name.charAt(0).toUpperCase();
+        div.appendChild(fb);
+      }
+    }
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'p-name';
+    nameEl.textContent = p.name;
+    div.appendChild(nameEl);
+
+    const livesEl = document.createElement('div');
+    livesEl.className = 'p-lives';
+    let hearts = '';
+    for (let i = 0; i < p.maxLives; i++) {
+      hearts += i < p.lives ? '<span style="color:#ef4444">\u2665</span>' : '<span style="color:#555">\u2665</span>';
+    }
+    livesEl.innerHTML = hearts;
+    div.appendChild(livesEl);
+
+    bar.appendChild(div);
+  });
+}
+
+function setStatus(msg) { document.getElementById('game-status').textContent = msg; }
+
+function stopPlayerCams() {
+  Object.values(activeStreams).forEach(s => s.getTracks().forEach(t => t.stop()));
+  activeStreams = {};
+}
+
+// ===== GAME ACTIONS =====
+function resolveGame() {
+  if (resolved) return;
+  resolved = true;
+  const { items, sorted } = window._gameData;
+  const correctOrder = sorted.map(i => i.id);
+  let correct = 0;
+  const total = items.filter(e => !e.isRef).length;
+
+  // Platzierte Items prüfen
+  placedOrder.forEach((id, idx) => {
+    const card = cardMap[id];
+    if (!card) return;
+    card.querySelector('.card-value').classList.add('visible');
+    if (card.classList.contains('reference')) return;
+    if (correctOrder.indexOf(id) === idx) { card.classList.add('correct'); correct++; }
+    else { card.classList.add('wrong'); }
+  });
+
+  // Pool-Items sind falsch
+  document.querySelectorAll('#pool-grid .item-card').forEach(card => {
+    card.querySelector('.card-value').classList.add('visible');
+    card.classList.add('wrong');
+  });
+  renderCompactScale();
+  document.getElementById('score-display').textContent = 'Score: ' + correct + ' / ' + total;
+}
+
+function showSolution() {
+  resolved = true;
+  const { items, sorted } = window._gameData;
+
+  placedOrder = sorted.map(i => i.id);
+
+  items.forEach(item => {
+    const card = cardMap[item.id];
+    if (!card) return;
+    card.classList.remove('correct', 'wrong', 'selected');
+    card.querySelector('.card-value').classList.add('visible');
+    card.classList.add('correct');
+  });
+
+  document.getElementById('pool-grid').innerHTML = '';
+  renderCompactScale();
+  document.getElementById('score-display').textContent = 'Lösung angezeigt';
+}
+
+function addLogEntry(type, playerName, text) {
+  gameLog.push({ round: gameRoundNum, type: type, player: playerName, text: text });
+  renderGameLog();
+}
+
+function renderGameLog() {
+  const body = document.getElementById('game-log-body');
+  if (!body) return;
+  body.innerHTML = '';
+  gameLog.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    const cls = entry.type === 'correct' ? 'log-correct' : entry.type === 'wrong' ? 'log-wrong' : 'log-info';
+    div.innerHTML = '<span class="log-round">R' + entry.round + '</span>' +
+      (entry.player ? '<span class="log-player">' + entry.player + '</span>' : '') +
+      '<span class="' + cls + '">' + entry.text + '</span>';
+    body.appendChild(div);
+  });
+  body.scrollTop = body.scrollHeight;
+}
+
+function toggleGameLog() {
+  document.getElementById('game-log').classList.toggle('open');
+}
+
+function endGame() {
+  resolved = true;
+  Object.values(cardMap).forEach(card => { const v = card.querySelector('.card-value'); if (v) v.classList.add('visible'); });
+
+  if (gameMode === 'players') {
+    const alive = players.filter(p => p.lives > 0);
+    let msg;
+    if (alive.length === 0) {
+      msg = 'Spiel vorbei! Alle Spieler ausgeschieden!';
+    } else if (alive.length === 1) {
+      msg = 'Spiel vorbei! ' + alive[0].name + ' gewinnt mit ' + alive[0].lives + ' Leben!';
+    } else {
+      const maxLives = Math.max(...alive.map(p => p.lives));
+      const winners = alive.filter(p => p.lives === maxLives);
+      msg = 'Spiel vorbei! ' + winners.map(w => w.name).join(', ') + ' (' + maxLives + ' Leben)';
+    }
+    setStatus(msg);
+  }
+  updatePlayerBar();
+}
+
+function showWinner(player) {
+  resolved = true;
+  updatePlayerBar();
+  Object.values(cardMap).forEach(card => { const v = card.querySelector('.card-value'); if (v) v.classList.add('visible'); });
+
+  // Confetti
+  const confettiContainer = document.createElement('div');
+  confettiContainer.className = 'winner-confetti';
+  const colors = ['#f59e0b','#22c55e','#ef4444','#3b82f6','#a855f7','#ec4899','#14b8a6'];
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+    piece.style.animationDelay = (Math.random() * 2) + 's';
+    confettiContainer.appendChild(piece);
+  }
+  document.body.appendChild(confettiContainer);
+
+  // Overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'winner-overlay';
+  let hearts = '';
+  for (let i = 0; i < player.maxLives; i++) {
+    hearts += i < player.lives ? '<span style="color:#ef4444">\u2665</span>' : '<span style="color:#555">\u2665</span>';
+  }
+  overlay.innerHTML =
+    '<div class="winner-trophy">\uD83C\uDFC6</div>' +
+    '<div class="winner-name">' + player.name + '</div>' +
+    '<div class="winner-sub">hat gewonnen!</div>' +
+    '<div class="winner-lives">' + hearts + '</div>' +
+    '<button class="btn-close-winner" onclick="closeWinnerOverlay()">Weiter</button>';
+  document.body.appendChild(overlay);
+
+  setStatus(player.name + ' gewinnt!');
+}
+
+function closeWinnerOverlay() {
+  const overlay = document.querySelector('.winner-overlay');
+  const confetti = document.querySelector('.winner-confetti');
+  if (overlay) overlay.remove();
+  if (confetti) confetti.remove();
+}
+
+function resetGame() {
+  closeWinnerOverlay();
+  resolved = false;
+  selectedItemId = null;
+  checkedItems = new Set();
+  isChecking = false;
+  pendingLosses = [];
+  gameLog = [];
+  gameRoundNum = 0;
+  placedOrder = [];
+  document.getElementById('score-display').textContent = '';
+  document.getElementById('game-status').textContent = '';
+  renderGameLog();
+  const { items } = window._gameData;
+  buildGame(items);
+  if (players.length > 0) {
+    const livesPerPlayer = parseInt(document.getElementById('lives-input').value) || 3;
+    players.forEach(p => { p.lives = livesPerPlayer; p.maxLives = livesPerPlayer; });
+    isFirstRound = true;
+    startNewRound();
+  }
+}
+
+function backToSetup() {
+  stopPlayerCams();
+  document.getElementById('game').classList.remove('active');
+  document.getElementById('setup').classList.remove('hidden');
+}
+
+function toggleBurger() {
+  document.querySelector('.burger-btn').classList.toggle('open');
+  document.getElementById('burger-menu').classList.toggle('open');
+}
+function closeBurger() {
+  document.querySelector('.burger-btn').classList.remove('open');
+  document.getElementById('burger-menu').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.burger-wrapper')) closeBurger();
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+  else document.exitFullscreen();
+}
+
+// ===== UTILS =====
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+function stringToColor(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+  return 'hsl(' + (h % 360) + ', 55%, 35%)';
+}
+function formatNumber(n) { return Number(n).toLocaleString('de-DE'); }
+
+// ===== TOOLTIP =====
+const tooltip = document.createElement('div');
+tooltip.className = 'card-tooltip';
+document.body.appendChild(tooltip);
+
+function showTooltip(e) {
+  const card = e.currentTarget;
+  const id = parseInt(card.dataset.id);
+  const item = window._gameData && window._gameData.items.find(i => i.id === id);
+  if (!item) return;
+  const unit = document.getElementById('unit').value || '';
+  const valueVisible = card.querySelector('.card-value.visible');
+  let html = '<span class="tt-name">' + item.name + '</span>';
+  if (valueVisible) html += '<span class="tt-value">' + formatNumber(item.value) + (unit ? ' ' + unit : '') + '</span>';
+  tooltip.innerHTML = html;
+  tooltip.classList.add('visible');
+  positionTooltip(e);
+}
+function positionTooltip(e) {
+  tooltip.style.left = e.clientX + 'px';
+  tooltip.style.top = (e.clientY - 10) + 'px';
+}
+function hideTooltip() { tooltip.classList.remove('visible'); }
+
+// ===== TABS =====
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.tab-btn[onclick*="' + name + '"]').classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ===== DESIGN / THEMES =====
+const THEMES = [
+  { id: 'dark', name: 'Classic Dark', bg: '#000000', surface: '#1a1a1a', text: '#ffffff', accent: '#f59e0b', correct: '#22c55e', wrong: '#ef4444' },
+  { id: 'midnight', name: 'Midnight Blue', bg: '#0f172a', surface: '#1e293b', text: '#e2e8f0', accent: '#38bdf8', correct: '#34d399', wrong: '#f87171' },
+  { id: 'purple', name: 'Twitch Purple', bg: '#0e0b16', surface: '#1a1423', text: '#efeff1', accent: '#9146ff', correct: '#00e676', wrong: '#ff4081' },
+  { id: 'forest', name: 'Dark Forest', bg: '#0a1a0a', surface: '#142814', text: '#d4edda', accent: '#4caf50', correct: '#81c784', wrong: '#e57373' },
+  { id: 'sunset', name: 'Sunset', bg: '#1a0a0a', surface: '#2d1515', text: '#fde8e8', accent: '#ff6b35', correct: '#66bb6a', wrong: '#ef5350' },
+  { id: 'light', name: 'Hell', bg: '#f0f0f0', surface: '#ffffff', text: '#1a1a1a', accent: '#2563eb', correct: '#16a34a', wrong: '#dc2626' }
+];
+let currentTheme = THEMES[0];
+
+function renderThemeGrid() {
+  const grid = document.getElementById('theme-grid');
+  grid.innerHTML = '';
+  THEMES.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'theme-card' + (currentTheme.id === t.id ? ' active' : '');
+    card.style.background = t.surface;
+    card.style.color = t.text;
+    card.innerHTML = '<div class="theme-preview" style="background:linear-gradient(135deg,' + t.bg + ' 0%,' + t.accent + ' 100%)"></div><div class="theme-name">' + t.name + '</div>';
+    card.onclick = () => applyTheme(t);
+    grid.appendChild(card);
+  });
+}
+
+function applyTheme(theme) {
+  currentTheme = theme;
+  const r = document.documentElement.style;
+  r.setProperty('--bg', theme.bg);
+  r.setProperty('--surface', theme.surface);
+  r.setProperty('--text', theme.text);
+  r.setProperty('--accent', theme.accent);
+  r.setProperty('--correct', theme.correct);
+  r.setProperty('--wrong', theme.wrong);
+  document.getElementById('accent-color').value = theme.accent;
+  renderThemeGrid();
+}
+
+function applyCustomAccent(color) {
+  currentTheme = { ...currentTheme, id: 'custom', accent: color };
+  document.documentElement.style.setProperty('--accent', color);
+  renderThemeGrid();
+}
+
+function applyCardSize(size) {
+  document.documentElement.style.setProperty('--card-size', size + 'px');
+  document.getElementById('card-size-label').textContent = size + 'px';
+}
+
+// ===== INIT =====
+addEntry();
+addEntry();
+renderSavedTemplates();
+renderThemeGrid();
+</script>
+</body>
+</html>

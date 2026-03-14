@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Handyspiele — Downloads",
+    "topic": "Meistgeladene Handyspiele aller Zeiten",
+    "unit": "Mio. Downloads",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Subway Surfers", "value": 4500, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/a/a3/Subway_Surfers_logo.svg", "imageData": "", "isRef": false},
+      {"name": "Candy Crush Saga", "value": 3600, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/b/bc/Candy_Crush_logo.png", "imageData": "", "isRef": false},
+      {"name": "Free Fire", "value": 2000, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/3/38/Free_Fire_New_Logo.svg", "imageData": "", "isRef": false},
+      {"name": "PUBG Mobile", "value": 1750, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/4/44/PlayerUnknown%27s_Battlegrounds_Mobile.webp", "imageData": "", "isRef": false},
+      {"name": "Roblox", "value": 1480, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Roblox_%282025%29_%28App_Icon%29.svg", "imageData": "", "isRef": false},
+      {"name": "Ludo King", "value": 1400, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/c/cf/Ludo_King.png", "imageData": "", "isRef": false},
+      {"name": "My Talking Tom", "value": 1300, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Transparent_logo_of_My_Talking_Tom.png", "imageData": "", "isRef": false},
+      {"name": "8 Ball Pool", "value": 1300, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/0/0c/8_Ball_Pool_cover.jpg", "imageData": "", "isRef": false},
+      {"name": "Sniper 3D", "value": 1000, "imageUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/21/72/e3217218-466d-eb0e-8a31-a48e39efeb1e/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg", "imageData": "", "isRef": false},
+      {"name": "Temple Run 2", "value": 920, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/9/98/Temple_Run_2.png", "imageData": "", "isRef": false},
+      {"name": "My Talking Tom 2", "value": 920, "imageUrl": "https://play-lh.googleusercontent.com/Gx3X4s040rmHEVeNm_wgrFP0uVPjCH7RwMPRDzqUrdglZPh2A6QDjpEn-d9GO_SBxg=w240-h480-rw", "imageData": "", "isRef": false},
+      {"name": "Hill Climb Racing", "value": 912, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fb/HillClimbRacingLogoNew.png", "imageData": "", "isRef": false},
+      {"name": "Among Us", "value": 887, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/9/9a/Among_Us_cover_art.jpg", "imageData": "", "isRef": false},
+      {"name": "My Talking Angela", "value": 876, "imageUrl": "https://play-lh.googleusercontent.com/gLGRqUe6_jVV3qKCqdI0vKiCGtTcDCuijqiLrSQqO0yTYGlu3WxoRw7RxjrKM-Uf4SY=w240-h480-rw", "imageData": "", "isRef": false},
+      {"name": "Magic Tiles 3", "value": 862, "imageUrl": "https://play-lh.googleusercontent.com/u94NKpNjH1sBOiKHevX3_ATM-ozNHg6b186oU9GfnPnHwbdJ7RaeipkCRcVPdf1KRA=w240-h480-rw", "imageData": "", "isRef": false},
+      {"name": "Clash of Clans", "value": 804, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/5/59/Clash_of_Clans_Logo.png", "imageData": "", "isRef": false},
+      {"name": "Temple Run", "value": 775, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/c/c4/TempleRun.jpg", "imageData": "", "isRef": false},
+      {"name": "Traffic Rider", "value": 770, "imageUrl": "https://play-lh.googleusercontent.com/590AflDt-hW2t85Cit_ODJPJdRiMMRn2cSF0vYNfsBpjm895x1zDy0npbD7IlDCvmNvI=w240-h240", "imageData": "", "isRef": false},
+      {"name": "Block Blast", "value": 746, "imageUrl": "https://play-lh.googleusercontent.com/R0qgNDYYHbRhw6JFsdEbDMqONplEvJx0m0W9wzYVvY3eNF1c2rfBWYjQxW0sLEzFe1E=w240-h240", "imageData": "", "isRef": false},
+      {"name": "Mobile Legends", "value": 731, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/a/a0/Mobile_Legends_Bang_Bang_2025_logo.png", "imageData": "", "isRef": false},
+      {"name": "Gardenscapes", "value": 715, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/c/cd/Gardenscapes_icon.png", "imageData": "", "isRef": false},
+      {"name": "Clash Royale", "value": 710, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/b/b8/Clash_Royale_game_logo.png", "imageData": "", "isRef": false},
+      {"name": "Pokémon GO", "value": 704, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/0/0f/Pokemon_Go.svg", "imageData": "", "isRef": false},
+      {"name": "Talking Tom Gold Run", "value": 699, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Talking_Tom_Gold_Run_logo.svg", "imageData": "", "isRef": false},
+      {"name": "slither.io", "value": 694, "imageUrl": "https://upload.wikimedia.org/wikipedia/en/8/81/Slitherio.jpg", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Hauptstädte — Einwohnerzahl",
+    "topic": "Einwohnerzahl der größten Hauptstädte der Welt",
+    "unit": "Einwohner",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Peking (China)", "value": 21832000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Skyline_of_Beijing_CBD_from_the_southeast_%2820210907094201%29.jpg/500px-Skyline_of_Beijing_CBD_from_the_southeast_%2820210907094201%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Neu-Delhi (Indien)", "value": 21752000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Forecourt%2C_Rashtrapati_Bhavan_-_1.jpg/500px-Forecourt%2C_Rashtrapati_Bhavan_-_1.jpg", "imageData": "", "isRef": false},
+      {"name": "Kinshasa (Dem. Rep. Kongo)", "value": 17032000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/La_Gombe%2C_Kinshasa%2C_RDC_%28cropped%29.jpg/500px-La_Gombe%2C_Kinshasa%2C_RDC_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Tokio (Japan)", "value": 14196000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Skyscrapers_of_Shinjuku_2009_January.jpg/500px-Skyscrapers_of_Shinjuku_2009_January.jpg", "imageData": "", "isRef": false},
+      {"name": "Moskau (Russland)", "value": 13258000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Saint_Basil%27s_Cathedral_and_the_Red_Square.jpg/500px-Saint_Basil%27s_Cathedral_and_the_Red_Square.jpg", "imageData": "", "isRef": false},
+      {"name": "Jakarta (Indonesien)", "value": 11340000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Bundaran_Hotel_Indonesia_%282025%29.jpg/500px-Bundaran_Hotel_Indonesia_%282025%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Dhaka (Bangladesch)", "value": 10296000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Drone_view_from_Kamal_Atat%C3%BCrk_Avenue.jpg/500px-Drone_view_from_Kamal_Atat%C3%BCrk_Avenue.jpg", "imageData": "", "isRef": false},
+      {"name": "Kairo (Ägypten)", "value": 10200000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Cairo_Skyline_%282020%29.jpg/500px-Cairo_Skyline_%282020%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Lima (Peru)", "value": 9752000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Sanisidroskyscrapers.jpg/500px-Sanisidroskyscrapers.jpg", "imageData": "", "isRef": false},
+      {"name": "Seoul (Südkorea)", "value": 9579000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/%EC%A4%91%ED%99%94%EC%A0%84%EC%9D%98_%EB%82%AE.jpg/500px-%EC%A4%91%ED%99%94%EC%A0%84%EC%9D%98_%EB%82%AE.jpg", "imageData": "", "isRef": false},
+      {"name": "Mexiko-Stadt (Mexiko)", "value": 9210000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg/500px-Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "London (Vereinigtes Königreich)", "value": 9090000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/500px-London_Skyline_%28125508655%29.jpeg", "imageData": "", "isRef": false},
+      {"name": "Bagdad (Irak)", "value": 8780000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/5628442718_b10fc2c47f_o.jpg/500px-5628442718_b10fc2c47f_o.jpg", "imageData": "", "isRef": false},
+      {"name": "Teheran (Iran)", "value": 8694000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/North_of_Tehran_Skyline_view.jpg/500px-North_of_Tehran_Skyline_view.jpg", "imageData": "", "isRef": false},
+      {"name": "Hanoi (Vietnam)", "value": 8686000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Hanoi_skyline_with_Ba_Vi_Mountain.jpg/500px-Hanoi_skyline_with_Ba_Vi_Mountain.jpg", "imageData": "", "isRef": false},
+      {"name": "Bogotá (Kolumbien)", "value": 8035000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Bogota%2C_Colombia_%2836668708290%29.jpg/500px-Bogota%2C_Colombia_%2836668708290%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Riad (Saudi-Arabien)", "value": 7000000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Riyadh_Skyline.jpg/500px-Riyadh_Skyline.jpg", "imageData": "", "isRef": false},
+      {"name": "Singapur (Singapur)", "value": 6040000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Singapore_Merlion.jpg/500px-Singapore_Merlion.jpg", "imageData": "", "isRef": false},
+      {"name": "Ankara (Türkei)", "value": 5860000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Ankara_from_bus_station.jpg/500px-Ankara_from_bus_station.jpg", "imageData": "", "isRef": false},
+      {"name": "Bangkok (Thailand)", "value": 5455000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bangkok_Montage_2024_2.jpg/500px-Bangkok_Montage_2024_2.jpg", "imageData": "", "isRef": false},
+      {"name": "Nairobi (Kenia)", "value": 4828000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nairobi_skyline_from_Gem_Hotel.jpg/500px-Nairobi_skyline_from_Gem_Hotel.jpg", "imageData": "", "isRef": false},
+      {"name": "Kabul (Afghanistan)", "value": 4728000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Kabul%2C_Afghanistan_view.jpg/500px-Kabul%2C_Afghanistan_view.jpg", "imageData": "", "isRef": false},
+      {"name": "Berlin (Deutschland)", "value": 3897000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Blue_Hour_in_Berlin.jpg/500px-Blue_Hour_in_Berlin.jpg", "imageData": "", "isRef": false},
+      {"name": "Madrid (Spanien)", "value": 3422000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg/500px-Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg", "imageData": "", "isRef": false},
+      {"name": "Buenos Aires (Argentinien)", "value": 3085000, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Avenida_9_de_Julio%2C_Buenos_Aires_%2840089810910%29.jpg/500px-Avenida_9_de_Julio%2C_Buenos_Aires_%2840089810910%29.jpg", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

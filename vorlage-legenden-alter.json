@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Fußball-Legenden — Alter",
+    "topic": "Alter der größten Fußballer der letzten 30 Jahre",
+    "unit": "Jahre",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Paolo Maldini", "value": 57, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Paolo_Maldini_AC_Milan_Technical_director_2018.jpg/500px-Paolo_Maldini_AC_Milan_Technical_director_2018.jpg", "imageData": "", "isRef": false},
+      {"name": "Zinedine Zidane", "value": 53, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Zinedine_Zidane_by_Tasnim_03.jpg/500px-Zinedine_Zidane_by_Tasnim_03.jpg", "imageData": "", "isRef": false},
+      {"name": "Roberto Carlos", "value": 52, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/LS3_1288_%2853332367864%29_%28cropped%29.jpg/500px-LS3_1288_%2853332367864%29_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "David Beckham", "value": 50, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/David_Beckham_UNICEF_%28cropped2%29.jpg/500px-David_Beckham_UNICEF_%28cropped2%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Ronaldo (R9)", "value": 49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg/500px-Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Gianluigi Buffon", "value": 48, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Norway_Italy_-_June_2025_A_44_%28Gianluigi_Buffon%29.jpg/500px-Norway_Italy_-_June_2025_A_44_%28Gianluigi_Buffon%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Thierry Henry", "value": 48, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Thierry_Henry_%2851649035951%29_%28cropped%29.jpg/500px-Thierry_Henry_%2851649035951%29_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Frank Lampard", "value": 47, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Frank_Lampard_2019.jpg/330px-Frank_Lampard_2019.jpg", "imageData": "", "isRef": false},
+      {"name": "Andrea Pirlo", "value": 46, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg/330px-20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Xavi", "value": 46, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Xavi_Hern%C3%A1ndez_-_002_%28cropped%29.jpg/330px-Xavi_Hern%C3%A1ndez_-_002_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Ronaldinho", "value": 45, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ronaldinho_in_2019.jpg/500px-Ronaldinho_in_2019.jpg", "imageData": "", "isRef": false},
+      {"name": "Steven Gerrard", "value": 45, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Steven_Gerrard_2018.jpg/330px-Steven_Gerrard_2018.jpg", "imageData": "", "isRef": false},
+      {"name": "Zlatan Ibrahimović", "value": 44, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Zlatan_Ibrahimovi%C4%87_June_2018.jpg/330px-Zlatan_Ibrahimovi%C4%87_June_2018.jpg", "imageData": "", "isRef": false},
+      {"name": "Kaká", "value": 43, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Kak%C3%A1_visited_Stadium_St._Petersburg.jpg/500px-Kak%C3%A1_visited_Stadium_St._Petersburg.jpg", "imageData": "", "isRef": false},
+      {"name": "Philipp Lahm", "value": 42, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Philipp_Lahm_auf_der_Berlinale_2024%2C_Ausschnitt.jpg/500px-Philipp_Lahm_auf_der_Berlinale_2024%2C_Ausschnitt.jpg", "imageData": "", "isRef": false},
+      {"name": "Andrés Iniesta", "value": 41, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Andr%C3%A9s_Iniesta_%28cropped%29.jpg/500px-Andr%C3%A9s_Iniesta_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Cristiano Ronaldo", "value": 41, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Cristiano_Ronaldo_2275_%28cropped%29.jpg/500px-Cristiano_Ronaldo_2275_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Luka Modrić", "value": 40, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg/500px-Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Wayne Rooney", "value": 40, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Wayne_Rooney_%2850121495731%29_%28cropped%29.jpg/500px-Wayne_Rooney_%2850121495731%29_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Manuel Neuer", "value": 39, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg/500px-20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg", "imageData": "", "isRef": false},
+      {"name": "Sergio Ramos", "value": 39, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Sergio_Ramos_Interview_2021_%28cropped%29.jpg/330px-Sergio_Ramos_Interview_2021_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Lionel Messi", "value": 38, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178.jpg/500px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178.jpg", "imageData": "", "isRef": false},
+      {"name": "Robert Lewandowski", "value": 37, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg/500px-2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Neymar", "value": 34, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29.jpg/500px-Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Kylian Mbappé", "value": 27, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg/500px-Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

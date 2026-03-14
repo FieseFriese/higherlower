@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Schnellste Tiere der Welt",
+    "topic": "Höchstgeschwindigkeit der schnellsten Tiere",
+    "unit": "km/h",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Wanderfalke", "value": 389, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Falco_peregrinus_m_Humber_Bay_Park_Toronto.jpg/500px-Falco_peregrinus_m_Humber_Bay_Park_Toronto.jpg", "imageData": "", "isRef": false},
+      {"name": "Steinadler", "value": 320, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/015_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_%28Switzerland%29_Photo_by_Giles_Laurent.jpg/500px-015_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_%28Switzerland%29_Photo_by_Giles_Laurent.jpg", "imageData": "", "isRef": false},
+      {"name": "Gerfalke", "value": 209, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Falco_rusticolus_white_cropped.jpg/500px-Falco_rusticolus_white_cropped.jpg", "imageData": "", "isRef": false},
+      {"name": "Stachelschwanzsegler", "value": 170, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/White-throated_Needletail_0A2A6919.jpg/500px-White-throated_Needletail_0A2A6919.jpg", "imageData": "", "isRef": false},
+      {"name": "Bulldoggfledermaus", "value": 160, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Mexican_free-tailed_bat_%288006856842%29.jpg/500px-Mexican_free-tailed_bat_%288006856842%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Fregattvogel", "value": 153, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Male_Frigate_bird.jpg/500px-Male_Frigate_bird.jpg", "imageData": "", "isRef": false},
+      {"name": "Sakerfalke", "value": 150, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Falco_cherrug_%28Marek_Szczepanek%29.jpg/500px-Falco_cherrug_%28Marek_Szczepanek%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Schwarzer Marlin", "value": 129, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Maind_u0.gif/500px-Maind_u0.gif", "imageData": "", "isRef": false},
+      {"name": "Gepard", "value": 120, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Male_cheetah_facing_left_in_South_Africa.jpg/500px-Male_cheetah_facing_left_in_South_Africa.jpg", "imageData": "", "isRef": false},
+      {"name": "Segelfisch", "value": 110, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Naturalis_Biodiversity_Center_-_RMNH.ART.194_-_Istiophorus_platypterus_%28Shaw_and_Nodder%29_-_Kawahara_Keiga_-_1823_-_1829_-_Siebold_Collection_-_new_version.jpeg/500px-Naturalis_Biodiversity_Center_-_RMNH.ART.194_-_Istiophorus_platypterus_%28Shaw_and_Nodder%29_-_Kawahara_Keiga_-_1823_-_1829_-_Siebold_Collection_-_new_version.jpeg", "imageData": "", "isRef": false},
+      {"name": "Schwertfisch", "value": 100, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Xiphias_gladius_Linnaeus%2C_1758_2599925021.jpg/500px-Xiphias_gladius_Linnaeus%2C_1758_2599925021.jpg", "imageData": "", "isRef": false},
+      {"name": "Annakolibri", "value": 98, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Anna%27s_hummingbird.jpg/500px-Anna%27s_hummingbird.jpg", "imageData": "", "isRef": false},
+      {"name": "Gabelbock", "value": 88, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Antilocapra_americana.jpg/500px-Antilocapra_americana.jpg", "imageData": "", "isRef": false},
+      {"name": "Quarter Horse", "value": 88, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Applebite-Gentlemen.jpg/500px-Applebite-Gentlemen.jpg", "imageData": "", "isRef": false},
+      {"name": "Springbock", "value": 88, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/174_Male_Springbok_in_Etosha_National_Park_Photo_by_Giles_Laurent.jpg/500px-174_Male_Springbok_in_Etosha_National_Park_Photo_by_Giles_Laurent.jpg", "imageData": "", "isRef": false},
+      {"name": "Thomson-Gazelle", "value": 80, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Gacela_de_Thomson_%28Eudorcas_thomsonii%29%2C_parque_nacional_de_Amboseli%2C_Kenia%2C_2024-05-23%2C_DD_11.jpg/500px-Gacela_de_Thomson_%28Eudorcas_thomsonii%29%2C_parque_nacional_de_Amboseli%2C_Kenia%2C_2024-05-23%2C_DD_11.jpg", "imageData": "", "isRef": false},
+      {"name": "Gnu", "value": 80, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Blue_Wildebeest%2C_Ngorongoro.jpg/500px-Blue_Wildebeest%2C_Ngorongoro.jpg", "imageData": "", "isRef": false},
+      {"name": "Löwe", "value": 80, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg/500px-020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg", "imageData": "", "isRef": false},
+      {"name": "Wahoo", "value": 78, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Acanthocybium_solandri.png/500px-Acanthocybium_solandri.png", "imageData": "", "isRef": false},
+      {"name": "Makohai", "value": 74, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Shortfin_mako_%28Isurus_oxyrinchus%29.jpg/500px-Shortfin_mako_%28Isurus_oxyrinchus%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Windhund", "value": 74, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/GraceTheGreyhound.jpg/500px-GraceTheGreyhound.jpg", "imageData": "", "isRef": false},
+      {"name": "Strauß", "value": 70, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Struthio_Diversity.jpg/500px-Struthio_Diversity.jpg", "imageData": "", "isRef": false},
+      {"name": "Feldhase", "value": 70, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Lepus_europaeus_%28Causse_M%C3%A9jean%2C_Loz%C3%A8re%29-cropped.jpg/500px-Lepus_europaeus_%28Causse_M%C3%A9jean%2C_Loz%C3%A8re%29-cropped.jpg", "imageData": "", "isRef": false},
+      {"name": "Kojote", "value": 69, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/2009-Coyote-Yosemite.jpg/500px-2009-Coyote-Yosemite.jpg", "imageData": "", "isRef": false},
+      {"name": "Tüpfelhyäne", "value": 65, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Spotted_hyena_%28Crocuta_crocuta%29.jpg/500px-Spotted_hyena_%28Crocuta_crocuta%29.jpg", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

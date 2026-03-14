@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Lebensmittel — Preise",
+    "topic": "Was kostet es im Supermarkt?",
+    "unit": "€",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Mineralwasser (1,5L)", "value": 0.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Acqua_Panna_mineral_water_in_a_glass_bottle_-_20140408.jpg/500px-Acqua_Panna_mineral_water_in_a_glass_bottle_-_20140408.jpg", "imageData": "", "isRef": false},
+      {"name": "Mehl (1kg)", "value": 0.89, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/All-Purpose_Flour_%284107895947%29.jpg/500px-All-Purpose_Flour_%284107895947%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Bier (0,5L Flasche)", "value": 0.99, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Beer_wuerzburger_hofbraue_v.jpg/500px-Beer_wuerzburger_hofbraue_v.jpg", "imageData": "", "isRef": false},
+      {"name": "Bananen (1kg)", "value": 1.19, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Cavendish_Banana_DS.jpg/500px-Cavendish_Banana_DS.jpg", "imageData": "", "isRef": false},
+      {"name": "Milch (1L)", "value": 1.19, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Glass_of_Milk_%2833657535532%29.jpg/500px-Glass_of_Milk_%2833657535532%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Nudeln (500g)", "value": 1.29, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg/500px-%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Naturjoghurt (500g)", "value": 1.29, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Joghurt.jpg/500px-Joghurt.jpg", "imageData": "", "isRef": false},
+      {"name": "Schokolade (100g Tafel)", "value": 1.39, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Green_and_Black%27s_dark_chocolate_bar_2.jpg/500px-Green_and_Black%27s_dark_chocolate_bar_2.jpg", "imageData": "", "isRef": false},
+      {"name": "Butter (250g)", "value": 1.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/%C5%A0v%C3%A9dsk%C3%BD_kol%C3%A1%C4%8D_naruby_904_%28cropped%29.JPG/500px-%C5%A0v%C3%A9dsk%C3%BD_kol%C3%A1%C4%8D_naruby_904_%28cropped%29.JPG", "imageData": "", "isRef": false},
+      {"name": "Orangensaft (1L)", "value": 1.59, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Orangejuice.jpg/500px-Orangejuice.jpg", "imageData": "", "isRef": false},
+      {"name": "Gouda Käse (200g)", "value": 2.29, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Chesses_gouda_affinage.JPG/500px-Chesses_gouda_affinage.JPG", "imageData": "", "isRef": false},
+      {"name": "Kartoffeln (2kg)", "value": 2.29, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/500px-Patates.jpg", "imageData": "", "isRef": false},
+      {"name": "Reis (1kg)", "value": 2.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Rice_p1160004.jpg/500px-Rice_p1160004.jpg", "imageData": "", "isRef": false},
+      {"name": "Tomaten (1kg)", "value": 2.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/500px-Tomato_je.jpg", "imageData": "", "isRef": false},
+      {"name": "Eier (10er Packung)", "value": 2.89, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Chicken_eggs.jpg/500px-Chicken_eggs.jpg", "imageData": "", "isRef": false},
+      {"name": "Tiefkühlpizza", "value": 3.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Korb_mit_Br%C3%B6tchen.JPG/500px-Korb_mit_Br%C3%B6tchen.JPG", "imageData": "", "isRef": false},
+      {"name": "Nutella (450g)", "value": 3.79, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Nutella_ak.jpg/500px-Nutella_ak.jpg", "imageData": "", "isRef": false},
+      {"name": "Hackfleisch (500g)", "value": 3.99, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hackfleisch-1.jpg/500px-Hackfleisch-1.jpg", "imageData": "", "isRef": false},
+      {"name": "Lachs (200g)", "value": 4.99, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Raw_salmon_fillets.jpg/500px-Raw_salmon_fillets.jpg", "imageData": "", "isRef": false},
+      {"name": "Hähnchenbrust (500g)", "value": 5.49, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Raw_chicken_slices.jpg/500px-Raw_chicken_slices.jpg", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]
