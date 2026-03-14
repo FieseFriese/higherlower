@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Modegeschäfte in Deutschland",
+    "topic": "Anzahl der Filialen in Deutschland",
+    "unit": "Filialen",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "KiK", "value": 2500, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/KiK_shop_from_inside%2C_2014.jpg/500px-KiK_shop_from_inside%2C_2014.jpg", "imageData": "", "isRef": false},
+      {"name": "Ernsting's Family", "value": 1800, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Ernsting%27s_Family%2C_Leer_%282018%29.jpg/500px-Ernsting%27s_Family%2C_Leer_%282018%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Deichmann", "value": 1500, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Deichmann-Filiale_in_Essen_Limbecker_Platz.JPG/500px-Deichmann-Filiale_in_Essen_Limbecker_Platz.JPG", "imageData": "", "isRef": false},
+      {"name": "NKD", "value": 1100, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Bad_D%C3%BCrrheim_Shop_NKD.jpg/500px-Bad_D%C3%BCrrheim_Shop_NKD.jpg", "imageData": "", "isRef": false},
+      {"name": "Takko Fashion", "value": 830, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Takko_Fashion%2C_Hoogezand_%282019%29.jpg/500px-Takko_Fashion%2C_Hoogezand_%282019%29.jpg", "imageData": "", "isRef": false},
+      {"name": "H&M", "value": 380, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/H%26M_Arnhem.JPG/500px-H%26M_Arnhem.JPG", "imageData": "", "isRef": false},
+      {"name": "C&A", "value": 380, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/C%26A_Zutphen.JPG/500px-C%26A_Zutphen.JPG", "imageData": "", "isRef": false},
+      {"name": "New Yorker", "value": 270, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/NEW_YORKER_Filiale_Hirschstra%C3%9Fe_Ulm_160441.jpg/500px-NEW_YORKER_Filiale_Hirschstra%C3%9Fe_Ulm_160441.jpg", "imageData": "", "isRef": false},
+      {"name": "TK Maxx", "value": 182, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/TK_Maxx%2C_Belfast%2C_March_2010.JPG/500px-TK_Maxx%2C_Belfast%2C_March_2010.JPG", "imageData": "", "isRef": false},
+      {"name": "Orsay", "value": 150, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Orsay-Shop_in_Essen.jpg/500px-Orsay-Shop_in_Essen.jpg", "imageData": "", "isRef": false},
+      {"name": "s.Oliver", "value": 130, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/S.Oliver_Filiale_Senden_201930.jpg/500px-S.Oliver_Filiale_Senden_201930.jpg", "imageData": "", "isRef": false},
+      {"name": "Street One", "value": 100, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Paderborn_Rathausplatz_19_%281%29.jpg/500px-Paderborn_Rathausplatz_19_%281%29.jpg", "imageData": "", "isRef": false},
+      {"name": "Bonita", "value": 85, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Altstadt_86_Landshut.jpg/500px-Altstadt_86_Landshut.jpg", "imageData": "", "isRef": false},
+      {"name": "Marc O'Polo", "value": 80, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Marc_O%27_Polo_Shop.JPG/500px-Marc_O%27_Polo_Shop.JPG", "imageData": "", "isRef": false},
+      {"name": "Zara", "value": 70, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Zara_Oxford.JPG/500px-Zara_Oxford.JPG", "imageData": "", "isRef": false},
+      {"name": "Peek & Cloppenburg", "value": 65, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/20060516005DR_Dresden_Prager_Stra%C3%9Fe_Peek_%26_Cloppenburg.jpg/500px-20060516005DR_Dresden_Prager_Stra%C3%9Fe_Peek_%26_Cloppenburg.jpg", "imageData": "", "isRef": false},
+      {"name": "Gerry Weber", "value": 55, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Inside_Gerry-Weber-Store_Munich.jpg/500px-Inside_Gerry-Weber-Store_Munich.jpg", "imageData": "", "isRef": false},
+      {"name": "Hugo Boss", "value": 50, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Hugo_Boss_Shop_%28Barcelona%29.JPG/500px-Hugo_Boss_Shop_%28Barcelona%29.JPG", "imageData": "", "isRef": false},
+      {"name": "Tom Tailor", "value": 45, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Tom_Tailor_Shop.jpg/500px-Tom_Tailor_Shop.jpg", "imageData": "", "isRef": false},
+      {"name": "Reserved", "value": 40, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Corvin_Pl%C3%A1za_-_Reserved.jpg/500px-Corvin_Pl%C3%A1za_-_Reserved.jpg", "imageData": "", "isRef": false},
+      {"name": "Mango", "value": 35, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Mango_store_in_Barcelona.jpg/500px-Mango_store_in_Barcelona.jpg", "imageData": "", "isRef": false},
+      {"name": "Esprit", "value": 30, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Esprit_Bremen_Shop_1.JPG/500px-Esprit_Bremen_Shop_1.JPG", "imageData": "", "isRef": false},
+      {"name": "Primark", "value": 27, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Primark_Hainspitze_Leipzig.JPG/500px-Primark_Hainspitze_Leipzig.JPG", "imageData": "", "isRef": false},
+      {"name": "Breuninger", "value": 13, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Breuninger_Stammhaus%2C_Stuttgart%2C_Germany.JPG/500px-Breuninger_Stammhaus%2C_Stuttgart%2C_Germany.JPG", "imageData": "", "isRef": false},
+      {"name": "Uniqlo", "value": 12, "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/UNIQLO_Ginza_store.JPG/500px-UNIQLO_Ginza_store.JPG", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

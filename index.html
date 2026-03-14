@@ -375,6 +375,7 @@ let isFirstRound = true;
 let pendingLosses = []; // player IDs who lost a heart this round (for nachziehen)
 let gameLog = []; // persistent game log entries
 let gameRoundNum = 0; // current round number
+let basePlayerOrder = []; // fixed player order established in round 1
 let placedOrder = []; // item IDs left→right on compact scale
 let cardMap = {}; // id → DOM element
 let activeStreams = {}; // player id → MediaStream
@@ -840,8 +841,15 @@ function startGame() {
   selectedItemId = null;
   checkedItems = new Set();
   isChecking = false;
+  pendingLosses = [];
+  gameLog = [];
+  gameRoundNum = 0;
+  placedOrder = [];
+  closeWinnerOverlay();
+  players.forEach(p => p.isStart = false);
   document.getElementById('score-display').textContent = '';
   document.getElementById('game-status').textContent = '';
+  renderGameLog();
   document.getElementById('setup').classList.add('hidden');
   document.getElementById('game').classList.add('active');
 
@@ -1117,10 +1125,11 @@ function startNewRound() {
   const active = getActivePlayers();
   if (active.length === 0) { endGame(); return; }
   if (active.length === 1 && players.length > 1) { showWinner(active[0]); return; }
-  let order = active.map(p => p.id);
+  let order;
 
   if (isFirstRound) {
     isFirstRound = false;
+    order = active.map(p => p.id);
     let startP = players.find(p => p.isStart && p.lives > 0);
     if (!startP) {
       startP = active[Math.floor(Math.random() * active.length)];
@@ -1128,6 +1137,12 @@ function startNewRound() {
     }
     const startIdx = order.indexOf(startP.id);
     if (startIdx > 0) order = order.slice(startIdx).concat(order.slice(0, startIdx));
+    basePlayerOrder = order.slice();
+  } else {
+    order = basePlayerOrder.filter(id => {
+      const p = players.find(x => x.id === id);
+      return p && p.lives > 0;
+    });
   }
 
   roundPlayerOrder = order;
