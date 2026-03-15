@@ -846,7 +846,6 @@ function startGame() {
   gameRoundNum = 0;
   placedOrder = [];
   closeWinnerOverlay();
-  players.forEach(p => p.isStart = false);
   document.getElementById('score-display').textContent = '';
   document.getElementById('game-status').textContent = '';
   renderGameLog();
