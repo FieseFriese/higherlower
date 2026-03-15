@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Beste Fußballer – Rückennummern",
+    "topic": "Rückennummer der besten Fußballer der Welt (Saison 2025/26)",
+    "unit": "",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Lamine Yamal (FC Barcelona)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Erling Haaland (Manchester City)", "value": 9, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Jude Bellingham (Real Madrid)", "value": 5, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Kylian Mbappé (Real Madrid)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Bukayo Saka (Arsenal)", "value": 7, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Florian Wirtz (Liverpool)", "value": 7, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Désiré Doué (Paris Saint-Germain)", "value": 14, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "João Neves (Paris Saint-Germain)", "value": 87, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Arda Güler (Real Madrid)", "value": 15, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Pedri (FC Barcelona)", "value": 8, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Julián Álvarez (Atlético Madrid)", "value": 19, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Morgan Rogers (Aston Villa)", "value": 27, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Hugo Ekitike (Liverpool)", "value": 22, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Kenan Yıldız (Juventus Turin)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Nick Woltemade (Newcastle United)", "value": 27, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Estêvão (Chelsea)", "value": 41, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Cole Palmer (Chelsea)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Pau Cubarsí (FC Barcelona)", "value": 5, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Lautaro Martínez (Inter Mailand)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Dean Huijsen (Real Madrid)", "value": 24, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Enzo Fernández (Chelsea)", "value": 8, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Rayan Cherki (Manchester City)", "value": 10, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Ryan Gravenberch (Liverpool)", "value": 38, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "João Pedro (Chelsea)", "value": 20, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Cody Gakpo (Liverpool)", "value": 18, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Moisés Caicedo (Chelsea)", "value": 25, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "William Saliba (Arsenal)", "value": 2, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Joško Gvardiol (Manchester City)", "value": 24, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Alexander Isak (Liverpool)", "value": 9, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Viktor Gyökeres (Arsenal)", "value": 14, "imageUrl": "", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]
