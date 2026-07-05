@@ -505,7 +505,7 @@ function loadTemplate(key) {
   document.getElementById('topic').value = t.topic;
   document.getElementById('unit').value = t.unit;
   entries = t.entries.map(e => ({
-    id: entryIdCounter++, name: e.name, value: e.value,
+    id: entryIdCounter++, name: e.name, value: parseEntryValue(e.value),
     imageUrl: e.imageUrl || '', imageData: '', isRef: false
   }));
   renderEntries();
@@ -519,6 +519,19 @@ function addEntry() {
 function removeEntry(id) { entries = entries.filter(e => e.id !== id); renderEntries(); }
 function setRef(id) { entries.forEach(e => e.isRef = (e.id === id)); renderEntries(); }
 function updateEntry(id, field, value) { const e = entries.find(x => x.id === id); if (e) e[field] = value; }
+
+function parseEntryValue(value) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : '';
+  if (value === null || value === undefined) return '';
+  const trimmed = String(value).trim();
+  if (trimmed === '') return '';
+  const parsed = Number(trimmed.replace(',', '.'));
+  return Number.isFinite(parsed) ? parsed : '';
+}
+
+function hasEntryValue(value) {
+  return typeof parseEntryValue(value) === 'number';
+}
 
 function resizeImage(file, maxSize, callback) {
   const reader = new FileReader();
@@ -557,7 +570,7 @@ function renderEntries() {
     const imgSrc = e.imageData || e.imageUrl;
     div.innerHTML = `
       <input type="text" placeholder="Name" value="${esc(e.name)}" oninput="updateEntry(${e.id},'name',this.value)">
-      <input type="number" placeholder="Wert" value="${e.value}" oninput="updateEntry(${e.id},'value',parseFloat(this.value)||'')">
+      <input type="number" placeholder="Wert" value="${e.value}" oninput="updateEntry(${e.id},'value',parseEntryValue(this.value))">
       <div class="img-section">
         <input type="url" placeholder="Bild-URL" value="${esc(e.imageUrl)}" style="width:120px"
           oninput="updateEntry(${e.id},'imageUrl',this.value);updatePreview(${e.id},this.value)">
@@ -683,7 +696,7 @@ function syncFromDOM() {
     if (!entries[i]) return;
     const inputs = card.querySelectorAll('input');
     entries[i].name = inputs[0].value;
-    entries[i].value = parseFloat(inputs[1].value) || 0;
+    entries[i].value = parseEntryValue(inputs[1].value);
     if (inputs[2].value && !entries[i].imageData) entries[i].imageUrl = inputs[2].value;
   });
   const pcards = document.querySelectorAll('#players-list .entry-card');
@@ -735,7 +748,7 @@ function loadSavedTemplate(index) {
   document.getElementById('lives-input').value = t.livesPerPlayer || 3;
   entryIdCounter = 0;
   entries = (t.entries || []).map(e => ({
-    id: entryIdCounter++, name: e.name, value: e.value,
+    id: entryIdCounter++, name: e.name, value: parseEntryValue(e.value),
     imageUrl: e.imageUrl || '', imageData: e.imageData || '', isRef: e.isRef || false
   }));
   renderEntries();
@@ -820,9 +833,13 @@ function importTemplates(file) {
 function startGame() {
   syncFromDOM();
 
-  const valid = entries.filter(e => e.name && e.value !== '' && e.value !== 0);
+  const valid = entries.filter(e => e.name.trim() && hasEntryValue(e.value));
   const msg = document.getElementById('validation-msg');
   if (valid.length < 2) { msg.textContent = 'Mindestens 2 vollständige Einträge benötigt.'; return; }
+  valid.forEach(e => {
+    e.name = e.name.trim();
+    e.value = parseEntryValue(e.value);
+  });
 
   // Ref: wenn keine gewählt, zufällig
   let ref = valid.find(e => e.isRef);
@@ -1039,7 +1056,7 @@ function onItemClick(e) {
 }
 
 function onDzClick(insertAt) {
-  if (resolved || !selectedItemId || isChecking) return;
+  if (resolved || selectedItemId === null || isChecking) return;
   placeItem(selectedItemId, insertAt);
 }
 
@@ -1047,12 +1064,18 @@ function clearSelections() { document.querySelectorAll('.item-card.selected').fo
 
 // ===== GEMEINSAME PLATZIERUNGSLOGIK =====
 function placeItem(itemId, insertAt) {
-  placedOrder.splice(insertAt, 0, itemId);
+  const existingIdx = placedOrder.indexOf(itemId);
+  if (existingIdx >= 0) {
+    placedOrder.splice(existingIdx, 1);
+    if (existingIdx < insertAt) insertAt--;
+  }
+  const targetIndex = Math.max(0, Math.min(insertAt, placedOrder.length));
+  placedOrder.splice(targetIndex, 0, itemId);
   selectedItemId = null;
   clearSelections();
   renderCompactScale();
   if (gameMode === 'players') {
-    autoCheck(itemId, insertAt);
+    autoCheck(itemId, targetIndex);
   }
 }
 
@@ -1325,8 +1348,8 @@ function stopPlayerCams() {
 function resolveGame() {
   if (resolved) return;
   resolved = true;
-  const { items, sorted } = window._gameData;
-  const correctOrder = sorted.map(i => i.id);
+  const { items } = window._gameData;
+  const itemsById = new Map(items.map(item => [item.id, item]));
   let correct = 0;
   const total = items.filter(e => !e.isRef).length;
 
@@ -1336,7 +1359,7 @@ function resolveGame() {
     if (!card) return;
     card.querySelector('.card-value').classList.add('visible');
     if (card.classList.contains('reference')) return;
-    if (correctOrder.indexOf(id) === idx) { card.classList.add('correct'); correct++; }
+    if (isCorrectRelativePosition(id, idx, placedOrder, itemsById)) { card.classList.add('correct'); correct++; }
     else { card.classList.add('wrong'); }
   });
 
@@ -1347,6 +1370,20 @@ function resolveGame() {
   });
   renderCompactScale();
   document.getElementById('score-display').textContent = 'Score: ' + correct + ' / ' + total;
+}
+
+function isCorrectRelativePosition(itemId, itemIndex, order, itemsById) {
+  const item = itemsById.get(itemId);
+  if (!item) return false;
+  for (let i = 0; i < itemIndex; i++) {
+    const leftItem = itemsById.get(order[i]);
+    if (leftItem && leftItem.value > item.value) return false;
+  }
+  for (let i = itemIndex + 1; i < order.length; i++) {
+    const rightItem = itemsById.get(order[i]);
+    if (rightItem && rightItem.value < item.value) return false;
+  }
+  return true;
 }
 
 function showSolution() {

@@ -31,6 +31,8 @@ Im Repository befinden sich weitere Vorlagen als JSON-Dateien:
 - `vorlage-hauptstaedte-einwohner.json` — 25 Hauptstaedte nach Einwohnerzahl
 - `vorlage-lebensmittel-preise.json` — 20 Lebensmittel nach Supermarkt-Preis
 - `vorlage-legenden-alter.json` — 25 Fussball-Legenden nach Alter
+- `vorlage-fussballer-rueckennummern.json` — Beste Fussballer nach Rueckennummer
+- `vorlage-modegeschaefte-filialen.json` — Modegeschaefte nach Filialanzahl in Deutschland
 - `vorlage-schnellste-tiere.json` — 25 schnellste Tiere der Welt nach km/h
 
 Diese koennen ueber den **Importieren**-Button im Vorlagen-Tab geladen werden.
