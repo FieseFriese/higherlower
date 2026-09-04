@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Teuerste Transfers deutscher Spieler",
+    "topic": "Teuerste Transfers deutscher Spieler aller Zeiten (feste Ablöse, Stand September 2026)",
+    "unit": "Mio. €",
+    "livesPerPlayer": 3,
+    "entries": [
+      {"name": "Florian Wirtz — Bayer Leverkusen → FC Liverpool (2025)", "value": 117.5, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Kai Havertz — Bayer Leverkusen → FC Chelsea (2020)", "value": 80, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Nick Woltemade — VfB Stuttgart → Newcastle United (2025)", "value": 75, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Kai Havertz — FC Chelsea → FC Arsenal (2023)", "value": 75, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Timo Werner — RB Leipzig → FC Chelsea (2020)", "value": 53, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Leroy Sané — FC Schalke 04 → Manchester City (2016)", "value": 52, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Leroy Sané — Manchester City → FC Bayern München (2020)", "value": 49, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Mesut Özil — Real Madrid → FC Arsenal (2013)", "value": 47, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Julian Draxler — FC Schalke 04 → VfL Wolfsburg (2015)", "value": 43, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Shkodran Mustafi — FC Valencia → FC Arsenal (2016)", "value": 41, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Mario Götze — Borussia Dortmund → FC Bayern München (2013)", "value": 37, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Thilo Kehrer — FC Schalke 04 → Paris Saint-Germain (2018)", "value": 37, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Julian Draxler — VfL Wolfsburg → Paris Saint-Germain (2017)", "value": 36, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Mats Hummels — Borussia Dortmund → FC Bayern München (2016)", "value": 35, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Antonio Rüdiger — AS Rom → FC Chelsea (2017)", "value": 35, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Malick Thiaw — AC Mailand → Newcastle United (2025)", "value": 35, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "André Schürrle — FC Chelsea → VfL Wolfsburg (2015)", "value": 32, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Kerem Demirbay — TSG Hoffenheim → Bayer Leverkusen (2019)", "value": 32, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "André Schürrle — VfL Wolfsburg → Borussia Dortmund (2016)", "value": 30, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Karim Adeyemi — RB Salzburg → Borussia Dortmund (2022)", "value": 30, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Felix Nmecha — VfL Wolfsburg → Borussia Dortmund (2023)", "value": 30, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Maximilian Beier — TSG Hoffenheim → Borussia Dortmund (2024)", "value": 28.5, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "İlkay Gündoğan — Borussia Dortmund → Manchester City (2016)", "value": 27, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Niclas Füllkrug — Borussia Dortmund → West Ham United (2024)", "value": 27, "imageUrl": "", "imageData": "", "isRef": false},
+      {"name": "Deniz Undav — Brighton & Hove Albion → VfB Stuttgart (2024)", "value": 26.7, "imageUrl": "", "imageData": "", "isRef": false}
+    ],
+    "players": []
+  }
+]

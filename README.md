@@ -28,12 +28,14 @@ Ein interaktives Quiz-Spiel, bei dem Spieler Karten nach einem Wert (z.B. Marktw
 Im Repository befinden sich weitere Vorlagen als JSON-Dateien:
 
 - `vorlage-handyspiele-downloads.json` — Top 25 Handyspiele nach Downloads
+- `vorlage-hoechste-gebaeude.json` — Top 20 hoechste Gebaeude der Welt nach architektonischer Hoehe
 - `vorlage-hauptstaedte-einwohner.json` — 25 Hauptstaedte nach Einwohnerzahl
 - `vorlage-lebensmittel-preise.json` — 20 Lebensmittel nach Supermarkt-Preis
 - `vorlage-legenden-alter.json` — 25 Fussball-Legenden nach Alter
 - `vorlage-fussballer-rueckennummern.json` — Beste Fussballer nach Rueckennummer
 - `vorlage-modegeschaefte-filialen.json` — Modegeschaefte nach Filialanzahl in Deutschland
 - `vorlage-schnellste-tiere.json` — 25 schnellste Tiere der Welt nach km/h
+- `vorlage-teuerste-transfers-deutscher-spieler.json` — Top 25 Transfers deutscher Spieler nach fester Abloesesumme
 
 Diese koennen ueber den **Importieren**-Button im Vorlagen-Tab geladen werden.
 
