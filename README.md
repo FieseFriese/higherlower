@@ -2,11 +2,18 @@
 
 Ein interaktives Quiz-Spiel, bei dem Spieler Karten nach einem Wert (z.B. Marktwert, Alter, Geschwindigkeit) auf einer Skala von niedrig nach hoch einordnen müssen.
 
+Die Web-App funktioniert ohne Anmeldung. Spielname, eigene Vorlagen und Einstellungen werden lokal im jeweiligen Browser gespeichert.
+
+## Online spielen
+
+[Higher or Lower starten](https://higher-lower-spiel.henry-friesen50650.chatgpt.site)
+
 ## Features
 
 - **Drag & Drop** — Karten per Maus oder Touch auf die Skala ziehen
 - **Mehrspieler-Modus** — Beliebig viele Spieler mit Lebens-System, Nachzieh-Mechanik und Gewinner-Animation
 - **Vorlagen-System** — Eingebaute und eigene Vorlagen, Import/Export als JSON
+- **Spielname** — Jede Runde kann einen eigenen Namen bekommen
 - **Bilder-Support** — Bild-URLs oder Datei-Upload (automatisch komprimiert)
 - **6 Themes** — Dark, Midnight Blue, Twitch Purple, Dark Forest, Sunset, Hell
 - **Spiellog** — Nachverfolgung aller Züge pro Runde

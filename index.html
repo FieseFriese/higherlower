@@ -4,30 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Higher or Lower</title>
+<meta name="description" content="Higher or Lower direkt im Browser spielen – ohne Anmeldung, mit eigenen Spielern, Kategorien und Vorlagen.">
 <style>
-:root{--bg:#000;--surface:#1a1a1a;--text:#fff;--accent:#f59e0b;--correct:#22c55e;--wrong:#ef4444}
+:root{--bg:#070b12;--surface:#111827;--surface-2:#182235;--text:#f8fafc;--muted:#9ca3af;--accent:#f59e0b;--correct:#22c55e;--wrong:#ef4444}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:radial-gradient(circle at 50% -15%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 34rem),var(--bg);color:var(--text);font-family:Inter,'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
 
 /* ===== SETUP SCREEN ===== */
-#setup{max-width:900px;margin:0 auto;padding:20px}
-#setup h1{text-align:center;font-style:italic;font-size:2.5rem;margin-bottom:8px}
-#setup .subtitle{text-align:center;color:#aaa;margin-bottom:24px;font-size:1rem}
+#setup{max-width:980px;margin:0 auto;padding:36px 24px 48px}
+.setup-header{text-align:center;margin:0 auto 28px;max-width:720px}
+.brand-mark{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--accent);color:#080b10;font-size:1.7rem;font-weight:900;box-shadow:0 12px 34px color-mix(in srgb,var(--accent) 25%,transparent);margin-bottom:14px}
+.eyebrow{color:var(--accent);font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+#setup h1{text-align:center;font-style:italic;font-size:clamp(2.35rem,7vw,4rem);line-height:1;margin-bottom:12px;letter-spacing:-.05em}
+#setup .subtitle{text-align:center;color:var(--muted);margin-bottom:14px;font-size:1.02rem;line-height:1.55}
+.privacy-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid color-mix(in srgb,var(--correct) 45%,transparent);background:color-mix(in srgb,var(--correct) 9%,transparent);color:#86efac;padding:7px 12px;border-radius:999px;font-size:.88rem;font-weight:650}
+.tab-shell{background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid #263247;border-radius:18px;padding:8px;box-shadow:0 22px 65px rgba(0,0,0,.28);backdrop-filter:blur(14px)}
 .form-row{display:flex;gap:12px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
-.form-row label{min-width:80px;font-weight:600}
-.form-row input{flex:1;padding:8px 12px;border-radius:6px;border:1px solid #555;background:#1a1a1a;color:#fff;font-size:1rem}
+.form-row label{min-width:110px;font-weight:700;color:#dbe3ef}
+.form-row input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid #36445b;background:#0b1220;color:var(--text);font-size:1rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.panel-title{font-size:1.35rem;margin-bottom:6px}
+.panel-intro{color:var(--muted);line-height:1.5;margin-bottom:22px}
+.quickstart{margin:24px 0 26px;padding-top:22px;border-top:1px solid #29354a}
+.quickstart-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:13px}
+.quickstart-head h3{font-size:1rem}
+.quickstart-head span{color:var(--muted);font-size:.88rem}
 .templates{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
-.templates button{padding:8px 16px;border-radius:20px;border:1px solid #666;background:#222;color:#fff;cursor:pointer;font-size:.9rem;transition:background .2s}
-.templates button:hover{background:#444}
+.templates button{padding:10px 15px;border-radius:999px;border:1px solid #3a475d;background:#162033;color:var(--text);cursor:pointer;font-size:.9rem;font-weight:650;transition:background .2s,border-color .2s,transform .15s}
+.templates button:hover{background:#202d43;border-color:var(--accent);transform:translateY(-1px)}
+.templates button.featured{background:var(--accent);border-color:var(--accent);color:#0b0d12}
+.templates button.featured:hover{background:color-mix(in srgb,var(--accent) 88%,white)}
 
 .entries-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .entries-header h2{font-size:1.3rem}
-.btn{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-size:.95rem;font-weight:600;transition:background .2s,transform .1s}
+.btn{padding:9px 18px;border-radius:9px;border:none;cursor:pointer;font-size:.95rem;font-weight:700;transition:background .2s,transform .1s}
 .btn:active{transform:scale(.97)}
 .btn-add{background:#2563eb;color:#fff}
 .btn-add:hover{background:#1d4ed8}
-.btn-start{background:#16a34a;color:#fff;font-size:1.1rem;padding:12px 32px;display:block;margin:24px auto 0}
-.btn-start:hover{background:#15803d}
+.btn-start{background:var(--accent);color:#0b0d12;font-size:1.05rem;padding:13px 30px;display:block;margin:24px auto 0;box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 22%,transparent)}
+.btn-start:hover{background:color-mix(in srgb,var(--accent) 88%,white)}
 .btn-start:disabled{background:#555;cursor:not-allowed}
 .btn-remove{background:#dc2626;color:#fff;padding:4px 10px;font-size:.8rem;border-radius:4px}
 .btn-remove:hover{background:#b91c1c}
@@ -42,14 +57,14 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .ref-label{display:flex;align-items:center;gap:4px;font-size:.8rem;white-space:nowrap;cursor:pointer}
 .ref-label input{accent-color:var(--accent)}
 /* Tabs */
-.tab-bar{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #333}
-.tab-btn{padding:10px 20px;border:none;background:transparent;color:#888;cursor:pointer;font-size:1rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
+.tab-bar{display:flex;gap:5px;margin-bottom:0;padding:2px;overflow-x:auto;border-bottom:1px solid #29354a}
+.tab-btn{padding:11px 16px;border:none;border-radius:10px;background:transparent;color:#8f9bad;cursor:pointer;font-size:.95rem;font-weight:700;white-space:nowrap;transition:color .2s,background .2s}
 .tab-btn:hover{color:#ccc}
-.tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
+.tab-btn.active{color:#0b0d12;background:var(--accent)}
 .tab-panel{display:none}
-.tab-panel.active{display:block}
+.tab-panel.active{display:block;padding:28px 24px 20px}
 
-.setup-footer{margin-top:24px;border-top:1px solid #333;padding-top:16px}
+.setup-footer{margin-top:18px;border:1px solid #263247;background:color-mix(in srgb,var(--surface) 92%,transparent);border-radius:16px;padding:16px;box-shadow:0 16px 45px rgba(0,0,0,.2)}
 .setup-actions{display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap}
 .setup-actions .btn-start{margin:0}
 .validation-msg{text-align:center;color:#f87171;margin-bottom:8px;min-height:20px}
@@ -80,7 +95,8 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 #setup.hidden{display:none}
 
 .game-header{text-align:center;margin-bottom:4px}
-.game-header h1{font-style:italic;font-size:2.2rem;margin-bottom:2px}
+.game-header .game-kicker{color:var(--accent);font-size:.72rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase;margin-bottom:3px}
+.game-header h1{font-style:italic;font-size:clamp(1.7rem,4vw,2.5rem);margin-bottom:3px}
 .game-header .cat-line{color:#ccc;font-size:1.1rem}
 
 /* Player bar — am unteren Bildrand */
@@ -193,6 +209,12 @@ body.fullscreen #game{height:100vh}
 @keyframes confettiFall{to{top:110vh;transform:rotateZ(720deg)}}
 
 @media(max-width:700px){
+  #setup{padding:22px 12px 34px}
+  .tab-shell{border-radius:14px}
+  .tab-panel.active{padding:22px 14px 14px}
+  .form-row{align-items:stretch}
+  .form-row label{width:100%;min-width:0}
+  .quickstart-head{align-items:flex-start;flex-direction:column;gap:4px}
   .entry-card{grid-template-columns:1fr;gap:6px}
   .scale-area{padding:10px 10px}
   .compact-scale{margin:0 5px;transform:translateY(-45px)}
@@ -208,19 +230,31 @@ body.fullscreen #game{height:100vh}
 
 <!-- ===== SETUP SCREEN ===== -->
 <div id="setup">
-  <h1>Higher or Lower</h1>
-  <p class="subtitle">Konfiguriere dein eigenes Quiz — jedes Thema, jede Kategorie!</p>
+  <header class="setup-header">
+    <div class="brand-mark" aria-hidden="true">↕</div>
+    <p class="eyebrow">Direkt losspielen</p>
+    <h1>Higher or Lower</h1>
+    <p class="subtitle">Spiel benennen, Vorlage wählen und starten. Für eigene Runden kannst du Spieler, Karten und Design jederzeit anpassen.</p>
+    <span class="privacy-pill">● Ohne Login · im Browser gespeichert</span>
+  </header>
 
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('allgemein')">Allgemein</button>
-    <button class="tab-btn" onclick="switchTab('spieler')">Spieler</button>
-    <button class="tab-btn" onclick="switchTab('eintraege')">Einträge</button>
-    <button class="tab-btn" onclick="switchTab('vorlagen')">Vorlagen</button>
-    <button class="tab-btn" onclick="switchTab('design')">Design</button>
-  </div>
+  <div class="tab-shell">
+    <div class="tab-bar" role="tablist" aria-label="Spiel konfigurieren">
+      <button class="tab-btn active" onclick="switchTab('allgemein')">Start</button>
+      <button class="tab-btn" onclick="switchTab('spieler')">Mitspieler</button>
+      <button class="tab-btn" onclick="switchTab('eintraege')">Karten</button>
+      <button class="tab-btn" onclick="switchTab('vorlagen')">Meine Vorlagen</button>
+      <button class="tab-btn" onclick="switchTab('design')">Design</button>
+    </div>
 
   <!-- TAB: Allgemein -->
   <div class="tab-panel active" id="tab-allgemein">
+    <h2 class="panel-title">Dein Spiel</h2>
+    <p class="panel-intro">Die Transfer-Vorlage ist schon geladen. Du kannst direkt starten oder ein anderes Thema wählen.</p>
+    <div class="form-row">
+      <label for="game-name">Spielname</label>
+      <input type="text" id="game-name" maxlength="60" placeholder="z. B. Fußballabend bei Jan">
+    </div>
     <div class="form-row">
       <label for="topic">Thema</label>
       <input type="text" id="topic" placeholder="z.B. Fläche von Kontinenten, Stadionkapazität…">
@@ -228,6 +262,21 @@ body.fullscreen #game{height:100vh}
     <div class="form-row">
       <label for="unit">Einheit</label>
       <input type="text" id="unit" placeholder="z.B. km², Zuschauer, Millionen Touristen…">
+    </div>
+    <div class="quickstart">
+      <div class="quickstart-head">
+        <h3>Schnellstart-Vorlage</h3>
+        <span>Ein Klick ersetzt Thema und Karten</span>
+      </div>
+      <div class="templates">
+        <button class="featured" onclick="loadTemplate('transfers')">Teuerste deutsche Transfers</button>
+        <button onclick="loadTemplate('stadion')">Stadionkapazität</button>
+        <button onclick="loadTemplate('stadt')">Deutsche Städte</button>
+        <button onclick="loadTemplate('streamer')">Twitch-Streamer</button>
+        <button onclick="loadTemplate('fussballer')">Fußball-Marktwerte</button>
+        <button onclick="loadTemplate('legenden')">Legenden-Alter</button>
+        <button onclick="loadTemplate('leer')">Eigenes Thema</button>
+      </div>
     </div>
   </div>
 
@@ -255,16 +304,7 @@ body.fullscreen #game{height:100vh}
 
   <!-- TAB: Vorlagen -->
   <div class="tab-panel" id="tab-vorlagen">
-    <h3 style="margin-bottom:8px">Schnellstart</h3>
-    <div class="templates">
-      <button onclick="loadTemplate('stadion')">Stadionkapazität</button>
-      <button onclick="loadTemplate('stadt')">Einwohnerzahl Städte</button>
-      <button onclick="loadTemplate('streamer')">Deutsche Twitch-Streamer</button>
-      <button onclick="loadTemplate('fussballer')">Marktwert Fußballer</button>
-      <button onclick="loadTemplate('legenden')">Legenden — Alter</button>
-      <button onclick="loadTemplate('leer')">Leer</button>
-    </div>
-    <h3 style="margin-bottom:8px;margin-top:16px">Gespeicherte Vorlagen</h3>
+    <h3 style="margin-bottom:8px">Gespeicherte Vorlagen</h3>
     <p style="color:#888;font-size:.85rem;margin-bottom:10px">Vorlagen werden im Browser (localStorage) gespeichert. Nutze Export/Import um sie dauerhaft zu sichern oder auf andere Geräte zu übertragen.</p>
     <div id="saved-templates" style="margin-bottom:16px"></div>
     <h3 style="margin-bottom:8px;margin-top:16px">Export / Import</h3>
@@ -291,6 +331,7 @@ body.fullscreen #game{height:100vh}
       <span id="card-size-label">75px</span>
     </div>
   </div>
+  </div>
 
   <!-- Immer sichtbar -->
   <div class="setup-footer">
@@ -305,7 +346,8 @@ body.fullscreen #game{height:100vh}
 <!-- ===== GAME SCREEN ===== -->
 <div id="game">
   <div class="game-header">
-    <h1>Higher or Lower</h1>
+    <div class="game-kicker">Higher or Lower</div>
+    <h1 id="game-title-display">Higher or Lower</h1>
     <div class="cat-line" id="cat-line"></div>
   </div>
 
@@ -455,6 +497,37 @@ const TEMPLATES = {
       {name:'Morgan Rogers',value:80,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/503743-1706786450.jpg?lm=1'},
       {name:'Phil Foden',value:80,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/406635-1668524492.jpg?lm=1'},
       {name:'Sandro Tonali',value:75,imageUrl:'https://img.a.transfermarkt.technology/portrait/big/397033-1688389270.jpg?lm=1'}
+    ]
+  },
+  transfers: {
+    topic: 'Teuerste Transfers deutscher Spieler (feste Ablöse)',
+    unit: 'Mio. €',
+    entries: [
+      {name:'Florian Wirtz — Leverkusen → Liverpool (2025)',value:117.5},
+      {name:'Kai Havertz — Leverkusen → Chelsea (2020)',value:80},
+      {name:'Nick Woltemade — Stuttgart → Newcastle (2025)',value:75},
+      {name:'Kai Havertz — Chelsea → Arsenal (2023)',value:75},
+      {name:'Timo Werner — Leipzig → Chelsea (2020)',value:53},
+      {name:'Leroy Sané — Schalke → Manchester City (2016)',value:52},
+      {name:'Leroy Sané — Manchester City → Bayern (2020)',value:49},
+      {name:'Mesut Özil — Real Madrid → Arsenal (2013)',value:47},
+      {name:'Julian Draxler — Schalke → Wolfsburg (2015)',value:43},
+      {name:'Shkodran Mustafi — Valencia → Arsenal (2016)',value:41},
+      {name:'Mario Götze — Dortmund → Bayern (2013)',value:37},
+      {name:'Thilo Kehrer — Schalke → Paris SG (2018)',value:37},
+      {name:'Julian Draxler — Wolfsburg → Paris SG (2017)',value:36},
+      {name:'Mats Hummels — Dortmund → Bayern (2016)',value:35},
+      {name:'Antonio Rüdiger — AS Rom → Chelsea (2017)',value:35},
+      {name:'Malick Thiaw — AC Mailand → Newcastle (2025)',value:35},
+      {name:'André Schürrle — Chelsea → Wolfsburg (2015)',value:32},
+      {name:'Kerem Demirbay — Hoffenheim → Leverkusen (2019)',value:32},
+      {name:'André Schürrle — Wolfsburg → Dortmund (2016)',value:30},
+      {name:'Karim Adeyemi — Salzburg → Dortmund (2022)',value:30},
+      {name:'Felix Nmecha — Wolfsburg → Dortmund (2023)',value:30},
+      {name:'Maximilian Beier — Hoffenheim → Dortmund (2024)',value:28.5},
+      {name:'İlkay Gündoğan — Dortmund → Manchester City (2016)',value:27},
+      {name:'Niclas Füllkrug — Dortmund → West Ham (2024)',value:27},
+      {name:'Deniz Undav — Brighton → Stuttgart (2024)',value:26.7}
     ]
   },
   legenden: {
@@ -716,6 +789,7 @@ function saveCurrentAsTemplate() {
   const trimmed = name.trim();
   const tpl = {
     name: trimmed,
+    gameName: document.getElementById('game-name').value.trim(),
     topic: document.getElementById('topic').value,
     unit: document.getElementById('unit').value,
     livesPerPlayer: parseInt(document.getElementById('lives-input').value) || 3,
@@ -743,6 +817,7 @@ function loadSavedTemplate(index) {
   const saved = JSON.parse(localStorage.getItem('hl-templates') || '[]');
   const t = saved[index];
   if (!t) return;
+  document.getElementById('game-name').value = t.gameName || '';
   document.getElementById('topic').value = t.topic || '';
   document.getElementById('unit').value = t.unit || '';
   document.getElementById('lives-input').value = t.livesPerPlayer || 3;
@@ -869,9 +944,13 @@ function startGame() {
   document.getElementById('setup').classList.add('hidden');
   document.getElementById('game').classList.add('active');
 
+  const gameName = document.getElementById('game-name').value.trim() || 'Higher or Lower';
   const topic = document.getElementById('topic').value || 'Quiz';
   const unit = document.getElementById('unit').value || '';
+  document.getElementById('game-title-display').textContent = gameName;
   document.getElementById('cat-line').textContent = topic + (unit ? ' (' + unit + ')' : '');
+  document.title = gameName + ' · Higher or Lower';
+  localStorage.setItem('hl-game-name', gameName === 'Higher or Lower' ? '' : gameName);
 
   buildGame(valid);
 
@@ -1526,6 +1605,7 @@ function backToSetup() {
   stopPlayerCams();
   document.getElementById('game').classList.remove('active');
   document.getElementById('setup').classList.remove('hidden');
+  document.title = 'Higher or Lower';
 }
 
 function toggleBurger() {
@@ -1641,8 +1721,8 @@ function applyCardSize(size) {
 }
 
 // ===== INIT =====
-addEntry();
-addEntry();
+document.getElementById('game-name').value = localStorage.getItem('hl-game-name') || '';
+loadTemplate('transfers');
 renderSavedTemplates();
 renderThemeGrid();
 </script>
