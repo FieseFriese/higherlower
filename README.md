@@ -6,7 +6,7 @@ Die Web-App funktioniert ohne Anmeldung. Spielname, eigene Vorlagen und Einstell
 
 ## Online spielen
 
-[Higher or Lower starten](https://higher-lower-spiel.henry-friesen50650.chatgpt.site)
+[Higher or Lower starten](https://higher-lower.fiesefriese.workers.dev)
 
 ## Features
 
