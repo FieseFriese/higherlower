@@ -1,0 +1,185 @@
+[
+  {
+    "name": "Städte der Welt — Einwohnerzahl",
+    "topic": "Einwohnerzahl bekannter Städte weltweit",
+    "unit": "Einwohner",
+    "livesPerPlayer": 3,
+    "entries": [
+      {
+        "name": "Shanghai (Oriental Pearl Tower)",
+        "value": 24874500,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Oriental_Pearl_Tower_20251126.jpg/500px-Oriental_Pearl_Tower_20251126.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Peking (Verbotene Stadt)",
+        "value": 21893095,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Meridian_Gate_%28Forbidden_City%29_2015_December_%28morning%29.jpg/500px-Meridian_Gate_%28Forbidden_City%29_2015_December_%28morning%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Istanbul (Hagia Sophia)",
+        "value": 15754053,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Hagia_Sophia_%28228968325%29.jpeg/500px-Hagia_Sophia_%28228968325%29.jpeg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Tokio (Tokyo Skytree)",
+        "value": 14254039,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Tokyo_Skytree_2014_%E2%85%A2.jpg/500px-Tokyo_Skytree_2014_%E2%85%A2.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Moskau (Basilius-Kathedrale)",
+        "value": 13010112,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Saint_Basil%27s_Cathedral_in_Moscow.jpg/500px-Saint_Basil%27s_Cathedral_in_Moscow.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "London (Tower Bridge)",
+        "value": 9122909,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Tower_Bridge_at_Dawn.jpg/500px-Tower_Bridge_at_Dawn.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "New York (Freiheitsstatue)",
+        "value": 8804190,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Front_view_of_Statue_of_Liberty_%28cropped%29.jpg/500px-Front_view_of_Statue_of_Liberty_%28cropped%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Bangkok (Wat Arun)",
+        "value": 8305218,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/%E0%B9%80%E0%B8%88%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B2%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B8%932.jpg/500px-%E0%B9%80%E0%B8%88%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B2%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B8%932.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Rio de Janeiro (Cristo Redentor)",
+        "value": 6730729,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Christ_the_Redeemer_-_Cristo_Redentor.jpg/500px-Christ_the_Redeemer_-_Cristo_Redentor.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Singapur (Marina Bay Sands)",
+        "value": 6110200,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Marina_Bay_Sands_%28I%29.jpg/500px-Marina_Bay_Sands_%28I%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Sydney (Opernhaus)",
+        "value": 5638830,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Sydney_Australia._%2821339175489%29.jpg/500px-Sydney_Australia._%2821339175489%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Dubai (Burj Khalifa)",
+        "value": 3944751,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Burj_Khalifa.jpg/500px-Burj_Khalifa.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Los Angeles (Hollywood-Schriftzug)",
+        "value": 3898747,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Hollywood_sign_%288485145044%29.jpg/500px-Hollywood_sign_%288485145044%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Berlin (Brandenburger Tor)",
+        "value": 3700577,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Brandenburger_Tor_abends.jpg/500px-Brandenburger_Tor_abends.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Rom (Kolosseum)",
+        "value": 2745062,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/500px-Colosseo_2020.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Paris (Eiffelturm)",
+        "value": 2047602,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/500px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Wien (Schloss Schönbrunn)",
+        "value": 2028499,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Wien_-_Schloss_Sch%C3%B6nbrunn.JPG/500px-Wien_-_Schloss_Sch%C3%B6nbrunn.JPG",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Barcelona (Sagrada Família)",
+        "value": 1713247,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/SF_maig_2_cropped.jpg/500px-SF_maig_2_cropped.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Agra (Taj Mahal)",
+        "value": 1585704,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/500px-Taj_Mahal_%28Edited%29.jpeg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Prag (Karlsbrücke)",
+        "value": 1407084,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg/500px-Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Amsterdam (Rijksmuseum)",
+        "value": 946447,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/South_facade_of_the_Rijksmuseum_Amsterdam_%28DSCF0528%29.jpg/500px-South_facade_of_the_Rijksmuseum_Amsterdam_%28DSCF0528%29.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "San Francisco (Golden Gate Bridge)",
+        "value": 873965,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Golden_Gate_Bridge_as_seen_from_Battery_East.jpg/500px-Golden_Gate_Bridge_as_seen_from_Battery_East.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Athen (Akropolis)",
+        "value": 643452,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/1029_Acropolis_of_Athens_in_Greece_at_night_Photo_by_Giles_Laurent.jpg/500px-1029_Acropolis_of_Athens_in_Greece_at_night_Photo_by_Giles_Laurent.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Venedig (Markusplatz)",
+        "value": 249385,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Piazza_San_Marco_%28Venice%29_at_night-msu-2021-6449-.jpg/500px-Piazza_San_Marco_%28Venice%29_at_night-msu-2021-6449-.jpg",
+        "imageData": "",
+        "isRef": false
+      },
+      {
+        "name": "Pisa (Schiefer Turm)",
+        "value": 98778,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Italy_-_Pisa_-_Leaning_Tower.jpg/500px-Italy_-_Pisa_-_Leaning_Tower.jpg",
+        "imageData": "",
+        "isRef": false
+      }
+    ]
+  }
+]
