@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "mkdir -p dist && cp index.html vorlage-*.json dist/"
+    "build": "rm -rf dist && mkdir -p dist && cp index.html dist/ && find . -maxdepth 1 -name 'vorlage-*.json' ! -name 'vorlage-mitarbeiter-alter.json' -exec cp {} dist/ \\;",
+    "deploy": "npm run build && npx wrangler@4.92.0 deploy"
   }
 }

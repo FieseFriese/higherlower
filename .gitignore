@@ -3,3 +3,5 @@ dist/
 *.swp
 *.swo
 *~
+.wrangler/
+vorlage-mitarbeiter-alter.json
