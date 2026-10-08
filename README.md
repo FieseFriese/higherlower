@@ -29,6 +29,7 @@ Die Web-App funktioniert ohne Anmeldung. Spielname, eigene Vorlagen und Einstell
 | Deutsche Twitch-Streamer | Twitch-Abonnenten | Abonnenten |
 | Marktwert Fussballer | Top 25 europaeische Spieler | Mio. EUR |
 | Legenden — Alter | Fussball-Legenden der letzten 30 Jahre | Jahre |
+| Staedte der Welt | 25 bekannte Staedte weltweit, mit Foto des Wahrzeichens | Einwohner |
 
 ## Zusaetzliche Vorlagen (JSON-Import)
 
@@ -37,7 +38,7 @@ Im Repository befinden sich weitere Vorlagen als JSON-Dateien:
 - `vorlage-handyspiele-downloads.json` — Top 25 Handyspiele nach Downloads
 - `vorlage-hoechste-gebaeude.json` — Top 20 hoechste Gebaeude der Welt nach architektonischer Hoehe
 - `vorlage-hauptstaedte-einwohner.json` — 25 Hauptstaedte nach Einwohnerzahl
-- `vorlage-staedte-welt-einwohner.json` — 25 bekannte Staedte weltweit nach Einwohnerzahl, mit Foto des Wahrzeichens
+- `vorlage-staedte-welt-einwohner.json` — 25 bekannte Staedte weltweit nach Einwohnerzahl, mit Foto des Wahrzeichens (auch eingebaut)
 - `vorlage-lebensmittel-preise.json` — 20 Lebensmittel nach Supermarkt-Preis
 - `vorlage-legenden-alter.json` — 25 Fussball-Legenden nach Alter
 - `vorlage-fussballer-rueckennummern.json` — Beste Fussballer nach Rueckennummer
