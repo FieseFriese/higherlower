@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Higher or Lower – Duell</title>
+<meta name="description" content="Higher or Lower online zu zweit: zwei Handys, ein Spielcode, ohne Anmeldung.">
+<meta name="theme-color" content="#070b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HL Duell">
+<link rel="manifest" href="duell.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<style>
+:root{--bg:#070b12;--surface:#111827;--surface-2:#182235;--line:#29354a;--text:#f8fafc;--muted:#9ca3af;--accent:#f59e0b;--correct:#22c55e;--wrong:#ef4444;--cyan:#38bdf8;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{background:radial-gradient(circle at 50% -10%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 26rem),var(--bg);color:var(--text);font-family:Inter,-apple-system,'Segoe UI',system-ui,sans-serif;min-height:100dvh;touch-action:manipulation;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input{font:inherit;font-size:16px}
+.hidden{display:none!important}
+
+/* ===== Kopf ===== */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:calc(var(--st) + 10px) calc(var(--sr) + 16px) 10px calc(var(--sl) + 16px);background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent}
+.top.scrolled{border-bottom-color:var(--line)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:850;letter-spacing:-.01em}
+.brand i{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent);color:#080b10;font-style:normal;font-weight:900}
+.brand small{color:var(--muted);font-weight:650}
+.top .spacer{flex:1}
+.code-chip{font:800 .85rem ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
+
+main{max-width:560px;margin:0 auto;padding:0 calc(var(--sr) + 16px) calc(var(--sb) + 24px) calc(var(--sl) + 16px)}
+.screen{display:none}
+.screen.active{display:block}
+
+/* ===== Start ===== */
+.hero{text-align:center;padding:28px 0 22px}
+.hero h1{font-size:2.3rem;line-height:1.02;letter-spacing:-.045em;font-style:italic}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);margin-top:10px;line-height:1.5}
+.card{background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.card h2{font-size:1.05rem;margin-bottom:12px}
+label.field{display:block;font-size:.82rem;font-weight:750;color:#cbd5e1;margin-bottom:6px}
+.text-in{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #36445b;background:#0b1220;color:var(--text);outline:none}
+.text-in:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.code-in{text-align:center;font:800 1.6rem ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.35em;text-transform:uppercase;padding:12px 0 12px .35em}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;padding:12px 16px;border-radius:14px;font-weight:800;font-size:1.02rem;transition:transform .12s,opacity .2s,background .2s}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.45;pointer-events:none}
+.btn-primary{background:var(--accent);color:#0b0d12;box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 28%,transparent)}
+.btn-ghost{border:1px solid var(--line);background:#0e1626}
+.btn + .btn{margin-top:10px}
+.row .btn + .btn{margin-top:0}
+.row{display:flex;gap:10px}
+.row > *{flex:1}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.85rem;margin:4px 0 14px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.hint{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#cbd5e1;background:color-mix(in srgb,var(--cyan) 8%,transparent);border:1px solid color-mix(in srgb,var(--cyan) 30%,transparent);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.hint b{color:var(--text)}
+.err{color:#fca5a5;font-size:.9rem;margin-top:10px;min-height:1.2em}
+.resume{border-color:color-mix(in srgb,var(--accent) 50%,var(--line));background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
+.sticky-cta{position:sticky;bottom:0;padding:12px 0 calc(var(--sb) + 12px);margin-bottom:calc(-1 * (var(--sb) + 24px));background:linear-gradient(to top,var(--bg) 75%,transparent)}
+.sticky-cta .err{margin:0 0 8px}
+.sticky-cta .err:empty{display:none}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:700;padding:16px 0 10px}
+
+/* ===== Vorlagen-Auswahl ===== */
+.tpl-list{display:grid;gap:8px}
+.tpl{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#0e1626}
+.tpl.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,#0e1626)}
+.tpl .thumbs{display:flex;flex:none}
+.tpl .thumbs img,.tpl .thumbs span{width:34px;height:34px;border-radius:9px;object-fit:cover;border:2px solid var(--surface);margin-left:-12px;background:#1f2a3d;display:grid;place-items:center;font-weight:800;color:var(--muted)}
+.tpl .thumbs :first-child{margin-left:0}
+.tpl strong{display:block;font-size:.98rem}
+.tpl small{color:var(--muted)}
+.tpl .grow{flex:1;min-width:0}
+.tpl-group{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;min-height:44px;border-radius:12px;border:1px solid var(--line);background:#0e1626;font-weight:800}
+.seg button.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 15%,#0e1626);color:var(--accent)}
+
+/* ===== Warteraum ===== */
+.wait{text-align:center;padding-top:30px}
+.wait p{color:var(--muted);line-height:1.5}
+.big-code{display:flex;justify-content:center;gap:8px;margin:18px 0 22px}
+.big-code span{width:58px;height:72px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font:900 2.2rem ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.pulse{display:inline-flex;align-items:center;gap:10px;color:var(--muted);margin:22px 0}
+.pulse i{width:10px;height:10px;border-radius:50%;background:var(--accent);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+
+/* ===== Spiel ===== */
+.board{position:sticky;top:calc(var(--st) + 57px);z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:6px 0 10px;margin:0 -2px}
+.players{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pl{position:relative;padding:9px 11px;border-radius:14px;border:1px solid var(--line);background:#0e1626;min-width:0;transition:border-color .25s,background .25s}
+.pl.turn{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 11%,#0e1626)}
+.pl .nm{display:flex;align-items:center;gap:6px;font-weight:800;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl .nm em{font-style:normal;color:var(--muted);font-weight:650;font-size:.78rem}
+.pl .hearts{color:var(--wrong);letter-spacing:2px;font-size:1rem;margin-top:2px}
+.pl .hearts .off{color:#3a4458}
+.pl .dot{width:7px;height:7px;border-radius:50%;background:var(--correct);flex:none}
+.pl .dot.off{background:#64748b}
+.pl .tag{position:absolute;top:-8px;right:10px;font-size:.66rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:#0b0d12;padding:2px 7px;border-radius:999px}
+.topic{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--muted);margin:9px 2px 8px}
+.topic b{color:#dbe3ef;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.current{display:flex;align-items:center;gap:13px;padding:10px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 10%,#121a2a),#101826)}
+.current.mine{border-color:color-mix(in srgb,var(--accent) 70%,var(--line))}
+.current.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.current .ph,.current img{width:76px;height:76px;border-radius:12px;object-fit:cover;flex:none;background:#1f2a3d}
+.current .lbl{font-size:.72rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.current .cn{font-size:1.08rem;font-weight:850;line-height:1.2;margin:3px 0}
+.current .st{font-size:.84rem;color:var(--muted)}
+.conn{font-size:.8rem;text-align:center;color:#fde68a;background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:10px;padding:6px;margin-top:8px}
+
+.scale{padding:8px 0 120px}
+.end{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;padding:8px 4px}
+.end.hi{color:var(--correct)}
+.end.lo{color:var(--wrong)}
+.end::after{content:"";flex:1;height:2px;border-radius:2px;background:currentColor;opacity:.35}
+.item{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:14px;background:#0e1626;border:1px solid #223047}
+.item img,.item .ph{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none;background:#1f2a3d}
+.ph{display:grid;place-items:center;font-weight:900;color:#0b0d12;font-size:1.05rem}
+.item .nm{flex:1;min-width:0;font-weight:700;font-size:.95rem;line-height:1.25}
+.item .val{font-weight:900;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.item .val small{display:block;font-size:.7rem;color:var(--muted);font-weight:650}
+.item.ref{border-style:dashed}
+.item.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%{background:color-mix(in srgb,var(--correct) 35%,#0e1626);border-color:var(--correct);transform:scale(1.02)}100%{background:#0e1626;border-color:#223047;transform:none}}
+.gap{display:block;width:100%;height:14px;position:relative}
+.gap::before{content:"";position:absolute;left:12px;right:12px;top:50%;height:2px;border-radius:2px;background:transparent;transition:background .2s}
+.mine-turn .gap{height:40px}
+.mine-turn .gap::before{background:repeating-linear-gradient(90deg,#3a4864 0 8px,transparent 8px 14px)}
+.mine-turn .gap::after{content:"+";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#1c2638;border:1px solid #3a4864;color:var(--muted);font-weight:800;line-height:1}
+.gap.sel{height:auto}
+.gap.sel::before,.gap.sel::after{display:none}
+.ghost{display:flex;align-items:center;gap:12px;padding:8px 10px;margin:6px 0;border-radius:14px;border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 14%,#0e1626);text-align:left;animation:pop .18s ease-out}
+.ghost img,.ghost .ph{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none}
+.ghost .nm{flex:1;font-weight:800}
+.ghost .q{font-weight:900;color:var(--accent);font-size:1.2rem}
+@keyframes pop{from{transform:scale(.96);opacity:.4}}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px calc(var(--sr) + 16px) calc(var(--sb) + 12px) calc(var(--sl) + 16px);background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);box-shadow:0 -12px 32px rgba(0,0,0,.35);transform:translateY(110%);transition:transform .22s ease-out}
+.dock.show{transform:none}
+.dock .inner{max-width:560px;margin:0 auto}
+.dock .where{font-size:.84rem;color:var(--muted);text-align:center;margin-bottom:8px}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--sb) + 18px);z-index:50;transform:translate(-50%,40%);max-width:min(92vw,520px);padding:12px 16px;border-radius:14px;font-weight:750;line-height:1.35;box-shadow:0 14px 40px rgba(0,0,0,.45);transition:transform .25s ease-out,opacity .25s,visibility .25s;opacity:0;visibility:hidden;pointer-events:none;background:var(--surface-2);border:1px solid var(--line)}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+.toast.ok{background:#0f2a1c;border-color:var(--correct)}
+.toast.bad{background:#2c1214;border-color:var(--wrong)}
+
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 calc(var(--sr) + 12px) calc(var(--sb) + 12px) calc(var(--sl) + 12px);transform:translateY(110%);transition:transform .3s ease-out}
+.sheet.show{transform:none}
+.sheet .inner{max-width:560px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px 18px 16px;box-shadow:0 -20px 60px rgba(0,0,0,.5);max-height:72dvh;overflow:auto}
+.sheet h2{font-size:1.7rem;letter-spacing:-.03em;text-align:center}
+.sheet .sub{text-align:center;color:var(--muted);margin:6px 0 14px}
+.sheet .rest{font-size:.85rem;color:var(--muted);margin:0 0 14px;line-height:1.5}
+.sheet .rest b{color:var(--text)}
+.win h2{color:var(--accent)}
+details.log{margin-top:18px;color:var(--muted);font-size:.85rem}
+details.log summary{cursor:pointer;font-weight:750}
+details.log li{margin:6px 0 0 18px}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="brand"><i aria-hidden="true">↕&#xFE0E;</i> HL <small>Duell</small></div>
+  <div class="spacer"></div>
+  <span class="code-chip hidden" id="code-chip"></span>
+  <button class="icon-btn hidden" id="btn-leave" aria-label="Duell verlassen" title="Duell verlassen">✕</button>
+</header>
+
+<main>
+  <!-- Start -->
+  <section class="screen active" id="s-home">
+    <div class="hero">
+      <h1>Higher or Lower<br><span>zu zweit.</span></h1>
+      <p>Zwei Handys, ein Spielcode. Abwechselnd Karten einordnen – wer falsch liegt, verliert ein Herz.</p>
+    </div>
+    <div class="hint hidden" id="install-hint"><span aria-hidden="true">📲</span><span><b>Als App installieren:</b> unten auf das Teilen-Symbol tippen, dann „Zum Home-Bildschirm“.</span></div>
+    <div class="card resume hidden" id="resume-card">
+      <h2 id="resume-title">Laufendes Duell</h2>
+      <button class="btn btn-primary" id="btn-resume">Weiterspielen</button>
+    </div>
+    <div class="card">
+      <label class="field" for="name-in">Dein Name</label>
+      <input class="text-in" id="name-in" maxlength="24" autocomplete="nickname" placeholder="z. B. Henry">
+    </div>
+    <div class="card">
+      <button class="btn btn-primary" id="btn-new">Neues Duell erstellen</button>
+      <div class="or" style="margin-top:16px">oder mit Code beitreten</div>
+      <div class="row">
+        <input class="text-in code-in" id="code-in" maxlength="4" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="····" aria-label="Spielcode">
+      </div>
+      <button class="btn btn-ghost" id="btn-join" style="margin-top:10px">Beitreten</button>
+      <div class="err" id="home-err" role="alert"></div>
+    </div>
+    <p style="text-align:center;margin-top:8px"><a href="./" style="color:var(--muted);font-size:.88rem">Zum klassischen Spiel (ein Gerät)</a></p>
+  </section>
+
+  <!-- Vorlage wählen -->
+  <section class="screen" id="s-create">
+    <button class="back" data-go="home">‹ Zurück</button>
+    <div class="card">
+      <h2>Thema wählen</h2>
+      <div id="tpl-list"></div>
+    </div>
+    <div class="card">
+      <h2>Herzen pro Spieler</h2>
+      <div class="seg" id="lives-seg"></div>
+    </div>
+    <div class="sticky-cta">
+      <div class="err" id="create-err" role="alert"></div>
+      <button class="btn btn-primary" id="btn-create">Duell starten</button>
+    </div>
+  </section>
+
+  <!-- Warten auf Gegner -->
+  <section class="screen" id="s-wait">
+    <div class="wait">
+      <p>Dein Spielcode</p>
+      <div class="big-code" id="big-code"></div>
+      <p>Schick deinem Gegner den Link oder sag ihm den Code.</p>
+      <div class="pulse"><i></i> Warte auf Gegner …</div>
+      <button class="btn btn-primary" id="btn-share">Einladung teilen</button>
+      <button class="btn btn-ghost" id="btn-cancel">Abbrechen</button>
+    </div>
+  </section>
+
+  <!-- Spiel -->
+  <section class="screen" id="s-game">
+    <div class="board">
+      <div class="players" id="players"></div>
+      <div class="topic"><b id="topic"></b><span id="left"></span></div>
+      <div class="current" id="current"></div>
+      <div class="conn hidden" id="conn">Verbindung wird wiederhergestellt …</div>
+    </div>
+    <div class="scale" id="scale"></div>
+  </section>
+</main>
+
+<div class="dock" id="dock"><div class="inner">
+  <div class="where" id="where"></div>
+  <div class="row">
+    <button class="btn btn-ghost" id="btn-unsel" style="flex:.45">Zurück</button>
+    <button class="btn btn-primary" id="btn-place">Hier einordnen</button>
+  </div>
+</div></div>
+
+<div class="sheet" id="sheet"><div class="inner" id="sheet-inner"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="templates.js"></script>
+<script>
+const LABELS = {
+  weltstaedte: 'Städte der Welt', fussballer: 'Fußball-Marktwerte', legenden: 'Legenden-Alter',
+  transfers: 'Deutsche Transfers', stadion: 'Stadionkapazität', stadt: 'Deutsche Städte', streamer: 'Twitch-Streamer'
+};
+const ORDER = ['weltstaedte', 'fussballer', 'legenden', 'transfers', 'stadion', 'stadt', 'streamer'];
+const LAST_KEY = 'hl-duel-last';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const fmt = n => Number(n).toLocaleString('de-DE');
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} }
+};
+
+function newToken() {
+  return (crypto.randomUUID ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join(''));
+}
+// Pro Tab eine eigene Sitzung (so lässt sich auch in zwei Tabs testen);
+// zum Fortsetzen nach einem App-Neustart merkt sich localStorage das letzte Duell.
+let token;
+try { token = sessionStorage.getItem('hl-duel-tok'); } catch {}
+if (!token) { token = newToken(); try { sessionStorage.setItem('hl-duel-tok', token); } catch {} }
+function setToken(t) { token = t; try { sessionStorage.setItem('hl-duel-tok', t); } catch {} }
+
+// ===== Bildschirme =====
+function show(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === 's-' + name));
+  const inDuel = name === 'game' || name === 'wait';
+  $('btn-leave').classList.toggle('hidden', !inDuel);
+  $('code-chip').classList.toggle('hidden', name !== 'game');
+  if (name !== 'game') { hideDock(); $('sheet').classList.remove('show'); }
+  window.scrollTo(0, 0);
+  if (name === 'home') renderHome();
+}
+document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
+addEventListener('scroll', () => $('top').classList.toggle('scrolled', scrollY > 4), { passive: true });
+
+function getName() { return $('name-in').value.trim().slice(0, 24); }
+$('name-in').value = store.get('hl-duel-name', '');
+$('name-in').addEventListener('input', () => store.set('hl-duel-name', getName()));
+$('code-in').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4); $('home-err').textContent = ''; });
+
+function renderHome() {
+  const last = store.get(LAST_KEY, null);
+  const fresh = last && Date.now() - last.at < 48 * 3600e3;
+  $('resume-card').classList.toggle('hidden', !fresh);
+  if (fresh) $('resume-title').textContent = 'Duell ' + last.code + (last.vs ? ' gegen ' + last.vs : '');
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  $('install-hint').classList.toggle('hidden', !ios || standalone);
+}
+
+$('btn-resume').onclick = () => {
+  const last = store.get(LAST_KEY, null);
+  if (!last) return;
+  setToken(last.token);
+  if (!getName() && last.name) $('name-in').value = last.name;
+  connect(last.code);
+};
+$('btn-join').onclick = () => {
+  const code = $('code-in').value.trim().toUpperCase();
+  if (!/^[A-Z0-9]{4}$/.test(code)) { $('home-err').textContent = 'Bitte den 4-stelligen Code eingeben.'; return; }
+  connect(code);
+};
+$('code-in').addEventListener('keydown', e => { if (e.key === 'Enter') $('btn-join').click(); });
+$('btn-new').onclick = () => { renderTemplates(); show('create'); };
+
+// ===== Vorlage wählen =====
+let tplChoice = 'b:weltstaedte';
+let livesChoice = 3;
+
+function parseValue(v) {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
+  const n = Number(String(v ?? '').trim().replace(',', '.'));
+  return String(v ?? '').trim() !== '' && Number.isFinite(n) ? n : null;
+}
+function savedTemplates() {
+  const list = store.get('hl-templates', []);
+  return Array.isArray(list) ? list.filter(t => t && Array.isArray(t.entries) && t.entries.filter(e => e.name && parseValue(e.value) !== null).length >= 3) : [];
+}
+function tplRow(key, title, entries) {
+  const imgs = entries.map(e => e.imageUrl || e.imageData).filter(Boolean).slice(0, 3);
+  const thumbs = imgs.length ? imgs.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('') : `<span>${esc(title[0] || '?')}</span>`;
+  return `<button class="tpl${tplChoice === key ? ' sel' : ''}" data-key="${esc(key)}"><div class="thumbs">${thumbs}</div><div class="grow"><strong>${esc(title)}</strong><small>${entries.length} Karten${imgs.length ? ' · mit Bildern' : ''}</small></div></button>`;
+}
+function renderTemplates() {
+  let html = '<div class="tpl-list">' + ORDER.filter(k => TEMPLATES[k]).map(k => tplRow('b:' + k, LABELS[k] || TEMPLATES[k].topic, TEMPLATES[k].entries)).join('') + '</div>';
+  const saved = savedTemplates();
+  if (saved.length) html += '<div class="tpl-group">Meine Vorlagen</div><div class="tpl-list">' + saved.map((t, i) => tplRow('s:' + i, t.name || t.topic || 'Vorlage', t.entries)).join('') + '</div>';
+  $('tpl-list').innerHTML = html;
+  $('tpl-list').querySelectorAll('.tpl').forEach(b => b.onclick = () => { tplChoice = b.dataset.key; renderTemplates(); });
+  $('lives-seg').innerHTML = [1, 2, 3, 4, 5].map(n => `<button class="${n === livesChoice ? 'sel' : ''}" data-n="${n}">${n} ♥</button>`).join('');
+  $('lives-seg').querySelectorAll('button').forEach(b => b.onclick = () => { livesChoice = +b.dataset.n; renderTemplates(); });
+}
+function chosenTemplate() {
+  const [kind, key] = tplChoice.split(':');
+  if (kind === 'b') {
+    const t = TEMPLATES[key];
+    return { topic: t.topic, unit: t.unit, entries: t.entries.map(e => ({ name: e.name, value: e.value, imageUrl: e.imageUrl || '' })) };
+  }
+  const t = savedTemplates()[+key];
+  return {
+    topic: t.topic || t.name, unit: t.unit || '',
+    entries: t.entries.map(e => ({ name: String(e.name || '').trim(), value: parseValue(e.value), imageUrl: e.imageUrl || '', imageData: e.imageData || '' })).filter(e => e.name && e.value !== null)
+  };
+}
+$('btn-create').onclick = async () => {
+  const btn = $('btn-create');
+  btn.disabled = true; $('create-err').textContent = '';
+  try {
+    const res = await fetch('/api/duel', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ template: chosenTemplate(), lives: livesChoice, token, name: getName() || 'Spieler 1' })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.code) throw new Error(data.error || 'Duell konnte nicht erstellt werden.');
+    connect(data.code);
+  } catch (err) {
+    $('create-err').textContent = err.message === 'Failed to fetch' ? 'Keine Verbindung zum Server.' : err.message;
+  } finally { btn.disabled = false; }
+};
+
+// ===== Warteraum =====
+function shareUrl(code) { return location.origin + location.pathname + '?c=' + code; }
+$('btn-share').onclick = async () => {
+  const code = S && S.code; if (!code) return;
+  const text = 'Spiel Higher or Lower gegen mich! Code: ' + code;
+  if (navigator.share) { try { await navigator.share({ title: 'Higher or Lower – Duell', text, url: shareUrl(code) }); } catch {} return; }
+  try { await navigator.clipboard.writeText(text + '\n' + shareUrl(code)); toast('Link kopiert'); } catch { toast(shareUrl(code)); }
+};
+$('btn-cancel').onclick = () => leave();
+$('btn-leave').onclick = () => {
+  if (S && S.phase === 'playing' && !confirm('Duell verlassen? Du kannst über „Weiterspielen“ zurückkommen.')) return;
+  leave(S && S.phase !== 'playing');
+};
+
+// ===== Verbindung =====
+let ws = null, wsCode = null, retry = 0, retryTimer = null, pingTimer = null, closedByUs = false;
+let cards = {}, topic = '', unit = '';
+let S = null, selPos = null, sending = false, seenN = null, seenMatch = null, sheetHidden = false;
+
+function connect(code) {
+  wsCode = code;
+  closedByUs = false;
+  clearTimeout(retryTimer);
+  if (ws) { ws.onclose = null; try { ws.close(); } catch {} }
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const url = `${proto}://${location.host}/api/duel/${code}/ws?token=${encodeURIComponent(token)}&name=${encodeURIComponent(getName())}`;
+  const sock = new WebSocket(url);
+  ws = sock;
+  sock.onopen = () => {
+    retry = 0; setConn(true);
+    clearInterval(pingTimer);
+    pingTimer = setInterval(() => { if (sock.readyState === 1) sock.send('{"t":"ping"}'); }, 25000);
+  };
+  sock.onmessage = e => { let m; try { m = JSON.parse(e.data); } catch { return; } handle(m); };
+  sock.onclose = e => {
+    clearInterval(pingTimer);
+    if (ws !== sock || closedByUs) return;
+    if (e.code === 4002) { fatal('Dieses Duell ist jetzt in einem anderen Fenster geöffnet.'); return; }
+    if (e.code >= 4000 && e.code < 4100) return; // Fehlermeldung kam schon per "error"
+    setConn(false);
+    retryTimer = setTimeout(() => connect(wsCode), Math.min(10000, 700 * 2 ** retry++));
+  };
+}
+function setConn(ok) { $('conn').classList.toggle('hidden', ok || !S); }
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && wsCode && !closedByUs && (!ws || ws.readyState > 1)) { retry = 0; connect(wsCode); }
+});
+
+function leave(forget = true) {
+  closedByUs = true;
+  clearTimeout(retryTimer); clearInterval(pingTimer);
+  if (ws) { try { ws.close(1000); } catch {} }
+  ws = null; wsCode = null; S = null; seenN = null; seenMatch = null; sheetHidden = false;
+  restoreDock();
+  if (forget) store.del(LAST_KEY);
+  history.replaceState(null, '', location.pathname);
+  show('home');
+}
+function fatal(msg) {
+  closedByUs = true;
+  const code = wsCode;
+  ws = null; wsCode = null; S = null;
+  const last = store.get(LAST_KEY, null);
+  if (last && last.code === code && /voll|anderen Fenster/.test(msg)) msg += ' Über „Weiterspielen“ kannst du deinen Platz wieder übernehmen.';
+  else if (last && last.code === code) store.del(LAST_KEY);
+  show('home');
+  $('home-err').textContent = msg;
+}
+
+function handle(m) {
+  if (m.t === 'cards') {
+    cards = {}; m.cards.forEach(c => cards[c.id] = c);
+    topic = m.topic; unit = m.unit;
+  } else if (m.t === 'error') {
+    if (m.fatal) fatal(m.msg); else { sending = false; $('btn-place').disabled = false; toast(m.msg, 'bad'); }
+  } else if (m.t === 'state') {
+    onState(m);
+  }
+}
+
+// ===== Spielstand =====
+function onState(st) {
+  const prev = S;
+  S = st;
+  sending = false;
+  const opp = st.players[1 - st.you];
+  store.set(LAST_KEY, { code: st.code, token, name: st.players[st.you]?.name || getName(), vs: opp ? opp.name : '', at: Date.now() });
+  if (location.search !== '?c=' + st.code) history.replaceState(null, '', '?c=' + st.code);
+  $('code-chip').textContent = st.code;
+
+  if (st.phase === 'waiting') {
+    $('big-code').innerHTML = st.code.split('').map(c => `<span>${c}</span>`).join('');
+    if (!$('s-wait').classList.contains('active')) show('wait');
+    return;
+  }
+  if (!$('s-game').classList.contains('active')) show('game');
+  setConn(true);
+
+  if (!prev || prev.current !== st.current || prev.turn !== st.turn || prev.phase !== st.phase) selPos = null;
+
+  // Rückmeldung zum letzten Zug (nicht beim ersten Laden)
+  let flashId = null;
+  if (seenMatch !== null && st.matchNo !== seenMatch) {
+    toast(st.log[0]?.text || 'Neue Runde!');
+    sheetHidden = false;
+    restoreDock();
+  } else if (seenN !== null && st.last && st.last.n !== seenN && st.phase !== 'over') {
+    const l = st.last, who = st.players[l.seat], c = cards[l.card];
+    const me = l.seat === st.you;
+    if (l.correct) {
+      flashId = l.card;
+      toast(`✓ ${me ? 'Richtig!' : who.name + ' lag richtig.'} ${c.name}: ${fmt(l.value)}${unit ? ' ' + unit : ''}`, 'ok');
+    } else {
+      toast(`✗ ${me ? 'Falsch!' : who.name + ' lag falsch.'} ${c.name} – ${me ? 'du verlierst' : who.name + ' verliert'} ein Herz.`, 'bad');
+      setTimeout(() => $('current').classList.add('shake'), 10);
+    }
+  }
+  if (st.phase === 'over' && st.last && st.last.correct && seenN !== null && st.last.n !== seenN) flashId = st.last.card;
+  seenMatch = st.matchNo;
+  seenN = st.last ? st.last.n : 0;
+  renderGame(flashId);
+}
+
+function initials(name) { return String(name).replace(/\(.*\)/, '').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase(); }
+function hue(str) { let h = 0; for (const ch of str) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; }
+function pic(c, cls = '') {
+  if (c.img) return `<img class="${cls}" src="${esc(c.img)}" alt="" loading="lazy" decoding="async">`;
+  return `<div class="ph ${cls}" style="background:hsl(${hue(c.name)} 70% 62%)">${esc(initials(c.name))}</div>`;
+}
+function hearts(n, max) {
+  return '♥'.repeat(Math.max(0, n)) + `<span class="off">${'♥'.repeat(Math.max(0, max - n))}</span>`;
+}
+
+function renderGame(flashId) {
+  const st = S;
+  const myTurn = st.phase === 'playing' && st.turn === st.you;
+  $('players').innerHTML = st.players.map((p, i) => {
+    if (!p) return '<div class="pl"></div>';
+    const turn = st.turn === i;
+    return `<div class="pl${turn ? ' turn' : ''}">${turn ? '<span class="tag">dran</span>' : ''}
+      <div class="nm"><span class="dot${p.online ? '' : ' off'}" title="${p.online ? 'online' : 'offline'}"></span>${esc(p.name)}${i === st.you ? ' <em>(du)</em>' : ''}</div>
+      <div class="hearts" aria-label="${p.lives} Herzen">${hearts(p.lives, st.lives)}</div></div>`;
+  }).join('');
+  $('topic').textContent = topic + (unit ? ' · ' + unit : '');
+  const left = st.poolCount + 1;
+  $('left').textContent = st.phase === 'playing' ? left + (left === 1 ? ' Karte übrig' : ' Karten übrig') : '';
+
+  const cur = $('current');
+  cur.classList.remove('shake');
+  cur.classList.toggle('mine', myTurn);
+  if (st.phase === 'playing' && st.current !== null && cards[st.current]) {
+    const c = cards[st.current];
+    const opp = st.players[st.turn];
+    cur.innerHTML = `${pic(c)}<div><div class="lbl">${myTurn ? 'Deine Karte' : esc(opp.name) + ' ist dran'}</div><div class="cn">${esc(c.name)}</div>
+      <div class="st">${myTurn ? 'Tippe auf die Lücke, wo sie hingehört.' : 'Warte auf den Zug …'}${opp && !opp.online && !myTurn ? ' (offline)' : ''}</div></div>`;
+  } else if (st.phase === 'over') {
+    cur.innerHTML = `<div><div class="lbl">Spiel vorbei</div><div class="cn">${resultTitle()}</div><div class="st">Unten siehst du die komplette Skala.</div></div>`;
+  }
+
+  // Skala: oben die höchsten Werte
+  const sc = $('scale');
+  sc.classList.toggle('mine-turn', myTurn);
+  const placed = st.placed;
+  let html = '<div class="end hi">▲ Höher</div>';
+  const gap = p => {
+    if (!myTurn) return '<div class="gap"></div>';
+    if (selPos === p) {
+      const c = cards[st.current];
+      return `<button class="gap sel" data-p="${p}"><div class="ghost">${pic(c)}<span class="nm">${esc(c.name)}</span><span class="q">?</span></div></button>`;
+    }
+    return `<button class="gap" data-p="${p}" aria-label="Hier einordnen"></button>`;
+  };
+  for (let i = placed.length - 1; i >= 0; i--) {
+    html += gap(i + 1);
+    const it = placed[i], c = cards[it.id] || { name: '?' };
+    html += `<div class="item${it.id === flashId ? ' flash' : ''}" data-id="${it.id}">${pic(c)}<div class="nm">${esc(c.name)}</div><div class="val">${fmt(it.value)}${unit ? `<small>${esc(unit)}</small>` : ''}</div></div>`;
+  }
+  html += gap(0);
+  html += '<div class="end lo">▼ Niedriger</div>';
+  if (st.log && st.log.length) html += `<details class="log"><summary>Verlauf</summary><ul>${st.log.slice().reverse().map(l => `<li>${esc(l.text)}</li>`).join('')}</ul></details>`;
+  sc.innerHTML = html;
+  sc.querySelectorAll('button.gap').forEach(b => b.onclick = () => selectGap(+b.dataset.p));
+  if (flashId !== null) {
+    const el = sc.querySelector(`.item[data-id="${flashId}"]`);
+    if (el) {
+      const boardBottom = document.querySelector('.board').getBoundingClientRect().bottom;
+      const r = el.getBoundingClientRect();
+      if (r.top < boardBottom + 50 || r.bottom > innerHeight - 40) scrollBy({ top: r.top - boardBottom - 50, behavior: 'smooth' });
+    }
+  }
+
+  if (myTurn && selPos !== null) showDock(); else hideDock();
+  renderSheet();
+}
+
+function selectGap(p) {
+  if (!S || S.turn !== S.you || sending) return;
+  selPos = selPos === p ? null : p;
+  renderGame(null);
+}
+function showDock() {
+  const placed = S.placed;
+  const above = placed[selPos], below = placed[selPos - 1];
+  let txt;
+  if (above && below) txt = `zwischen ${cards[above.id].name} und ${cards[below.id].name}`;
+  else if (above) txt = `ganz unten, unter ${cards[above.id].name}`;
+  else txt = `ganz oben, über ${cards[below.id].name}`;
+  $('where').textContent = txt;
+  $('btn-place').disabled = sending;
+  $('dock').classList.add('show');
+}
+function hideDock() { $('dock').classList.remove('show'); }
+function placeCard() {
+  if (!S || selPos === null || sending || !ws || ws.readyState !== 1) return;
+  sending = true;
+  $('btn-place').disabled = true;
+  ws.send(JSON.stringify({ t: 'place', pos: selPos, card: S.current }));
+}
+
+function resultTitle() {
+  if (S.winner === 'draw') return 'Unentschieden!';
+  return S.winner === S.you ? 'Du hast gewonnen! 🎉' : esc(S.players[S.winner].name) + ' gewinnt';
+}
+function renderSheet() {
+  const sheet = $('sheet');
+  if (S.phase !== 'over') { sheet.classList.remove('show'); return; }
+  if (sheetHidden) { sheet.classList.remove('show'); showReopen(); return; }
+  const me = S.players[S.you], opp = S.players[1 - S.you];
+  const rest = S.rest.slice().sort((a, b) => b.value - a.value);
+  $('sheet-inner').className = 'inner' + (S.winner === S.you ? ' win' : '');
+  $('sheet-inner').innerHTML = `<h2>${resultTitle()}</h2>
+    <p class="sub">${esc(me.name)}: ${me.lives} ♥ · ${esc(opp.name)}: ${opp.lives} ♥</p>
+    ${rest.length ? `<p class="rest">Nicht mehr gelegt: ${rest.map(r => `<b>${esc(cards[r.id].name)}</b> ${fmt(r.value)}`).join(' · ')}</p>` : ''}
+    <button class="btn btn-primary" id="btn-rematch">Revanche</button>
+    <div class="row" style="margin-top:10px"><button class="btn btn-ghost" id="btn-hide">Skala ansehen</button><button class="btn btn-ghost" id="btn-home">Neues Duell</button></div>`;
+  sheet.classList.add('show');
+  $('btn-rematch').onclick = () => { if (ws && ws.readyState === 1) ws.send('{"t":"rematch"}'); };
+  $('btn-hide').onclick = () => { sheetHidden = true; sheet.classList.remove('show'); showReopen(); };
+  $('btn-home').onclick = () => leave();
+}
+function showReopen() {
+  $('where').textContent = 'Spiel vorbei';
+  $('btn-unsel').textContent = 'Ergebnis';
+  $('btn-place').textContent = 'Revanche';
+  $('btn-unsel').onclick = () => { sheetHidden = false; hideDock(); restoreDock(); renderSheet(); };
+  $('btn-place').onclick = () => { if (ws && ws.readyState === 1) ws.send('{"t":"rematch"}'); hideDock(); restoreDock(); };
+  $('btn-place').disabled = false;
+  $('dock').classList.add('show');
+}
+function restoreDock() {
+  $('btn-unsel').textContent = 'Zurück';
+  $('btn-place').textContent = 'Hier einordnen';
+  $('btn-unsel').onclick = () => { selPos = null; renderGame(null); };
+  $('btn-place').onclick = placeCard;
+}
+restoreDock();
+
+let toastTimer = null;
+function toast(msg, kind = '') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (kind ? ' ' + kind : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ===== Start =====
+const params = new URLSearchParams(location.search);
+const linkCode = (params.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4);
+show('home');
+if (linkCode.length === 4) {
+  const last = store.get(LAST_KEY, null);
+  $('code-in').value = linkCode;
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  if (last && last.code === linkCode && (last.token === token || standalone)) {
+    // Eigenes Duell nach App-Neustart oder Neuladen: direkt weiter
+    setToken(last.token);
+    connect(linkCode);
+  } else {
+    $('btn-join').textContent = 'Duell ' + linkCode + ' beitreten';
+    $('btn-join').classList.replace('btn-ghost', 'btn-primary');
+  }
+}
+</script>
+</body>
+</html>

@@ -8,6 +8,18 @@ Die Web-App funktioniert ohne Anmeldung. Spielname, eigene Vorlagen und Einstell
 
 [Higher or Lower starten](https://higher-lower.fiesefriese.workers.dev)
 
+## Online-Duell (2 Handys)
+
+Unter [/duell](https://higher-lower.fiesefriese.workers.dev/duell) spielen zwei Personen auf zwei Geraeten gegeneinander:
+
+1. Spieler 1 waehlt ein Thema und erstellt ein Duell, er bekommt einen 4-stelligen Code bzw. einen Einladungslink.
+2. Spieler 2 oeffnet den Link oder gibt den Code ein.
+3. Abwechselnd bekommt jeder eine Karte und tippt auf die Luecke in der Skala, wo sie hingehoert. Falsch = ein Herz weniger, die Karte geht zurueck in den Stapel. Sind beide in einer Runde bei 0 Herzen, gibt es fuer beide eines zurueck (wie im Hauptspiel). Wer zuletzt noch Herzen hat, gewinnt; sind alle Karten gelegt, entscheiden die Herzen.
+
+Die Seite laesst sich auf dem iPhone ueber Teilen → „Zum Home-Bildschirm“ als App installieren. Der Spielstand liegt auf dem Server (Cloudflare Durable Object pro Code, `worker.js`), Kartenwerte werden erst nach dem Legen an die Geraete geschickt. Laeuft ein Duell 48 Stunden nicht, wird es geloescht. Bei Verbindungsabbruch verbindet sich die App selbst neu; nach einem Neustart geht es ueber „Weiterspielen“ weiter.
+
+Lokal testen: `npm run dev` (Wrangler mit Durable Objects, http://127.0.0.1:8787/duell).
+
 ## Features
 
 - **Drag & Drop** — Karten per Maus oder Touch auf die Skala ziehen
@@ -58,10 +70,11 @@ Diese koennen ueber den **Importieren**-Button im Vorlagen-Tab geladen werden.
 
 ## Nutzung
 
-Einfach `index.html` im Browser oeffnen — keine Installation, kein Build-Prozess, keine Abhaengigkeiten. Alles laeuft clientseitig im Browser.
+Einfach `index.html` im Browser oeffnen — keine Installation, kein Build-Prozess, keine Abhaengigkeiten. Das klassische Spiel laeuft komplett clientseitig im Browser; nur das Online-Duell braucht den Worker.
 
 ## Tech-Stack
 
-- Vanilla HTML/CSS/JavaScript (kein Framework)
+- Vanilla HTML/CSS/JavaScript (kein Framework), eingebaute Vorlagen in `templates.js`
+- Online-Duell: Cloudflare Worker + Durable Object (`worker.js`), WebSocket
 - LocalStorage fuer gespeicherte Vorlagen
 - Responsive Design mit CSS Grid/Flexbox

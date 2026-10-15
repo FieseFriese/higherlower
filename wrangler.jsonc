@@ -1,5 +1,14 @@
 {
   "name": "higher-lower",
+  "main": "worker.js",
   "compatibility_date": "2026-05-22",
-  "assets": { "directory": "./dist" }
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "DUEL", "class_name": "DuelRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DuelRoom"] }]
 }
