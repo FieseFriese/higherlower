@@ -19,7 +19,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
 body{background:radial-gradient(circle at 50% -10%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 26rem),var(--bg);color:var(--text);font-family:Inter,-apple-system,'Segoe UI',system-ui,sans-serif;min-height:100dvh;touch-action:manipulation;-webkit-text-size-adjust:100%}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input{font:inherit;font-size:16px}
 .hidden{display:none!important}
 
@@ -75,6 +75,10 @@ label.field{display:block;font-size:.82rem;font-weight:750;color:#cbd5e1;margin-
 .tpl .thumbs{display:flex;flex:none}
 .tpl .thumbs img,.tpl .thumbs span{width:34px;height:34px;border-radius:9px;object-fit:cover;border:2px solid var(--surface);margin-left:-12px;background:#1f2a3d;display:grid;place-items:center;font-weight:800;color:var(--muted)}
 .tpl .thumbs :first-child{margin-left:0}
+.tpl .thumbs .ico{color:var(--accent);background:#242d42;font-size:1.05rem;font-weight:900}
+.source{font-size:.78rem;color:var(--muted);line-height:1.45;margin:14px 2px 0}
+.source a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.sheet .source{text-align:center;margin:0 0 12px}
 .tpl strong{display:block;font-size:.98rem}
 .tpl small{color:var(--muted)}
 .tpl .grow{flex:1;min-width:0}
@@ -256,10 +260,7 @@ details.log li{margin:6px 0 0 18px}
 
 <script src="templates.js"></script>
 <script>
-const LABELS = {
-  weltstaedte: 'Städte der Welt', fussballer: 'Fußball-Marktwerte', legenden: 'Legenden-Alter',
-  transfers: 'Deutsche Transfers', stadion: 'Stadionkapazität', stadt: 'Deutsche Städte', streamer: 'Twitch-Streamer'
-};
+// Reihenfolge der Sport/Mix-Vorlagen; Allgemeinwissen kommt als eigene Gruppe aus templates.js
 const ORDER = ['weltstaedte', 'fussballer', 'legenden', 'transfers', 'stadion', 'stadt', 'streamer'];
 const LAST_KEY = 'hl-duel-last';
 
@@ -338,17 +339,24 @@ function savedTemplates() {
   const list = store.get('hl-templates', []);
   return Array.isArray(list) ? list.filter(t => t && Array.isArray(t.entries) && t.entries.filter(e => e.name && parseValue(e.value) !== null).length >= 3) : [];
 }
-function tplRow(key, title, entries) {
-  const imgs = entries.map(e => e.imageUrl || e.imageData).filter(Boolean).slice(0, 3);
-  const thumbs = imgs.length ? imgs.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('') : `<span>${esc(title[0] || '?')}</span>`;
-  return `<button class="tpl${tplChoice === key ? ' sel' : ''}" data-key="${esc(key)}"><div class="thumbs">${thumbs}</div><div class="grow"><strong>${esc(title)}</strong><small>${entries.length} Karten${imgs.length ? ' · mit Bildern' : ''}</small></div></button>`;
+function tplRow(key, title, entries, icon, source) {
+  const imgs = entries.map(e => e.imageUrl || e.imageData).filter(Boolean).slice(0, 2);
+  const thumbs = `<span class="ico">${esc(icon || title[0] || '?')}</span>` + imgs.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('');
+  const info = [entries.length + ' Karten', imgs.length ? 'mit Bildern' : '', source ? 'mit Quelle' : ''].filter(Boolean).join(' · ');
+  return `<button class="tpl${tplChoice === key ? ' sel' : ''}" data-key="${esc(key)}"><div class="thumbs">${thumbs}</div><div class="grow"><strong>${esc(title)}</strong><small>${info}</small></div></button>`;
 }
 function renderTemplates() {
-  let html = '<div class="tpl-list">' + ORDER.filter(k => TEMPLATES[k]).map(k => tplRow('b:' + k, LABELS[k] || TEMPLATES[k].topic, TEMPLATES[k].entries)).join('') + '</div>';
+  const row = k => tplRow('b:' + k, TEMPLATES[k].label || TEMPLATES[k].topic, TEMPLATES[k].entries, TEMPLATES[k].icon, TEMPLATES[k].source);
+  let html = '<div class="tpl-list">' + ORDER.filter(k => TEMPLATES[k]).map(row).join('') + '</div>';
+  const general = Object.keys(TEMPLATES).filter(k => TEMPLATES[k].category === 'Allgemeinwissen');
+  if (general.length) html += '<div class="tpl-group">Allgemeinwissen</div><div class="tpl-list">' + general.map(row).join('') + '</div>';
   const saved = savedTemplates();
-  if (saved.length) html += '<div class="tpl-group">Meine Vorlagen</div><div class="tpl-list">' + saved.map((t, i) => tplRow('s:' + i, t.name || t.topic || 'Vorlage', t.entries)).join('') + '</div>';
+  if (saved.length) html += '<div class="tpl-group">Meine Vorlagen</div><div class="tpl-list">' + saved.map((t, i) => tplRow('s:' + i, t.name || t.topic || 'Vorlage', t.entries, '✎', t.source)).join('') + '</div>';
   $('tpl-list').innerHTML = html;
-  $('tpl-list').querySelectorAll('.tpl').forEach(b => b.onclick = () => { tplChoice = b.dataset.key; renderTemplates(); });
+  $('tpl-list').querySelectorAll('.tpl').forEach(b => b.onclick = () => {
+    tplChoice = b.dataset.key;
+    $('tpl-list').querySelectorAll('.tpl').forEach(x => x.classList.toggle('sel', x === b));
+  });
   $('lives-seg').innerHTML = [1, 2, 3, 4, 5].map(n => `<button class="${n === livesChoice ? 'sel' : ''}" data-n="${n}">${n} ♥</button>`).join('');
   $('lives-seg').querySelectorAll('button').forEach(b => b.onclick = () => { livesChoice = +b.dataset.n; renderTemplates(); });
 }
@@ -356,11 +364,11 @@ function chosenTemplate() {
   const [kind, key] = tplChoice.split(':');
   if (kind === 'b') {
     const t = TEMPLATES[key];
-    return { topic: t.topic, unit: t.unit, entries: t.entries.map(e => ({ name: e.name, value: e.value, imageUrl: e.imageUrl || '' })) };
+    return { topic: t.topic, unit: t.unit, source: t.source || '', sourceUrl: t.sourceUrl || '', entries: t.entries.map(e => ({ name: e.name, value: e.value, imageUrl: e.imageUrl || '' })) };
   }
   const t = savedTemplates()[+key];
   return {
-    topic: t.topic || t.name, unit: t.unit || '',
+    topic: t.topic || t.name, unit: t.unit || '', source: t.source || '', sourceUrl: t.sourceUrl || '',
     entries: t.entries.map(e => ({ name: String(e.name || '').trim(), value: parseValue(e.value), imageUrl: e.imageUrl || '', imageData: e.imageData || '' })).filter(e => e.name && e.value !== null)
   };
 }
@@ -396,7 +404,7 @@ $('btn-leave').onclick = () => {
 
 // ===== Verbindung =====
 let ws = null, wsCode = null, retry = 0, retryTimer = null, pingTimer = null, closedByUs = false;
-let cards = {}, topic = '', unit = '';
+let cards = {}, topic = '', unit = '', source = '', sourceUrl = '';
 let S = null, selPos = null, sending = false, seenN = null, seenMatch = null, sheetHidden = false;
 
 function connect(code) {
@@ -452,7 +460,7 @@ function fatal(msg) {
 function handle(m) {
   if (m.t === 'cards') {
     cards = {}; m.cards.forEach(c => cards[c.id] = c);
-    topic = m.topic; unit = m.unit;
+    topic = m.topic; unit = m.unit; source = m.source || ''; sourceUrl = m.sourceUrl || '';
   } else if (m.t === 'error') {
     if (m.fatal) fatal(m.msg); else { sending = false; $('btn-place').disabled = false; toast(m.msg, 'bad'); }
   } else if (m.t === 'state') {
@@ -559,6 +567,7 @@ function renderGame(flashId) {
   }
   html += gap(0);
   html += '<div class="end lo">▼ Niedriger</div>';
+  html += sourceHtml();
   if (st.log && st.log.length) html += `<details class="log"><summary>Verlauf</summary><ul>${st.log.slice().reverse().map(l => `<li>${esc(l.text)}</li>`).join('')}</ul></details>`;
   sc.innerHTML = html;
   sc.querySelectorAll('button.gap').forEach(b => b.onclick = () => selectGap(+b.dataset.p));
@@ -599,6 +608,11 @@ function placeCard() {
   ws.send(JSON.stringify({ t: 'place', pos: selPos, card: S.current }));
 }
 
+function sourceHtml() {
+  if (!source) return '';
+  const txt = sourceUrl ? `<a href="${esc(sourceUrl)}" target="_blank" rel="noopener">${esc(source)}</a>` : esc(source);
+  return `<p class="source">Quelle: ${txt}</p>`;
+}
 function resultTitle() {
   if (S.winner === 'draw') return 'Unentschieden!';
   return S.winner === S.you ? 'Du hast gewonnen! 🎉' : esc(S.players[S.winner].name) + ' gewinnt';
@@ -613,6 +627,7 @@ function renderSheet() {
   $('sheet-inner').innerHTML = `<h2>${resultTitle()}</h2>
     <p class="sub">${esc(me.name)}: ${me.lives} ♥ · ${esc(opp.name)}: ${opp.lives} ♥</p>
     ${rest.length ? `<p class="rest">Nicht mehr gelegt: ${rest.map(r => `<b>${esc(cards[r.id].name)}</b> ${fmt(r.value)}`).join(' · ')}</p>` : ''}
+    ${sourceHtml()}
     <button class="btn btn-primary" id="btn-rematch">Revanche</button>
     <div class="row" style="margin-top:10px"><button class="btn btn-ghost" id="btn-hide">Skala ansehen</button><button class="btn btn-ghost" id="btn-home">Neues Duell</button></div>`;
   sheet.classList.add('show');

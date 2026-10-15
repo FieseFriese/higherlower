@@ -48,9 +48,12 @@ function cleanTemplate(raw) {
     if (entries.length >= 100) break;
   }
   if (entries.length < 3) throw new Error('Die Vorlage braucht mindestens 3 vollständige Karten.');
+  const sourceUrl = String(raw.sourceUrl ?? '');
   const tpl = {
     topic: cleanText(raw.topic, 120) || 'Higher or Lower',
     unit: cleanText(raw.unit, 40),
+    source: cleanText(raw.source, 200),
+    sourceUrl: /^https:\/\/[^\s"'<>]+$/i.test(sourceUrl) && sourceUrl.length <= 500 ? sourceUrl : '',
     entries,
   };
   if (JSON.stringify(tpl).length > MAX_TEMPLATE_BYTES) throw new Error('Die Vorlage ist zu groß (zu viele hochgeladene Bilder).');
@@ -136,6 +139,8 @@ export class DuelRoom extends DurableObject {
       code,
       topic: template.topic,
       unit: template.unit,
+      source: template.source,
+      sourceUrl: template.sourceUrl,
       cards: template.entries.map((e, id) => ({ id, ...e })),
       lives,
       players: [{ token, name, lives }, null],
@@ -186,7 +191,7 @@ export class DuelRoom extends DurableObject {
     server.serializeAttachment({ seat });
     await this.save();
 
-    server.send(JSON.stringify({ t: 'cards', topic: g.topic, unit: g.unit, cards: g.cards.map(c => ({ id: c.id, name: c.name, img: c.img })) }));
+    server.send(JSON.stringify({ t: 'cards', topic: g.topic, unit: g.unit, source: g.source || '', sourceUrl: g.sourceUrl || '', cards: g.cards.map(c => ({ id: c.id, name: c.name, img: c.img })) }));
     this.broadcast();
     return new Response(null, { status: 101, webSocket: client });
   }

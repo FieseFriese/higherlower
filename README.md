@@ -42,6 +42,21 @@ Lokal testen: `npm run dev` (Wrangler mit Durable Objects, http://127.0.0.1:8787
 | Marktwert Fussballer | Top 25 europaeische Spieler | Mio. EUR |
 | Legenden — Alter | Fussball-Legenden der letzten 30 Jahre | Jahre |
 | Staedte der Welt | 25 bekannte Staedte weltweit, mit Foto des Wahrzeichens | Einwohner |
+| Allgemeinwissen | 5 Vorlagen, siehe unten | – |
+
+### Allgemeinwissen (eingebaut, mit Bildern und Quelle)
+
+Die Quelle wird im Spiel unter dem Thema bzw. im Duell unter der Skala angezeigt.
+
+| Vorlage | Inhalt | Einheit | Quelle |
+|---|---|---|---|
+| Planeten & Monde | 16 Himmelskoerper nach Durchmesser | km | [NASA NSSDC Planetary Fact Sheets](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) (Sonne: 2 x mittlerer Radius) |
+| Laender nach Flaeche | 23 Laender, Gesamtflaeche inkl. Binnengewaesser | km² | [Wikipedia: List of countries and dependencies by area](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area) (UN-Statistikabteilung, USA: US Census) |
+| Laengste Fluesse | 20 Flusssysteme | km | [Wikipedia: List of river systems by length](https://en.wikipedia.org/wiki/List_of_river_systems_by_length) |
+| Berge der Welt | 21 bekannte Berge | m | Deutsche Wikipedia, Hoehenangaben der einzelnen Bergartikel (gerundet) |
+| Bundeslaender | 16 Bundeslaender nach Einwohnern | Einwohner | [Statistische Aemter des Bundes und der Laender](https://www.statistikportal.de/de/bevoelkerung/flaeche-und-bevoelkerung), Bevoelkerungsstand 2025, Basis Zensus 2022 |
+
+Bilder: Flaggen und Wappen von Wikimedia Commons, sonst das Titelbild des jeweiligen Wikipedia-Artikels.
 
 ## Zusaetzliche Vorlagen (JSON-Import)
 

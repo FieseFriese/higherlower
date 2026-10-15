@@ -1,6 +1,8 @@
 // Eingebaute Vorlagen, genutzt von index.html und duell.html
 const TEMPLATES = {
   stadion: {
+    label: 'Stadionkapazität',
+    icon: '▥',
     topic: 'Stadionkapazität',
     unit: 'Zuschauer',
     entries: [
@@ -15,6 +17,8 @@ const TEMPLATES = {
     ]
   },
   stadt: {
+    label: 'Deutsche Städte',
+    icon: '⌂',
     topic: 'Einwohnerzahl Städte (Deutschland)',
     unit: 'Einwohner',
     entries: [
@@ -26,6 +30,8 @@ const TEMPLATES = {
     ]
   },
   streamer: {
+    label: 'Twitch-Streamer',
+    icon: '●',
     topic: 'Deutsche Twitch-Streamer',
     unit: 'Abonnenten',
     entries: [
@@ -45,6 +51,8 @@ const TEMPLATES = {
     ]
   },
   fussballer: {
+    label: 'Fußball-Marktwerte',
+    icon: '⚽︎',
     topic: 'Marktwert europäischer Fußballer',
     unit: 'Mio. €',
     entries: [
@@ -76,6 +84,8 @@ const TEMPLATES = {
     ]
   },
   transfers: {
+    label: 'Deutsche Transfers',
+    icon: '€',
     topic: 'Teuerste Transfers deutscher Spieler (feste Ablöse)',
     unit: 'Mio. €',
     entries: [
@@ -107,6 +117,8 @@ const TEMPLATES = {
     ]
   },
   legenden: {
+    label: 'Legenden-Alter',
+    icon: '★',
     topic: 'Alter der größten Fußballer der letzten 30 Jahre',
     unit: 'Jahre',
     entries: [
@@ -138,6 +150,8 @@ const TEMPLATES = {
     ]
   },
   weltstaedte: {
+    label: 'Städte der Welt',
+    icon: '◎',
     topic: 'Einwohnerzahl bekannter Städte weltweit',
     unit: 'Einwohner',
     entries: [
@@ -166,6 +180,157 @@ const TEMPLATES = {
       {name:'Athen (Akropolis)',value:643452,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/1029_Acropolis_of_Athens_in_Greece_at_night_Photo_by_Giles_Laurent.jpg/500px-1029_Acropolis_of_Athens_in_Greece_at_night_Photo_by_Giles_Laurent.jpg'},
       {name:'Venedig (Markusplatz)',value:249385,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Piazza_San_Marco_%28Venice%29_at_night-msu-2021-6449-.jpg/500px-Piazza_San_Marco_%28Venice%29_at_night-msu-2021-6449-.jpg'},
       {name:'Pisa (Schiefer Turm)',value:98778,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Italy_-_Pisa_-_Leaning_Tower.jpg/500px-Italy_-_Pisa_-_Leaning_Tower.jpg'}
+    ]
+  },
+  planeten: {
+    label: 'Planeten & Monde',
+    icon: '◐',
+    category: 'Allgemeinwissen',
+    topic: 'Durchmesser von Sonne, Planeten und großen Monden',
+    unit: 'km',
+    source: 'NASA NSSDC Planetary Fact Sheets (Sonne: 2 × mittlerer Radius)',
+    sourceUrl: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/',
+    entries: [
+      {name:'Sonne',value:1391400,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/500px-The_Sun_in_white_light.jpg'},
+      {name:'Jupiter',value:142984,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/500px-Jupiter_OPAL_2024.png'},
+      {name:'Saturn',value:120536,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/500px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png'},
+      {name:'Uranus',value:51118,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Uranus_Voyager2_color_calibrated.png/500px-Uranus_Voyager2_color_calibrated.png'},
+      {name:'Neptun',value:49528,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Neptune_Voyager2_color_calibrated.png/500px-Neptune_Voyager2_color_calibrated.png'},
+      {name:'Erde',value:12756,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/500px-Meteosat-12-fci-march-equinox-2025-noon.jpg'},
+      {name:'Venus',value:12104,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/500px-Venus_from_Mariner_10.jpg'},
+      {name:'Mars',value:6792,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/500px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png'},
+      {name:'Ganymed (Jupitermond)',value:5262,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Ganymede_-_Perijove_34_Composite.png/500px-Ganymede_-_Perijove_34_Composite.png'},
+      {name:'Titan (Saturnmond)',value:5150,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Titan_in_true_color_by_Kevin_M._Gill.jpg/500px-Titan_in_true_color_by_Kevin_M._Gill.jpg'},
+      {name:'Merkur',value:4879,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/500px-Mercury_in_true_color.jpg'},
+      {name:'Kallisto (Jupitermond)',value:4821,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Callisto_VGR2_C2060635_OGB.png/500px-Callisto_VGR2_C2060635_OGB.png'},
+      {name:'Io (Jupitermond)',value:3643,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Io_highest_resolution_natural_color.png/500px-Io_highest_resolution_natural_color.png'},
+      {name:'Mond (Erdmond)',value:3475,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/500px-FullMoon2010.jpg'},
+      {name:'Europa (Jupitermond)',value:3122,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Europa_-_Perijove_45_%28cropped%29.png/500px-Europa_-_Perijove_45_%28cropped%29.png'},
+      {name:'Pluto (Zwergplanet)',value:2376,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/500px-Pluto_in_True_Color_-_High-Res.png'}
+    ]
+  },
+  laender: {
+    label: 'Länder nach Fläche',
+    icon: '⚑︎',
+    category: 'Allgemeinwissen',
+    topic: 'Gesamtfläche von Ländern (inkl. Binnengewässer)',
+    unit: 'km²',
+    source: 'Wikipedia: List of countries and dependencies by area (Daten der UN-Statistikabteilung, USA: US Census)',
+    sourceUrl: 'https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area',
+    entries: [
+      {name:'Russland',value:17098246,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/500px-Flag_of_Russia.svg.png'},
+      {name:'Kanada',value:9984670,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Flag_of_Canada.svg/500px-Flag_of_Canada.svg.png'},
+      {name:'China',value:9596960,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/500px-Flag_of_the_People%27s_Republic_of_China.svg.png'},
+      {name:'USA',value:9525067,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/500px-Flag_of_the_United_States.svg.png'},
+      {name:'Brasilien',value:8510346,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/500px-Flag_of_Brazil.svg.png'},
+      {name:'Australien',value:7741220,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/500px-Flag_of_Australia.svg.png'},
+      {name:'Indien',value:3287263,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_India.svg/500px-Flag_of_India.svg.png'},
+      {name:'Argentinien',value:2780400,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Flag_of_Argentina.svg/500px-Flag_of_Argentina.svg.png'},
+      {name:'Algerien',value:2381741,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Flag_of_Algeria.svg/500px-Flag_of_Algeria.svg.png'},
+      {name:'Ägypten',value:1001450,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/500px-Flag_of_Egypt.svg.png'},
+      {name:'Türkei',value:783562,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/500px-Flag_of_Turkey.svg.png'},
+      {name:'Spanien',value:505370,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/500px-Flag_of_Spain.svg.png'},
+      {name:'Schweden',value:450295,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/500px-Flag_of_Sweden.svg.png'},
+      {name:'Japan',value:377915,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/500px-Flag_of_Japan.svg.png'},
+      {name:'Deutschland',value:357581,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/500px-Flag_of_Germany.svg.png'},
+      {name:'Italien',value:302068,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/500px-Flag_of_Italy.svg.png'},
+      {name:'Vereinigtes Königreich',value:244376,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/500px-Flag_of_the_United_Kingdom_%283-5%29.svg.png'},
+      {name:'Österreich',value:83878,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/500px-Flag_of_Austria.svg.png'},
+      {name:'Niederlande',value:41865,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/500px-Flag_of_the_Netherlands.svg.png'},
+      {name:'Schweiz',value:41291,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/500px-Flag_of_Switzerland.svg.png'},
+      {name:'Luxemburg',value:2586,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Flag_of_Luxembourg.svg/500px-Flag_of_Luxembourg.svg.png'},
+      {name:'Malta',value:315,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Malta.svg/500px-Flag_of_Malta.svg.png'},
+      {name:'Vatikanstadt',value:0.44,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Flag_of_Vatican_City_%282023%E2%80%93present%29.svg/500px-Flag_of_Vatican_City_%282023%E2%80%93present%29.svg.png'}
+    ]
+  },
+  fluesse: {
+    label: 'Längste Flüsse',
+    icon: '≈',
+    category: 'Allgemeinwissen',
+    topic: 'Länge großer Flusssysteme der Welt',
+    unit: 'km',
+    source: 'Wikipedia: List of river systems by length',
+    sourceUrl: 'https://en.wikipedia.org/wiki/List_of_river_systems_by_length',
+    entries: [
+      {name:'Nil',value:6650,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Beautiful_nature_along_Nile_River_01.jpg/500px-Beautiful_nature_along_Nile_River_01.jpg'},
+      {name:'Amazonas',value:6400,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Amazon_River_ESA387332.jpg/500px-Amazon_River_ESA387332.jpg'},
+      {name:'Jangtse',value:6300,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Dusk_on_the_Yangtze_River.jpg/500px-Dusk_on_the_Yangtze_River.jpg'},
+      {name:'Mississippi (mit Missouri)',value:6275,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Efmo_View_from_Fire_Point.jpg/500px-Efmo_View_from_Fire_Point.jpg'},
+      {name:'Jenissei',value:5539,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/%D0%A1%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5_%D1%80%D0%B5%D0%BA_%D0%95%D0%BD%D0%B8%D1%81%D0%B5%D0%B9.jpg/500px-%D0%A1%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5_%D1%80%D0%B5%D0%BA_%D0%95%D0%BD%D0%B8%D1%81%D0%B5%D0%B9.jpg'},
+      {name:'Gelber Fluss (Huang He)',value:5464,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Yellow_River_-_panoramio.jpg/500px-Yellow_River_-_panoramio.jpg'},
+      {name:'Kongo',value:4700,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Aerial_view_of_the_Congo_River_near_Kisangani.jpg/500px-Aerial_view_of_the_Congo_River_near_Kisangani.jpg'},
+      {name:'Mekong',value:4350,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mekong-River-Near-Luang-Prabang.jpg/500px-Mekong-River-Near-Luang-Prabang.jpg'},
+      {name:'Niger',value:4200,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Niger%2C_Niamey%2C_Pont_Kennedy_%281%29.jpg/500px-Niger%2C_Niamey%2C_Pont_Kennedy_%281%29.jpg'},
+      {name:'Wolga',value:3645,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Yaroslavl._Volga_River._Cathedral_of_the_Dormition_P5212700_2200.jpg/500px-Yaroslavl._Volga_River._Cathedral_of_the_Dormition_P5212700_2200.jpg'},
+      {name:'Indus',value:3180,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Nanga_Parbat_Indus_Gorge.jpg/500px-Nanga_Parbat_Indus_Gorge.jpg'},
+      {name:'Donau',value:2888,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/500px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg'},
+      {name:'Sambesi',value:2740,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Zambezi_River_at_junction_of_Namibia%2C_Zambia%2C_Zimbabwe_%26_Botswana.jpg/500px-Zambezi_River_at_junction_of_Namibia%2C_Zambia%2C_Zimbabwe_%26_Botswana.jpg'},
+      {name:'Ganges',value:2704,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Varanasiganga.jpg/500px-Varanasiganga.jpg'},
+      {name:'Dnepr',value:2287,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Dniepr_river_in_Kyiv.jpg/500px-Dniepr_river_in_Kyiv.jpg'},
+      {name:'Tigris',value:1950,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Mosul_river.jpg/500px-Mosul_river.jpg'},
+      {name:'Elbe (mit Moldau)',value:1252,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Labe_udoli.jpg/500px-Labe_udoli.jpg'},
+      {name:'Rhein',value:1233,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Middle_Bridge%2C_Basel%2C_Switzerland.JPG/500px-Middle_Bridge%2C_Basel%2C_Switzerland.JPG'},
+      {name:'Oder (mit Warthe)',value:1045,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/WyspaRedzinska-GK.JPG/500px-WyspaRedzinska-GK.JPG'},
+      {name:'Loire',value:1012,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/La_Loire_%C3%A0_La_Bohalle_par_Cramos.JPG/500px-La_Loire_%C3%A0_La_Bohalle_par_Cramos.JPG'}
+    ]
+  },
+  berge: {
+    label: 'Berge der Welt',
+    icon: '▲',
+    category: 'Allgemeinwissen',
+    topic: 'Höhe bekannter Berge über dem Meeresspiegel',
+    unit: 'm',
+    source: 'Deutsche Wikipedia, Höhenangaben der jeweiligen Bergartikel (gerundet)',
+    sourceUrl: '',
+    entries: [
+      {name:'Mount Everest (Asien)',value:8848,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Mt._Everest_from_Gokyo_Ri_November_5%2C_2012.jpg/500px-Mt._Everest_from_Gokyo_Ri_November_5%2C_2012.jpg'},
+      {name:'K2 (Asien)',value:8611,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Chogori.jpg/500px-Chogori.jpg'},
+      {name:'Aconcagua (Südamerika)',value:6961,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Aconcagua2016.jpg/500px-Aconcagua2016.jpg'},
+      {name:'Denali (Nordamerika)',value:6190,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Wonder_Lake_and_Denali.jpg/500px-Wonder_Lake_and_Denali.jpg'},
+      {name:'Kilimandscharo (Afrika)',value:5895,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Kilimanjaro_from_Amboseli.jpg/500px-Kilimanjaro_from_Amboseli.jpg'},
+      {name:'Elbrus (Europa/Kaukasus)',value:5642,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Mount_Elbrus_%28cropped%29.jpg/500px-Mount_Elbrus_%28cropped%29.jpg'},
+      {name:'Mount Vinson (Antarktis)',value:4897,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Mount_Vinson_from_NW_at_Vinson_Plateau_by_Christian_Stangl_%28flickr%29.jpg/500px-Mount_Vinson_from_NW_at_Vinson_Plateau_by_Christian_Stangl_%28flickr%29.jpg'},
+      {name:'Mont Blanc (Alpen)',value:4807,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mont_Blanc_Aiguille.jpg/500px-Mont_Blanc_Aiguille.jpg'},
+      {name:'Matterhorn (Alpen)',value:4478,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Matterhorn_from_Domh%C3%BCtte_-_2.jpg/500px-Matterhorn_from_Domh%C3%BCtte_-_2.jpg'},
+      {name:'Großglockner (Österreich)',value:3798,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Gro%C3%9Fglockner_from_behind_the_glass_panorama_tower.JPG/500px-Gro%C3%9Fglockner_from_behind_the_glass_panorama_tower.JPG'},
+      {name:'Fuji (Japan)',value:3776,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg/500px-View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg'},
+      {name:'Pico del Teide (Teneriffa)',value:3715,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Roque_Cinchado_und_Teide.jpg/500px-Roque_Cinchado_und_Teide.jpg'},
+      {name:'Zugspitze (Deutschland)',value:2962,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Zugspitze_2.JPG/500px-Zugspitze_2.JPG'},
+      {name:'Olymp (Griechenland)',value:2918,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Olympus_National_Park_30.jpg/500px-Olympus_National_Park_30.jpg'},
+      {name:'Watzmann (Berchtesgaden)',value:2713,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Watzmann_von_Norden.jpg/500px-Watzmann_von_Norden.jpg'},
+      {name:'Mount Kosciuszko (Australien)',value:2228,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kosciuszko_main_range_from_Scammel_Spur_Lookout_%28cropped%29.jpg/500px-Kosciuszko_main_range_from_Scammel_Spur_Lookout_%28cropped%29.jpg'},
+      {name:'Feldberg (Schwarzwald)',value:1494,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/20041230-01144-Feldberggipfel.jpg/500px-20041230-01144-Feldberggipfel.jpg'},
+      {name:'Ben Nevis (Schottland)',value:1345,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/BenNevis2005.jpg/500px-BenNevis2005.jpg'},
+      {name:'Vesuv (Italien)',value:1281,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Il_cratere_del_Vulcano_-_panoramio.jpg/500px-Il_cratere_del_Vulcano_-_panoramio.jpg'},
+      {name:'Brocken (Harz)',value:1141,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Brocken_vom_Torfhaus.jpg/500px-Brocken_vom_Torfhaus.jpg'},
+      {name:'Tafelberg (Kapstadt)',value:1087,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Table_Mountain_DanieVDM.jpg/500px-Table_Mountain_DanieVDM.jpg'}
+    ]
+  },
+  bundeslaender: {
+    label: 'Bundesländer',
+    icon: '⬢',
+    category: 'Allgemeinwissen',
+    topic: 'Einwohnerzahl der deutschen Bundesländer',
+    unit: 'Einwohner',
+    source: 'Statistische Ämter des Bundes und der Länder, Bevölkerungsstand 2025 (Basis Zensus 2022)',
+    sourceUrl: 'https://www.statistikportal.de/de/bevoelkerung/flaeche-und-bevoelkerung',
+    entries: [
+      {name:'Nordrhein-Westfalen',value:17986214,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Coat_of_arms_of_North_Rhine-Westphalia.svg/500px-Coat_of_arms_of_North_Rhine-Westphalia.svg.png'},
+      {name:'Bayern',value:13245503,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Bayern_Wappen.svg/500px-Bayern_Wappen.svg.png'},
+      {name:'Baden-Württemberg',value:11238761,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Lesser_coat_of_arms_of_Baden-W%C3%BCrttemberg.svg/500px-Lesser_coat_of_arms_of_Baden-W%C3%BCrttemberg.svg.png'},
+      {name:'Niedersachsen',value:8000826,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Coat_of_arms_of_Lower_Saxony.svg/500px-Coat_of_arms_of_Lower_Saxony.svg.png'},
+      {name:'Hessen',value:6278594,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Coat_of_arms_of_Hesse.svg/500px-Coat_of_arms_of_Hesse.svg.png'},
+      {name:'Rheinland-Pfalz',value:4123022,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Coat_of_arms_of_Rhineland-Palatinate.svg/500px-Coat_of_arms_of_Rhineland-Palatinate.svg.png'},
+      {name:'Sachsen',value:4026599,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Coat_of_arms_of_Saxony.svg/500px-Coat_of_arms_of_Saxony.svg.png'},
+      {name:'Berlin',value:3700577,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/DEU_Berlin_COA.svg/500px-DEU_Berlin_COA.svg.png'},
+      {name:'Schleswig-Holstein',value:2958519,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/DEU_Schleswig-Holstein_COA.svg/500px-DEU_Schleswig-Holstein_COA.svg.png'},
+      {name:'Brandenburg',value:2551889,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/DEU_Brandenburg_COA.svg/500px-DEU_Brandenburg_COA.svg.png'},
+      {name:'Sachsen-Anhalt',value:2120252,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wappen_Sachsen-Anhalt.svg/500px-Wappen_Sachsen-Anhalt.svg.png'},
+      {name:'Thüringen',value:2078946,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Coat_of_arms_of_Thuringia.svg/500px-Coat_of_arms_of_Thuringia.svg.png'},
+      {name:'Hamburg',value:1869473,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/DEU_Hamburg_COA.svg/500px-DEU_Hamburg_COA.svg.png'},
+      {name:'Mecklenburg-Vorpommern',value:1573685,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Coat_of_arms_of_Mecklenburg-Western_Pomerania_%28great%29.svg/500px-Coat_of_arms_of_Mecklenburg-Western_Pomerania_%28great%29.svg.png'},
+      {name:'Saarland',value:1007342,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Wappen_des_Saarlands.svg/500px-Wappen_des_Saarlands.svg.png'},
+      {name:'Bremen',value:706915,imageUrl:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Bremen_Wappen%28Mittel%29.svg/500px-Bremen_Wappen%28Mittel%29.svg.png'}
     ]
   }
 };

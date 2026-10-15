@@ -274,6 +274,11 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
 .templates button.custom-template{border-style:dashed}
 .tpl-icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:11px;background:#242d42;color:var(--accent);font-size:1.05rem;font-weight:900}
 .featured .tpl-icon{background:var(--accent);color:#0c0f15}
+.tpl-group-head{margin-top:22px}
+.source-line{color:var(--muted);font-size:.8rem;line-height:1.4;margin-top:4px}
+.source-line a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.source-line.hidden{display:none}
+#setup-source{margin:-6px 0 14px}
 .templates button>span:last-child{display:flex;min-width:0;flex-direction:column;gap:3px}
 .templates strong{font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .templates small{color:#8592a6;font-size:.76rem;font-weight:600}
@@ -433,6 +438,7 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
       <label for="unit">Einheit</label>
       <input type="text" id="unit" placeholder="z.B. km², Zuschauer, Millionen Touristen…">
     </div>
+    <p class="source-line hidden" id="setup-source"></p>
     <div class="quickstart">
       <div class="quickstart-head">
         <h3>Schnellstart-Vorlage</h3>
@@ -448,6 +454,11 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
         <button onclick="loadTemplate('weltstaedte')"><span class="tpl-icon">◎</span><span><strong>Städte der Welt</strong><small>25 Karten</small></span></button>
         <button class="custom-template" onclick="loadTemplate('leer')"><span class="tpl-icon">＋</span><span><strong>Eigenes Thema</strong><small>Leer beginnen</small></span></button>
       </div>
+      <div class="quickstart-head tpl-group-head">
+        <h3>Allgemeinwissen</h3>
+        <span>Mit Bildern und Quellenangabe</span>
+      </div>
+      <div class="templates" id="tpl-allgemeinwissen"></div>
     </div>
   </div>
 
@@ -520,6 +531,7 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
     <div class="game-kicker">Higher or Lower</div>
     <h1 id="game-title-display">Higher or Lower</h1>
     <div class="cat-line" id="cat-line"></div>
+    <div class="source-line hidden" id="game-source"></div>
   </div>
 
   <div class="game-status" id="game-status"></div>
@@ -594,8 +606,38 @@ let placedOrder = []; // item IDs left→right on compact scale
 let cardMap = {}; // id → DOM element
 let activeStreams = {}; // player id → MediaStream
 
+let currentSource = { text: '', url: '' };
+function setSource(text, url) {
+  currentSource = { text: String(text || '').trim(), url: /^https:\/\//i.test(url || '') ? url : '' };
+  renderSource(document.getElementById('setup-source'));
+}
+function renderSource(el) {
+  if (!el) return;
+  el.classList.toggle('hidden', !currentSource.text);
+  el.textContent = '';
+  if (!currentSource.text) return;
+  el.append('Quelle: ');
+  if (currentSource.url) {
+    const a = document.createElement('a');
+    a.href = currentSource.url; a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = currentSource.text;
+    el.append(a);
+  } else {
+    el.append(currentSource.text);
+  }
+}
+function renderTemplateGroups() {
+  const box = document.getElementById('tpl-allgemeinwissen');
+  if (!box) return;
+  box.innerHTML = Object.entries(TEMPLATES)
+    .filter(([, t]) => t.category === 'Allgemeinwissen')
+    .map(([k, t]) => `<button onclick="loadTemplate('${k}')"><span class="tpl-icon">${esc(t.icon || '?')}</span><span><strong>${esc(t.label || t.topic)}</strong><small>${t.entries.length} Karten</small></span></button>`)
+    .join('');
+}
+
 function loadTemplate(key) {
   if (key === 'leer') {
+    setSource('', '');
     document.getElementById('topic').value = '';
     document.getElementById('unit').value = '';
     entries = [];
@@ -608,6 +650,7 @@ function loadTemplate(key) {
   const t = TEMPLATES[key];
   document.getElementById('topic').value = t.topic;
   document.getElementById('unit').value = t.unit;
+  setSource(t.source, t.sourceUrl);
   entries = t.entries.map(e => ({
     id: entryIdCounter++, name: e.name, value: parseEntryValue(e.value),
     imageUrl: e.imageUrl || '', imageData: '', isRef: false
@@ -823,6 +866,8 @@ function saveCurrentAsTemplate() {
     gameName: document.getElementById('game-name').value.trim(),
     topic: document.getElementById('topic').value,
     unit: document.getElementById('unit').value,
+    source: currentSource.text,
+    sourceUrl: currentSource.url,
     livesPerPlayer: parseInt(document.getElementById('lives-input').value) || 3,
     entries: entries.map(e => ({ name: e.name, value: e.value, imageUrl: e.imageUrl, imageData: e.imageData, isRef: e.isRef })),
     players: players.map(p => ({ name: p.name, imageUrl: p.imageUrl, imageData: p.imageData, isStart: p.isStart }))
@@ -851,6 +896,7 @@ function loadSavedTemplate(index) {
   document.getElementById('game-name').value = t.gameName || '';
   document.getElementById('topic').value = t.topic || '';
   document.getElementById('unit').value = t.unit || '';
+  setSource(t.source, t.sourceUrl);
   document.getElementById('lives-input').value = t.livesPerPlayer || 3;
   entryIdCounter = 0;
   entries = (t.entries || []).map(e => ({
@@ -980,6 +1026,7 @@ function startGame() {
   const unit = document.getElementById('unit').value || '';
   document.getElementById('game-title-display').textContent = gameName;
   document.getElementById('cat-line').textContent = topic + (unit ? ' (' + unit + ')' : '');
+  renderSource(document.getElementById('game-source'));
   document.title = gameName + ' · Higher or Lower';
   localStorage.setItem('hl-game-name', gameName === 'Higher or Lower' ? '' : gameName);
 
@@ -1757,6 +1804,7 @@ function applyCardSize(size) {
 document.getElementById('game-name').value = localStorage.getItem('hl-game-name') || '';
 loadTemplate('transfers');
 renderSavedTemplates();
+renderTemplateGroups();
 renderThemeGrid();
 </script>
 </body>
