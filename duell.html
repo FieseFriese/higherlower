@@ -62,6 +62,7 @@ label.field{display:block;font-size:.82rem;font-weight:750;color:#cbd5e1;margin-
 .hint{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#cbd5e1;background:color-mix(in srgb,var(--cyan) 8%,transparent);border:1px solid color-mix(in srgb,var(--cyan) 30%,transparent);border-radius:14px;padding:12px 14px;margin-bottom:14px}
 .hint b{color:var(--text)}
 .err{color:#fca5a5;font-size:.9rem;margin-top:10px;min-height:1.2em}
+.err .claim{margin-top:10px;color:var(--text)}
 .resume{border-color:color-mix(in srgb,var(--accent) 50%,var(--line));background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
 .sticky-cta{position:sticky;bottom:0;padding:12px 0 calc(var(--sb) + 12px);margin-bottom:calc(-1 * (var(--sb) + 24px));background:linear-gradient(to top,var(--bg) 75%,transparent)}
 .sticky-cta .err{margin:0 0 8px}
@@ -263,6 +264,7 @@ details.log li{margin:6px 0 0 18px}
 // Reihenfolge der Sport/Mix-Vorlagen; Allgemeinwissen kommt als eigene Gruppe aus templates.js
 const ORDER = ['weltstaedte', 'fussballer', 'legenden', 'transfers', 'stadion', 'stadt', 'streamer'];
 const LAST_KEY = 'hl-duel-last';
+const TOKENS_KEY = 'hl-duel-tokens'; // Code -> Kennung, damit man jedem eigenen Duell wieder beitreten kann
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -282,6 +284,13 @@ let token;
 try { token = sessionStorage.getItem('hl-duel-tok'); } catch {}
 if (!token) { token = newToken(); try { sessionStorage.setItem('hl-duel-tok', token); } catch {} }
 function setToken(t) { token = t; try { sessionStorage.setItem('hl-duel-tok', t); } catch {} }
+function rememberToken(code, t) {
+  const all = store.get(TOKENS_KEY, {});
+  all[code] = { token: t, at: Date.now() };
+  const keep = Object.entries(all).sort((a, b) => b[1].at - a[1].at).slice(0, 20);
+  store.set(TOKENS_KEY, Object.fromEntries(keep));
+}
+function knownToken(code) { return store.get(TOKENS_KEY, {})[code]?.token || null; }
 
 // ===== Bildschirme =====
 function show(name) {
@@ -407,13 +416,16 @@ let ws = null, wsCode = null, retry = 0, retryTimer = null, pingTimer = null, cl
 let cards = {}, topic = '', unit = '', source = '', sourceUrl = '';
 let S = null, selPos = null, sending = false, seenN = null, seenMatch = null, sheetHidden = false;
 
-function connect(code) {
+let claimSeat = null, triedKnown = false;
+function connect(code, opts = {}) {
+  if (code !== wsCode) triedKnown = false;
+  claimSeat = opts.claim ?? null;
   wsCode = code;
   closedByUs = false;
   clearTimeout(retryTimer);
   if (ws) { ws.onclose = null; try { ws.close(); } catch {} }
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  const url = `${proto}://${location.host}/api/duel/${code}/ws?token=${encodeURIComponent(token)}&name=${encodeURIComponent(getName())}`;
+  const url = `${proto}://${location.host}/api/duel/${code}/ws?token=${encodeURIComponent(token)}&name=${encodeURIComponent(getName())}` + (claimSeat !== null ? '&claim=' + claimSeat : '');
   const sock = new WebSocket(url);
   ws = sock;
   sock.onopen = () => {
@@ -446,13 +458,37 @@ function leave(forget = true) {
   history.replaceState(null, '', location.pathname);
   show('home');
 }
+// Duell voll: zuerst die gemerkte Kennung probieren, dann Platz-Übernahme anbieten.
+function onFull(m) {
+  const code = wsCode;
+  const known = knownToken(code);
+  if (known && known !== token && !triedKnown) {
+    triedKnown = true;
+    setToken(known);
+    connect(code);
+    return;
+  }
+  fatal(m.msg);
+  if (!m.free || !m.free.length) {
+    $('home-err').textContent = 'Dieses Duell ist schon voll – beide Spieler sind gerade online.';
+    return;
+  }
+  const box = $('home-err');
+  box.textContent = 'Du bist in diesem Duell auf diesem Gerät nicht mehr angemeldet. Wer bist du?';
+  m.free.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'btn btn-ghost claim';
+    b.textContent = 'Ich bin ' + f.name + ' – Platz übernehmen';
+    b.onclick = () => { $('home-err').textContent = ''; connect(code, { claim: f.seat }); };
+    box.append(b);
+  });
+}
 function fatal(msg) {
   closedByUs = true;
   const code = wsCode;
   ws = null; wsCode = null; S = null;
   const last = store.get(LAST_KEY, null);
-  if (last && last.code === code && /voll|anderen Fenster/.test(msg)) msg += ' Über „Weiterspielen“ kannst du deinen Platz wieder übernehmen.';
-  else if (last && last.code === code) store.del(LAST_KEY);
+  if (last && last.code === code && !/voll|anderen Fenster/.test(msg)) store.del(LAST_KEY);
   show('home');
   $('home-err').textContent = msg;
 }
@@ -462,7 +498,7 @@ function handle(m) {
     cards = {}; m.cards.forEach(c => cards[c.id] = c);
     topic = m.topic; unit = m.unit; source = m.source || ''; sourceUrl = m.sourceUrl || '';
   } else if (m.t === 'error') {
-    if (m.fatal) fatal(m.msg); else { sending = false; $('btn-place').disabled = false; toast(m.msg, 'bad'); }
+    if (m.full) onFull(m); else if (m.fatal) fatal(m.msg); else { sending = false; $('btn-place').disabled = false; toast(m.msg, 'bad'); }
   } else if (m.t === 'state') {
     onState(m);
   }
@@ -475,6 +511,8 @@ function onState(st) {
   sending = false;
   const opp = st.players[1 - st.you];
   store.set(LAST_KEY, { code: st.code, token, name: st.players[st.you]?.name || getName(), vs: opp ? opp.name : '', at: Date.now() });
+  rememberToken(st.code, token);
+  claimSeat = null;
   if (location.search !== '?c=' + st.code) history.replaceState(null, '', '?c=' + st.code);
   $('code-chip').textContent = st.code;
 

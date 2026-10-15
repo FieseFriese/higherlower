@@ -172,8 +172,24 @@ export class DuelRoom extends DurableObject {
 
     const g = this.game;
     let seat = g.players.findIndex(p => p && p.token === token);
+    if (seat === -1 && g.players[1]) {
+      // Duell ist voll: Ein Spieler, der gerade offline ist, darf seinen Platz
+      // auf einem neuen Gerät/Browser übernehmen (z. B. Safari statt Home-Bildschirm-App).
+      const online = new Set(this.ctx.getWebSockets()
+        .filter(ws => ws !== server && ws.readyState === 1)
+        .map(ws => ws.deserializeAttachment()?.seat));
+      const claim = Number(url.searchParams.get('claim'));
+      if ((claim === 0 || claim === 1) && !online.has(claim)) {
+        seat = claim;
+        g.players[seat].token = token;
+      } else {
+        const free = [0, 1].filter(s => !online.has(s)).map(s => ({ seat: s, name: g.players[s].name }));
+        server.send(JSON.stringify({ t: 'error', msg: 'Dieses Duell ist schon voll.', fatal: true, full: true, free }));
+        server.close(4003, 'voll');
+        return new Response(null, { status: 101, webSocket: client });
+      }
+    }
     if (seat === -1) {
-      if (g.players[1]) return fail('Dieses Duell ist schon voll.', 4003);
       seat = 1;
       g.players[1] = { token, name: name || 'Spieler 2', lives: g.lives };
       if (g.players[1].name === g.players[0].name) g.players[1].name += ' 2';
