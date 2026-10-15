@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist && cp index.html duell.html templates.js duell.webmanifest dist/ && cp -R icons dist/ && find . -maxdepth 1 -name 'vorlage-*.json' ! -name 'vorlage-mitarbeiter-alter.json' -exec cp {} dist/ \\;",
+    "build": "rm -rf dist && mkdir -p dist && cp index.html duell.html templates.js sw.js duell.webmanifest dist/ && cp -R icons dist/ && find . -maxdepth 1 -name 'vorlage-*.json' ! -name 'vorlage-mitarbeiter-alter.json' -exec cp {} dist/ \\;",
     "deploy": "npm run build && npx wrangler@4.92.0 deploy",
     "dev": "npm run build && npx wrangler@4.92.0 dev --port 8787 --ip 127.0.0.1"
   }

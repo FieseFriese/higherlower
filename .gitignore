@@ -5,3 +5,4 @@ dist/
 *~
 .wrangler/
 vorlage-mitarbeiter-alter.json
+.dev.vars

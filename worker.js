@@ -4,6 +4,7 @@
 // Züge; Kartenwerte verlassen den Server erst, wenn eine Karte richtig liegt.
 
 import { DurableObject } from 'cloudflare:workers';
+import { cleanSubscription, sendPush, vapidPublicKey } from './push.js';
 
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const CODE_RE = /^[A-HJ-NP-Z2-9]{4}$/;
@@ -100,6 +101,11 @@ export default {
       return stub.fetch(request);
     }
 
+    if (url.pathname === '/api/push/key') {
+      const key = await vapidPublicKey(env);
+      return key ? json({ key }) : json({ error: 'Mitteilungen sind auf dem Server nicht eingerichtet.' }, 503);
+    }
+
     if (url.pathname.startsWith('/api/')) return json({ error: 'Nicht gefunden.' }, 404);
     return env.ASSETS.fetch(request);
   },
@@ -189,11 +195,13 @@ export class DuelRoom extends DurableObject {
         return new Response(null, { status: 101, webSocket: client });
       }
     }
+    let joined = false;
     if (seat === -1) {
       seat = 1;
       g.players[1] = { token, name: name || 'Spieler 2', lives: g.lives };
       if (g.players[1].name === g.players[0].name) g.players[1].name += ' 2';
       this.startMatch();
+      joined = true;
     } else if (name && g.players[seat].name !== name) {
       g.players[seat].name = name;
     }
@@ -204,8 +212,12 @@ export class DuelRoom extends DurableObject {
         try { ws.close(4002, 'Neu verbunden'); } catch {}
       }
     }
-    server.serializeAttachment({ seat });
+    server.serializeAttachment({ seat, visible: true });
     await this.save();
+    if (joined) {
+      const n = g.players[1].name;
+      this.notify(0, 'Dein Gegner ist da', n + ' ist beigetreten – ' + (g.turn === 0 ? 'du fängst an.' : n + ' fängt an.')).catch(() => {});
+    }
 
     server.send(JSON.stringify({ t: 'cards', topic: g.topic, unit: g.unit, source: g.source || '', sourceUrl: g.sourceUrl || '', cards: g.cards.map(c => ({ id: c.id, name: c.name, img: c.img })) }));
     this.broadcast();
@@ -228,12 +240,34 @@ export class DuelRoom extends DurableObject {
       this.place(seat, pos);
       await this.save();
       this.broadcast();
+      const other = 1 - seat, me = g.players[seat].name, l = g.last;
+      if (g.phase === 'playing' && g.turn === other) {
+        await this.notify(other, 'Du bist dran!', `${me} hat „${g.cards[l.card].name}“ ${l.correct ? 'richtig' : 'falsch'} gelegt.`);
+      } else if (g.phase === 'over') {
+        const result = g.winner === 'draw' ? 'Unentschieden!' : g.winner === other ? 'Du hast gewonnen! 🎉' : g.players[g.winner].name + ' hat gewonnen.';
+        await this.notify(other, 'Duell vorbei', result + ' Tippe für die Revanche.');
+      }
     } else if (msg.t === 'rematch') {
       if (g.phase !== 'over' || !g.players[1]) return;
       g.starter = 1 - g.starter;
       this.startMatch(g.players[seat].name + ' hat eine Revanche gestartet.');
       await this.save();
       this.broadcast();
+      const other = 1 - seat;
+      await this.notify(other, 'Revanche!', g.players[seat].name + ' will eine Revanche – ' + (g.turn === other ? 'du fängst an.' : g.players[seat].name + ' fängt an.'));
+    } else if (msg.t === 'push') {
+      // Mitteilungen für diesen Spieler an- (Abo) oder abschalten (null)
+      if (msg.sub === null) delete g.players[seat].push;
+      else {
+        const sub = cleanSubscription(msg.sub);
+        if (!sub) return this.sendError(ws, 'Mitteilungen konnten nicht eingerichtet werden.');
+        g.players[seat].push = sub;
+      }
+      await this.save();
+      this.broadcast();
+    } else if (msg.t === 'vis') {
+      // Sichtbarkeit der App: Wer gerade hinschaut, bekommt keine Mitteilung
+      ws.serializeAttachment({ ...ws.deserializeAttachment(), visible: !!msg.v });
     } else if (msg.t === 'ping') {
       ws.send(JSON.stringify({ t: 'pong' }));
     }
@@ -245,6 +279,26 @@ export class DuelRoom extends DurableObject {
 
   async webSocketError() {
     this.broadcast();
+  }
+
+  // Mitteilung an einen Spieler, aber nur wenn er die App gerade nicht offen hat.
+  async notify(seat, title, body) {
+    const g = this.game;
+    const p = g && g.players[seat];
+    if (!p || !p.push || !this.env.VAPID_PRIVATE_JWK) return;
+    const watching = this.ctx.getWebSockets().some(ws => {
+      const a = ws.deserializeAttachment();
+      return ws.readyState === 1 && a?.seat === seat && a.visible !== false;
+    });
+    if (watching) return;
+    try {
+      const status = await sendPush(this.env, p.push,
+        { title, body, code: g.code, url: '/duell?c=' + g.code, tag: 'hl-' + g.code }, 'hl' + g.code);
+      if (status === 404 || status === 410) { delete p.push; await this.save(); }
+      else if (status >= 400) console.log('Push abgelehnt', status, new URL(p.push.endpoint).hostname);
+    } catch (err) {
+      console.log('Push fehlgeschlagen', err.message);
+    }
   }
 
   sendError(ws, msg) {
@@ -359,6 +413,7 @@ export class DuelRoom extends DurableObject {
       // Nach Spielende alle restlichen Werte zeigen
       rest: over ? (g.pool || []).map(id => ({ id, value: this.value(id) })) : [],
       matchNo: g.matchNo,
+      pushOn: !!g.players[seat]?.push,
       roundNo: g.roundNo || 0,
       log: g.log.slice(-12),
     };

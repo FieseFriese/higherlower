@@ -2,6 +2,7 @@
   "name": "higher-lower",
   "main": "worker.js",
   "compatibility_date": "2026-05-22",
+  "vars": { "VAPID_SUBJECT": "https://higher-lower.fiesefriese.workers.dev" },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
