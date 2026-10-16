@@ -136,6 +136,7 @@ body{background:radial-gradient(circle at 50% -15%,color-mix(in srgb,var(--accen
 .item-card.correct{border-color:var(--correct);animation:pulse-green .6s}
 .item-card.wrong{border-color:var(--wrong);animation:pulse-red .6s}
 .item-card.locked{cursor:default}
+.item-card:not(.reference):not(.locked){touch-action:none;-webkit-touch-callout:none;-webkit-user-drag:none}
 .item-card img{width:100%;height:100%;object-fit:cover}
 .item-card .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;text-align:center;padding:4px;line-height:1.1}
 .item-card .card-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.75);font-size:.55rem;text-align:center;padding:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -586,6 +587,7 @@ let selectedItemId = null;
 let resolved = false;
 let dragGhost = null;
 let touchDragId = null;
+const TOUCH_ONLY = matchMedia('(hover: none) and (pointer: coarse)').matches;
 
 // Player state
 let players = [];
@@ -1077,7 +1079,7 @@ function createItemCard(item, isRef) {
   const card = document.createElement('div');
   card.className = 'item-card' + (isRef ? ' reference' : '');
   card.dataset.id = item.id;
-  card.draggable = !isRef;
+  card.draggable = !isRef && !TOUCH_ONLY;
 
   const imgSrc = item.imageData || item.imageUrl;
   if (imgSrc) {
@@ -1237,14 +1239,26 @@ function placeItem(itemId, insertAt) {
 }
 
 // ===== TOUCH DRAG =====
+let edgeScrollTimer = null, lastTouch = null;
+function stopEdgeScroll() { clearInterval(edgeScrollTimer); edgeScrollTimer = null; }
+// Beim Ziehen am oberen/unteren Rand die Seite mitscrollen, damit Skala und Stapel erreichbar sind
+function edgeScroll() {
+  if (!lastTouch || !dragGhost) return stopEdgeScroll();
+  const edge = 70, y = lastTouch.y;
+  const step = y < edge ? -Math.ceil((edge - y) / 4) : y > innerHeight - edge ? Math.ceil((y - innerHeight + edge) / 4) : 0;
+  if (step) scrollBy(0, step);
+}
 function onPointerDown(e) {
   if (resolved || isChecking) return;
   if (e.pointerType !== 'touch') return;
+  if (dragGhost) return; // zweiter Finger während eines Zugs
   const card = e.currentTarget;
   const id = parseInt(card.dataset.id);
   if (checkedItems.has(id)) return;
   touchDragId = id;
   hideTooltip();
+  const startX = e.clientX, startY = e.clientY;
+  let moved = false;
 
   dragGhost = card.cloneNode(true);
   dragGhost.className = 'item-card drag-ghost';
@@ -1253,12 +1267,28 @@ function onPointerDown(e) {
   moveGhost(e.clientX, e.clientY);
   card.style.opacity = '0.3';
 
-  const onMove = ev => { ev.preventDefault(); moveGhost(ev.clientX, ev.clientY); };
-  const onUp = ev => {
+  const onMove = ev => {
+    if (ev.pointerId !== e.pointerId) return;
+    ev.preventDefault();
+    if (Math.abs(ev.clientX - startX) + Math.abs(ev.clientY - startY) > 8) moved = true;
+    moveGhost(ev.clientX, ev.clientY);
+    lastTouch = { x: ev.clientX, y: ev.clientY };
+    if (!edgeScrollTimer) edgeScrollTimer = setInterval(edgeScroll, 16);
+  };
+  const cleanup = () => {
     document.removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerup', onUp);
+    document.removeEventListener('pointercancel', onCancel);
+    stopEdgeScroll(); lastTouch = null;
     if (dragGhost) { dragGhost.remove(); dragGhost = null; }
     card.style.opacity = '1';
+  };
+  // iOS kann die Geste abbrechen (z. B. Systemgeste): dann alles zurücksetzen, nichts legen
+  const onCancel = ev => { if (ev.pointerId === e.pointerId) { cleanup(); touchDragId = null; } };
+  const onUp = ev => {
+    if (ev.pointerId !== e.pointerId) return;
+    cleanup();
+    if (!moved) { touchDragId = null; return; } // nur angetippt: das Klick-Auswählen übernimmt onItemClick
 
     const dz = findNearestDropZone(ev.clientX, ev.clientY);
     if (dz) {
@@ -1278,6 +1308,7 @@ function onPointerDown(e) {
   };
   document.addEventListener('pointermove', onMove, { passive: false });
   document.addEventListener('pointerup', onUp);
+  document.addEventListener('pointercancel', onCancel);
 }
 function moveGhost(x, y) { if (dragGhost) { dragGhost.style.left = x + 'px'; dragGhost.style.top = y + 'px'; } }
 function findNearestDropZone(x, y) {
