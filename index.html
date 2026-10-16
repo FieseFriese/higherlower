@@ -124,6 +124,8 @@ body{background:radial-gradient(circle at 50% -15%,color-mix(in srgb,var(--accen
 .scale-line{position:relative;height:4px;background:#fff;border-radius:2px;margin:0 10px}
 .compact-scale{display:flex;align-items:center;justify-content:center;margin:0 10px;transform:translateY(-50px);min-height:85px;flex-wrap:nowrap;overflow-x:auto}
 .drop-zone{width:18px;min-width:18px;height:80px;border-radius:6px;transition:all .2s;flex-shrink:0}
+.compact-scale .item-card{flex-shrink:0}
+.scale-hint{display:none}
 .drop-zone.drag-over,.drop-zone.dz-hover{width:60px;min-width:60px;background:color-mix(in srgb,var(--accent) 15%,transparent);border:2px dashed var(--accent)}
 .drop-zone.clickable{border:1px dashed #555;cursor:pointer}
 .drop-zone.clickable:hover{width:60px;min-width:60px;background:color-mix(in srgb,var(--accent) 15%,transparent);border:2px dashed var(--accent)}
@@ -317,7 +319,7 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
 .arrow-high{background:color-mix(in srgb,var(--correct) 10%,transparent);border:1px solid color-mix(in srgb,var(--correct) 24%,transparent)}
 .scale-line{height:5px;background:linear-gradient(90deg,var(--wrong),var(--accent) 50%,var(--correct));box-shadow:0 0 18px color-mix(in srgb,var(--accent) 18%,transparent)}
 .item-card{border-radius:13px;border-width:2px;background:#192136;box-shadow:0 7px 18px rgba(0,0,0,.28)}
-.item-card:hover:not(.locked):not(.reference){transform:translateY(-3px);box-shadow:0 11px 24px rgba(0,0,0,.36)}
+@media(hover:hover){.item-card:hover:not(.locked):not(.reference){transform:translateY(-3px);box-shadow:0 11px 24px rgba(0,0,0,.36)}}
 .item-card .fallback{font-weight:850;background-image:linear-gradient(145deg,rgba(255,255,255,.12),transparent)!important;text-shadow:0 1px 4px rgba(0,0,0,.45)}
 .item-card .card-label{padding:4px 3px;background:linear-gradient(transparent,rgba(0,0,0,.93));font-size:.58rem;font-weight:700}
 .item-card .card-value{padding:4px 2px;background:rgba(6,9,14,.9);font-size:.62rem;color:var(--accent)}
@@ -382,7 +384,13 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
   .quickstart-head{align-items:flex-start;flex-direction:column;gap:4px}
   .entry-card{grid-template-columns:1fr;gap:6px}
   .scale-area{padding:10px 10px}
-  .compact-scale{margin:0 5px;transform:translateY(-45px)}
+  .compact-scale{margin:6px 0 0;transform:none;flex-wrap:wrap;overflow:visible;row-gap:8px;min-height:60px}
+  .scale-line{display:none}
+  .arrow-row{margin-bottom:0}
+  .arrow-low,.arrow-high{font-size:1rem}
+  .scale-hint{display:block;text-align:center;color:var(--muted);font-size:.72rem;margin-top:-18px}
+  .drop-zone{height:55px;width:14px;min-width:14px}
+  .drop-zone.drag-over,.drop-zone.dz-hover{width:40px;min-width:40px}
   .item-card{width:55px;height:55px}
   .pool-area{padding:10px}
   .arrow-row{padding:0}
@@ -543,6 +551,7 @@ button:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var
       <span class="arrow-high">Higher &#9650;</span>
     </div>
     <div class="scale-line"></div>
+    <div class="scale-hint">niedrig → hoch, Zeile für Zeile</div>
     <div class="compact-scale" id="compact-scale"></div>
   </div>
 
@@ -1189,6 +1198,7 @@ function onPoolDrop(e) {
 // ===== CLICK MODE =====
 function onItemClick(e) {
   if (resolved || isChecking) return;
+  if (Date.now() < suppressClickUntil) { e.stopPropagation(); return; }
   e.stopPropagation();
   const card = e.currentTarget;
   const id = parseInt(card.dataset.id);
@@ -1215,6 +1225,7 @@ function onItemClick(e) {
 }
 
 function onDzClick(insertAt) {
+  if (Date.now() < suppressClickUntil) return;
   if (resolved || selectedItemId === null || isChecking) return;
   placeItem(selectedItemId, insertAt);
 }
@@ -1239,7 +1250,7 @@ function placeItem(itemId, insertAt) {
 }
 
 // ===== TOUCH DRAG =====
-let edgeScrollTimer = null, lastTouch = null;
+let edgeScrollTimer = null, lastTouch = null, suppressClickUntil = 0;
 function stopEdgeScroll() { clearInterval(edgeScrollTimer); edgeScrollTimer = null; }
 // Beim Ziehen am oberen/unteren Rand die Seite mitscrollen, damit Skala und Stapel erreichbar sind
 function edgeScroll() {
@@ -1289,6 +1300,7 @@ function onPointerDown(e) {
     if (ev.pointerId !== e.pointerId) return;
     cleanup();
     if (!moved) { touchDragId = null; return; } // nur angetippt: das Klick-Auswählen übernimmt onItemClick
+    suppressClickUntil = Date.now() + 600; // iOS schickt nach dem Loslassen evtl. noch einen Klick
 
     const dz = findNearestDropZone(ev.clientX, ev.clientY);
     if (dz) {
