@@ -77,6 +77,10 @@ Im Repository befinden sich weitere Vorlagen als JSON-Dateien:
 
 Diese koennen ueber den **Importieren**-Button im Vorlagen-Tab geladen werden.
 
+## Spielregeln (allein)
+
+Ohne Mitspieler wird jede Karte sofort beim Ablegen geprueft: richtig = sie bleibt liegen und zeigt ihren Wert, falsch = sie geht zurueck in den Stapel. Oben stehen Treffer und Fehler (✓ / ✗). Sind alle Karten gelegt, ist die Runde geschafft. „Aufloesen“ im Menue deckt alles auf einmal auf.
+
 ## Spielregeln (Mehrspieler)
 
 1. Jeder Spieler platziert pro Runde eine Karte auf der Skala

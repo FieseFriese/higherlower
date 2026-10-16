@@ -1050,9 +1050,10 @@ function startGame() {
     startNewRound();
   } else {
     gameMode = 'free';
+    soloRight = 0; soloWrong = 0;
     document.getElementById('btn-resolve').style.display = '';
     document.getElementById('player-bar').innerHTML = '';
-    document.getElementById('game-status').textContent = '';
+    setStatus('Leg eine Karte auf die Skala – sie wird sofort geprüft.');
   }
 }
 
@@ -1246,6 +1247,58 @@ function placeItem(itemId, insertAt) {
   renderCompactScale();
   if (gameMode === 'players') {
     autoCheck(itemId, targetIndex);
+  } else {
+    soloCheck(itemId, targetIndex);
+  }
+}
+
+// Ohne Mitspieler: jede Karte sofort prüfen. Richtig = bleibt liegen und zeigt ihren Wert,
+// falsch = kurz rot, dann zurück in den Stapel. Gezählt werden Treffer und Fehler.
+let soloRight = 0, soloWrong = 0;
+function soloScore() {
+  document.getElementById('score-display').textContent = '✓ ' + soloRight + '   ✗ ' + soloWrong;
+}
+function soloCheck(itemId, insertPos) {
+  if (isChecking || resolved) return;
+  const { items } = window._gameData;
+  const value = id => items.find(i => i.id === id).value;
+  const card = cardMap[itemId];
+  if (!card) return;
+  isChecking = true;
+  const v = value(itemId);
+  const left = insertPos > 0 ? value(placedOrder[insertPos - 1]) : -Infinity;
+  const right = insertPos < placedOrder.length - 1 ? value(placedOrder[insertPos + 1]) : Infinity;
+  const name = getItemName(itemId);
+  const unit = document.getElementById('unit').value || '';
+
+  if (v >= left && v <= right) {
+    soloRight++;
+    card.querySelector('.card-value').classList.add('visible');
+    card.draggable = false;
+    card.classList.add('locked', 'correct');
+    checkedItems.add(itemId);
+    setStatus('Richtig! ' + name + ': ' + formatNumber(v) + (unit ? ' ' + unit : ''));
+    soloScore();
+    isChecking = false;
+    renderCompactScale();
+    if (document.querySelectorAll('#pool-grid .item-card').length === 0) {
+      resolved = true;
+      renderCompactScale();
+      setStatus('Geschafft! Alle Karten liegen – ' + soloRight + ' richtig, ' + soloWrong + (soloWrong === 1 ? ' Fehler.' : ' Fehler.'));
+    }
+  } else {
+    soloWrong++;
+    card.classList.add('wrong');
+    setStatus('Falsch! ' + name + ' gehört woanders hin.');
+    soloScore();
+    setTimeout(() => {
+      card.classList.remove('wrong');
+      const idx = placedOrder.indexOf(itemId);
+      if (idx >= 0) placedOrder.splice(idx, 1);
+      document.getElementById('pool-grid').appendChild(card);
+      isChecking = false;
+      renderCompactScale();
+    }, 1200);
   }
 }
 
@@ -1719,6 +1772,9 @@ function resetGame() {
     players.forEach(p => { p.lives = livesPerPlayer; p.maxLives = livesPerPlayer; });
     isFirstRound = true;
     startNewRound();
+  } else {
+    soloRight = 0; soloWrong = 0;
+    setStatus('Leg eine Karte auf die Skala – sie wird sofort geprüft.');
   }
 }
 
