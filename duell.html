@@ -212,9 +212,9 @@ details.log li{margin:6px 0 0 18px}
 
   <!-- Vorlage wählen -->
   <section class="screen" id="s-create">
-    <button class="back" data-go="home">‹ Zurück</button>
+    <button class="back" id="create-back">‹ Zurück</button>
     <div class="card">
-      <h2>Thema wählen</h2>
+      <h2 id="create-title">Thema wählen</h2>
       <div id="tpl-list"></div>
     </div>
     <div class="card">
@@ -338,7 +338,7 @@ $('btn-join').onclick = () => {
   connect(code);
 };
 $('code-in').addEventListener('keydown', e => { if (e.key === 'Enter') $('btn-join').click(); });
-$('btn-new').onclick = () => { renderTemplates(); show('create'); };
+$('btn-new').onclick = () => { closeRematch(); renderTemplates(); show('create'); };
 
 // ===== Vorlage wählen =====
 let tplChoice = 'b:weltstaedte';
@@ -386,8 +386,36 @@ function chosenTemplate() {
     entries: t.entries.map(e => ({ name: String(e.name || '').trim(), value: parseValue(e.value), imageUrl: e.imageUrl || '', imageData: e.imageData || '' })).filter(e => e.name && e.value !== null)
   };
 }
+// Revanche: dieselbe Auswahl wie beim Erstellen, danach geht es im laufenden Duell weiter
+let rematchPicking = false;
+function openRematch() {
+  if (!S || S.phase !== 'over') return;
+  rematchPicking = true;
+  $('create-title').textContent = 'Revanche – Thema wählen';
+  $('btn-create').textContent = 'Revanche starten';
+  $('create-err').textContent = '';
+  renderTemplates();
+  show('create');
+  if (ws && ws.readyState === 1) ws.send('{"t":"picking"}');
+}
+function closeRematch() {
+  rematchPicking = false;
+  $('create-title').textContent = 'Thema wählen';
+  $('btn-create').textContent = 'Duell starten';
+}
+$('create-back').onclick = () => {
+  if (rematchPicking) { closeRematch(); show('game'); renderGame(null); }
+  else show('home');
+};
 $('btn-create').onclick = async () => {
   const btn = $('btn-create');
+  if (rematchPicking) {
+    if (!ws || ws.readyState !== 1) { $('create-err').textContent = 'Keine Verbindung zum Duell.'; return; }
+    ws.send(JSON.stringify({ t: 'rematch', template: chosenTemplate(), lives: livesChoice }));
+    btn.disabled = true;
+    setTimeout(() => { btn.disabled = false; }, 4000);
+    return;
+  }
   btn.disabled = true; $('create-err').textContent = '';
   try {
     const res = await fetch('/api/duel', {
@@ -462,6 +490,7 @@ function leave(forget = true) {
   if (ws) { try { ws.close(1000); } catch {} }
   ws = null; wsCode = null; S = null; seenN = null; seenMatch = null; sheetHidden = false;
   restoreDock();
+  closeRematch();
   if (forget) store.del(LAST_KEY);
   history.replaceState(null, '', location.pathname);
   show('home');
@@ -505,6 +534,8 @@ function handle(m) {
   if (m.t === 'cards') {
     cards = {}; m.cards.forEach(c => cards[c.id] = c);
     topic = m.topic; unit = m.unit; source = m.source || ''; sourceUrl = m.sourceUrl || '';
+  } else if (m.t === 'info') {
+    toast(m.msg);
   } else if (m.t === 'error') {
     if (m.full) onFull(m); else if (m.fatal) fatal(m.msg); else { sending = false; $('btn-place').disabled = false; toast(m.msg, 'bad'); }
   } else if (m.t === 'state') {
@@ -530,6 +561,8 @@ function onState(st) {
     if (!$('s-wait').classList.contains('active')) show('wait');
     return;
   }
+  if (rematchPicking && st.phase === 'over') return;
+  if (rematchPicking) { closeRematch(); $('btn-create').disabled = false; }
   if (!$('s-game').classList.contains('active')) show('game');
   setConn(true);
 
@@ -678,7 +711,7 @@ function renderSheet() {
     <button class="btn btn-primary" id="btn-rematch">Revanche</button>
     <div class="row" style="margin-top:10px"><button class="btn btn-ghost" id="btn-hide">Skala ansehen</button><button class="btn btn-ghost" id="btn-home">Neues Duell</button></div>`;
   sheet.classList.add('show');
-  $('btn-rematch').onclick = () => { if (ws && ws.readyState === 1) ws.send('{"t":"rematch"}'); };
+  $('btn-rematch').onclick = openRematch;
   $('btn-hide').onclick = () => { sheetHidden = true; sheet.classList.remove('show'); showReopen(); };
   $('btn-home').onclick = () => leave();
 }
@@ -687,7 +720,7 @@ function showReopen() {
   $('btn-unsel').textContent = 'Ergebnis';
   $('btn-place').textContent = 'Revanche';
   $('btn-unsel').onclick = () => { sheetHidden = false; hideDock(); restoreDock(); renderSheet(); };
-  $('btn-place').onclick = () => { if (ws && ws.readyState === 1) ws.send('{"t":"rematch"}'); hideDock(); restoreDock(); };
+  $('btn-place').onclick = () => { hideDock(); restoreDock(); openRematch(); };
   $('btn-place').disabled = false;
   $('dock').classList.add('show');
 }

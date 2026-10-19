@@ -219,7 +219,7 @@ export class DuelRoom extends DurableObject {
       this.notify(0, 'Dein Gegner ist da', n + ' ist beigetreten – ' + (g.turn === 0 ? 'du fängst an.' : n + ' fängt an.')).catch(() => {});
     }
 
-    server.send(JSON.stringify({ t: 'cards', topic: g.topic, unit: g.unit, source: g.source || '', sourceUrl: g.sourceUrl || '', cards: g.cards.map(c => ({ id: c.id, name: c.name, img: c.img })) }));
+    server.send(this.cardsMessage());
     this.broadcast();
     return new Response(null, { status: 101, webSocket: client });
   }
@@ -249,12 +249,30 @@ export class DuelRoom extends DurableObject {
       }
     } else if (msg.t === 'rematch') {
       if (g.phase !== 'over' || !g.players[1]) return;
+      // Optional mit neuem Thema (Vorlage) und neuer Herzenzahl
+      if (msg.template) {
+        let tpl;
+        try { tpl = cleanTemplate(msg.template); } catch (err) { return this.sendError(ws, err.message); }
+        g.topic = tpl.topic; g.unit = tpl.unit; g.source = tpl.source; g.sourceUrl = tpl.sourceUrl;
+        g.cards = tpl.entries.map((e, id) => ({ id, ...e }));
+      }
+      if (msg.lives !== undefined) g.lives = Math.min(10, Math.max(1, parseInt(msg.lives, 10) || g.lives));
       g.starter = 1 - g.starter;
-      this.startMatch(g.players[seat].name + ' hat eine Revanche gestartet.');
+      const me = g.players[seat].name;
+      this.startMatch(me + ' hat eine Revanche gestartet: ' + g.topic + '.');
       await this.save();
+      this.sendCards();
       this.broadcast();
       const other = 1 - seat;
-      await this.notify(other, 'Revanche!', g.players[seat].name + ' will eine Revanche – ' + (g.turn === other ? 'du fängst an.' : g.players[seat].name + ' fängt an.'));
+      await this.notify(other, 'Revanche!', me + ' will eine Revanche (' + g.topic + ') – ' + (g.turn === other ? 'du fängst an.' : me + ' fängt an.'));
+    } else if (msg.t === 'picking') {
+      // Gegner informieren, dass gerade ein neues Thema gewählt wird
+      if (g.phase !== 'over') return;
+      for (const other of this.ctx.getWebSockets()) {
+        if (other !== ws && other.readyState === 1 && other.deserializeAttachment()?.seat === 1 - seat) {
+          try { other.send(JSON.stringify({ t: 'info', msg: g.players[seat].name + ' wählt ein Thema für die Revanche …' })); } catch {}
+        }
+      }
     } else if (msg.t === 'push') {
       // Mitteilungen für diesen Spieler an- (Abo) oder abschalten (null)
       if (msg.sub === null) delete g.players[seat].push;
@@ -298,6 +316,18 @@ export class DuelRoom extends DurableObject {
       else if (status >= 400) console.log('Push abgelehnt', status, new URL(p.push.endpoint).hostname);
     } catch (err) {
       console.log('Push fehlgeschlagen', err.message);
+    }
+  }
+
+  cardsMessage() {
+    const g = this.game;
+    return JSON.stringify({ t: 'cards', topic: g.topic, unit: g.unit, source: g.source || '', sourceUrl: g.sourceUrl || '', cards: g.cards.map(c => ({ id: c.id, name: c.name, img: c.img })) });
+  }
+
+  sendCards() {
+    const msg = this.cardsMessage();
+    for (const ws of this.ctx.getWebSockets()) {
+      if (ws.readyState === 1) { try { ws.send(msg); } catch {} }
     }
   }
 

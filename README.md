@@ -16,6 +16,8 @@ Unter [/duell](https://higher-lower.fiesefriese.workers.dev/duell) spielen zwei 
 2. Spieler 2 oeffnet den Link oder gibt den Code ein.
 3. Abwechselnd bekommt jeder eine Karte und tippt auf die Luecke in der Skala, wo sie hingehoert. Falsch = ein Herz weniger, die Karte geht zurueck in den Stapel. Sind beide in einer Runde bei 0 Herzen, gibt es fuer beide eines zurueck (wie im Hauptspiel). Wer zuletzt noch Herzen hat, gewinnt; sind alle Karten gelegt, entscheiden die Herzen.
 
+Nach dem Spiel startet "Revanche" wieder die Themenauswahl: Wer sie antippt, waehlt Thema und Herzen neu, der Gegner sieht so lange einen Hinweis und landet dann automatisch in der neuen Runde. Es beginnt jeweils der andere Spieler.
+
 Die Seite laesst sich auf dem iPhone ueber Teilen → „Zum Home-Bildschirm“ als App installieren. Der Spielstand liegt auf dem Server (Cloudflare Durable Object pro Code, `worker.js`), Kartenwerte werden erst nach dem Legen an die Geraete geschickt. Laeuft ein Duell 48 Stunden nicht, wird es geloescht. Bei Verbindungsabbruch verbindet sich die App selbst neu; nach einem Neustart geht es ueber „Weiterspielen“ weiter.
 
 Mitteilungen: In der installierten App kann man ueber die Glocke oben (oder im Warteraum) Mitteilungen einschalten. Man bekommt dann eine iPhone-Mitteilung, wenn man dran ist, der Gegner beigetreten ist, das Spiel endet oder eine Revanche startet, aber nur, wenn die App gerade nicht offen ist. Technisch: Web-Push mit Service Worker (`sw.js`), Verschluesselung und VAPID-Signatur in `push.js` (ohne Fremdbibliothek, geprueft gegen den Testvektor aus RFC 8291). Der private VAPID-Schluessel liegt als Cloudflare-Secret `VAPID_PRIVATE_JWK`, lokal in `.dev.vars` (nicht im Git).
